@@ -1,0 +1,30 @@
+.container {
+  text-align: center;
+  margin: 0 auto;
+  padding: 2% 2% 2% 2%;
+  width: 70%;
+  border: 1px dashed black;
+}
+
+.submit {
+  margin-top: 50px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.Stand {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.memberTable_th {
+  display: flex;
+  justify-content: space-evenly;
+}
+.memberTable_td {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 10px;
+}

@@ -1,0 +1,7 @@
+import React from "react";
+
+const A1 = () => {
+  return <div className="">This is page A1</div>;
+};
+
+export default A1;
