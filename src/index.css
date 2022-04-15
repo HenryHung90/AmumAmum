@@ -15,7 +15,14 @@ code {
 }
 /****************************************************************/
 /**************************LoginPage*****************************/
-.Outline {
+.Outline{
+  height:700px;
+  background-image:url(../public/Img/amumamum.PNG);
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: fadeIn .5s steps(25,end), flowing 3s steps(25,end) infinite;
+}
+.LoginMain{
   background-color: white;
   text-align: center;
   position: absolute;
@@ -26,22 +33,59 @@ code {
   height: 370px;
   border: 1px solid black;
   border-radius: 20px;
+    opacity: 0.8;
+  animation:fadeIn 1s steps(50, end);
 }
-
-.subBtn {
-  margin-top: 20px;
-}
-
-.btn {
-  color: black;
-}
-
 .Login_h1 {
+  width: 80%;
+  white-space: nowrap;
+  margin: 0 auto;
+  margin-top:13px;
+  color: #292929;
+  border-right: 2px solid transparent;
+  overflow: hidden;
+  animation: typing 0.5s steps(50, end), blink-caret .75s step-end infinite;
+}
+.Login_h3{
+  margin-top:10px;
+  color: #2559bb;
+}
+.subBtn{
+  margin-top:20px
+}
+@keyframes typing {
+  from { width: 0; }
+  to { width: 80%; }
+}
+@keyframes blink-caret {
+  from, to { box-shadow: 1px 0 0 0 transparent; }
+  50% { box-shadow: 1px 0 0 0; }
+}
+@keyframes fadeIn {
+  from{opacity: 0;}
+  to{opacity: 0.8;}
+}
+@keyframes flowing{
+  from,to{margin:10px 0 0 20px;}
+  30%{margin:-10px 0 0 30px}
+  60%{margin:-15px 0 10px 0}
 }
 
-.Login_h3 {
-  margin-top: 20px;
-  color: #424141;
+/* .btn {
+  color: black;
+} */
+/****************************************************************/
+/**************************  A1  ********************************/
+.showPDF {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+.pdfcontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
 }
 /****************************************************************/
 /**************************  A2  ********************************/
@@ -94,6 +138,98 @@ svg {
 .showTraversal {
   color: aliceblue;
 }
+.A1,
+.A2,
+.A3 {
+  display: flex;
+  top: 0%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+/****************************************************************/
+/**************************  A2_Header  ********************************/
+.Header {
+  float: left;
+  width: 100%;
+  height: 100px;
+  background-color: #889fad;
+}
+.container {
+  margin: 20px 20px 10px 10px;
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+.logSystem {
+  background-color: #889fad;
+  border-radius: 5px;
+  position: absolute;
+  right: 30px;
+  cursor: pointer;
+}
+/****************************************************************/
+/*************************A2_Home********************************/
+.home {
+  width: 100%;
+  left: 28%;
+  display: flex;
+  position: relative;
+}
+@media screen and (max-width: 11000px) {
+  .home {
+    width: 100%;
+    left: 6%;
+    display: flex;
+    position: relative;
+  }
+}
+h2 {
+  margin-top: 200px;
+  position: relative;
+  font-size: 5rem;
+  color: rgb(115, 165, 172);
+  text-transform: uppercase;
+  width: 80%;
+  text-align: center;
+  -webkit-box-reflect: below -42px linear-gradient(transparent, #0004);
+  display: flex;
+  flex-direction: row;
+}
+h2 span {
+  animation: animate 5s linear infinite;
+}
+h2 span:nth-child(even) {
+  animation-delay: 0.4s;
+}
+@keyframes animate {
+  0%,
+  18%,
+  20%,
+  50.1%,
+  60%,
+  65.1%,
+  80%,
+  90.1%,
+  92% {
+    color: #0e3742;
+    text-shadow: none;
+  }
+  18.1%,
+  20.1%,
+  30%,
+  50%,
+  60.1%,
+  65%,
+  80.1%,
+  90%,
+  92.1%,
+  100% {
+    color: wheat;
+    text-shadow: 0 0 10px #76c8df, 0 0 20px #76c8df, 0 0 40px #76c8df,
+      0 0 80px #76c8df, 0 0 160px #76c8df, 0 0 400px #76c8df;
+  }
+}
 /****************************************************************/
 /*************************A2_Tree********************************/
 .tree {
@@ -101,9 +237,12 @@ svg {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  text-align: left;
+  width: 100%;
 }
 
 .intruduction {
+  max-width: 1000px;
   width: 80%;
   margin-top: 30px;
   padding: 10px;
@@ -238,7 +377,9 @@ svg {
 #react-tree-vis li div {
   box-shadow: none;
 }
-
+#react-tree-vis li div.highlight {
+  color: black;
+}
 .record {
   display: flex;
   justify-content: center;
@@ -302,12 +443,220 @@ svg {
   height: 320px;
 }
 /****************************************************************/
+/*************************A2_Test*********************************/
+.test {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.AnsInput {
+  margin-top: 30px;
+  width: 50%;
+  border: white 5px solid;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: left;
+}
+/****************************************************************/
+/*************************A3_BST*********************************/
+.BSTInteractive {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.dropdrupcontainer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  align-items: center;
+  margin-left: 20px;
+}
+.correct,
+.wrong {
+  width: 48px;
+  height: 48px;
+  visibility: hidden;
+  margin-left: 100px;
+  margin-bottom: 10px;
+}
+.correct {
+  z-index: 5;
+  position: absolute;
+}
+.wrong {
+  z-index: 6;
+  position: absolute;
+}
+.Dndcontainer {
+  display: flex;
+  flex-direction: row;
+}
+.treeanddnd {
+  display: flex;
+  flex-direction: row;
+}
+.bsttreecontainer {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/****************************************************************/
+/*************************A3_AVL*********************************/
+.AVlInteractive {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.itemsDndcontainer {
+  display: flex;
+  flex-direction: column;
+}
+.avltreecontainer {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.avlinteractiveButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+/****************************************************************/
+/*************************Admin**********************************/
+.AdminTitle{
+  text-align: center;
+  color:white;
+}
+.AdminStand{
+  text-align: center;
+}
+.AdminStandText{
+  color:#292929;
+  margin-top:15px;
+}
+.AdminSignUp,.member{
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 20px;
+}
+
+/****************************************************************/
 /*************************ROBOT*********************************/
 df-messenger {
   --df-messenger-bot-message: white;
   --df-messenger-button-titlebar-color: #292929;
-  --df-messenger-input-box-color:#292929;
+  --df-messenger-input-box-color: #292929;
   --df-messenger-input-font-color: #e9e9e9;
-  --df-messenger-minimized-chat-close-icon-color:#e9e9e9;
-  --df-messenger-send-icon:#e9e9e9;
+  --df-messenger-minimized-chat-close-icon-color: #e9e9e9;
+  --df-messenger-send-icon: #e9e9e9;
+}
+/****************************************************************/
+/*************************Profile*********************************/
+.ProfileTitle{
+  font-size:5em;
+  width:4em;
+  white-space: nowrap;
+  color:white;
+  margin:0 auto;
+  border-right: 2px solid transparent;
+  overflow: hidden;
+  animation: typingProfile 1s steps(100,end), blink-caret 0.75s steps(15,end) infinite;
+}
+.SelfProfile{
+  width: 80%;
+  height:600px;
+  overflow:hidden;
+  margin:0 auto;
+  border:1px #292929 solid;
+  border-radius: 20px 20px;
+  background-color:whitesmoke;
+  animation: sildeProfile 0.7s steps(300,end), fadeIn 0.5s steps(400,end);
+}
+.SelfProfile_Title{
+  font-size:3em;
+  margin:30px 100px 0 0;
+  color:#292929;
+}
+.SelfProfile_subTitle{
+  color:#292929;
+  margin-top: 70px;
+}
+.SelfProfile_Text{
+  margin:15px 0 0 30px;
+  color:#2559bb;
+}
+.SelfProfile_Stand{
+  justify-content: space-around;
+  display: flex;
+}
+.SelfProfile_Self{
+  display: flex;
+  margin-left:30px;
+}
+.Block{
+  visibility:hidden;
+  position:absolute;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color:#424141;
+  opacity: 0.5;
+}
+.PasswordChange{
+  visibility:hidden;
+  position:absolute;
+  z-index:101;
+  top:10%;
+  left:33%;
+  width:500px;
+  height:500px;
+  background-color: whitesmoke;
+  border:1px solid #424141;
+  border-radius:20px 20px;
+}
+.PasswordChange_Title{
+  text-align:center;
+  color:#292929;
+  font-size:2.5em;
+  margin-top:20px;
+}
+.PasswordLine{
+  display: flex;
+  justify-content:space-between;
+  margin:30px 100px 10px 100px;
+  border-bottom: 1px dashed #2559bb;
+  padding-bottom: 8px;
+}
+.PasswordLine_Title{
+  margin-top:15px;
+}
+.PasswordBtn{
+  margin-top:70px;
+  text-align:center;
+}
+#submitPassword{
+  margin-right: 50px;
+}
+@keyframes typingProfile {
+  25% { width: 0; }
+  50%{}
+  to { width: 4em; }
+}
+
+@keyframes sildeProfile{
+  0%{height: 0;}
+  10%{height:200px;}
+  60%{height:500px;}
+  100%{height:600px;}
 }

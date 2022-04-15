@@ -1,15 +1,15 @@
 import React from "react";
-import A2_AVL from "./components/AVL";
-import A2_BST from "./components/BST";
-import A2_RBT from "./components/RBT";
-import A2_Tree from "./components/Tree";
-
-const A2 = () => {
+import A2_Header from "./components/Header";
+import A2_Home from "./components/Home";
+function A2(params) {
   return (
-    <>
-      <A2_RBT />
-    </>
+    <div className="A2">
+      <A2_Header />
+      <div className="container">
+        <A2_Home />
+      </div>
+    </div>
   );
-};
+}
 
 export default A2;

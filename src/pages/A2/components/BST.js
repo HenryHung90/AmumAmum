@@ -3,6 +3,7 @@ import { BinarySearchTree, useBinarySearchTree } from "react-tree-vis";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { MDBContainer } from "mdbreact";
+import A2_Header from "./Header";
 
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -105,12 +106,12 @@ function InorderIntroduction(props) {
           <div>
             <h3>Inorder Algo</h3>
             <p>
-              <img src="./Img/Inorder.png" />
+              <img src="/Img/Inorder.png" />
             </p>
           </div>
         </div>
         <div className="traversalbox">
-          <img src="./Img/traversal.png" />
+          <img src="/Img/traversal.png" />
           <div>
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
             <br />
@@ -178,12 +179,12 @@ function PreorderIntroduction(props) {
           <div>
             <h3>Preorder Algo</h3>
             <p>
-              <img src="./Img/Preorder.png" />
+              <img src="/Img/Preorder.png" />
             </p>
           </div>
         </div>
         <div className="traversalbox">
-          <img src="./Img/traversal.png" />
+          <img src="/Img/traversal.png" />
           <div>
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
             <br />
@@ -251,12 +252,12 @@ function PostorderIntroduction(props) {
           <div>
             <h3>Inorder Algo</h3>
             <p>
-              <img src="./Img/Postorder.png" />
+              <img src="/Img/Postorder.png" />
             </p>
           </div>
         </div>
         <div className="traversalbox">
-          <img src="./Img/traversal.png" />
+          <img src="/Img/traversal.png" />
           <div>
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
             <br />
@@ -317,279 +318,282 @@ function BST() {
 
   let tmp = [...record];
   return (
-    <div className="bst">
-      <div className="hintContainer">
-        <div className="loader"></div>
-        <img
-          className="hint"
-          src="./Img/hint.gif"
-          onClick={() => setModalShow(true)}
-        />
-      </div>
-      <h1>Binary Search Tree</h1>
-      <div className="Input">
-        <div className="InputGroup">
-          <Button
-            variant="secondary"
-            onClick={() => {
-              generateRandomTree(getRandom(5, 10));
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                "Random \n",
-              ]);
-            }}
-          >
-            Random
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              clear();
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                "Clear \n",
-              ]);
-            }}
-          >
-            Clear
-          </Button>
-        </div>
-        <div className="InputGroup">
-          <input
-            type="number"
-            onChange={(elem) =>
-              setbstsearchValue(parseInt(elem.currentTarget.value, 10))
-            }
+    <div className="A2">
+      <A2_Header />
+      <div className="bst">
+        <div className="hintContainer">
+          <div className="loader"></div>
+          <img
+            className="hint"
+            src="/Img/hint.gif"
+            onClick={() => setModalShow(true)}
           />
-          <Button
-            variant="secondary"
-            onClick={() => {
-              search(bstsearchValue);
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                `Search  ${bstsearchValue} \n`,
-              ]);
-            }}
-          >
-            Search
-          </Button>
-          <input
-            type="number"
-            onChange={(elem) =>
-              setbstInsertValue(parseInt(elem.currentTarget.value, 10))
-            }
-          />
-          <Button
-            variant="secondary"
-            onClick={() => {
-              insert(bstinsertValue);
-              search(bstinsertValue);
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                `Insert  ${bstinsertValue} \n`,
-              ]);
-            }}
-          >
-            Insert
-          </Button>
-          <input
-            type="number"
-            onChange={(elem) =>
-              setbstRemoveValue(parseInt(elem.currentTarget.value, 10))
-            }
-          />
-          <Button
-            variant="secondary"
-            onClick={() => {
-              search(bstremoveValue);
-              setTimeout(() => {
-                remove(bstremoveValue);
-              }, 1200);
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                `Remove  ${bstremoveValue} \n`,
-              ]);
-            }}
-          >
-            Remove
-          </Button>
         </div>
-        <div className="InputGroup">
-          <div className="Inorder">
-            <img
-              className="hint"
-              src="./Img/hint.gif"
-              onClick={() => setinorderModalShow(true)}
-            />
-          </div>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              let orderValue = getData("inorder");
-              setInorderValue(getData("inorder"));
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                `Inorder  \n`,
-              ]);
-              let i = 0;
-              let Inordertraversal = setInterval(() => {
-                if (i > orderValue.length) {
-                  clearInterval(Inordertraversal);
-                }
-                search(parseInt(orderValue[i]));
-                i++;
-              }, 800);
-            }}
-          >
-            Inorder
-          </Button>
-          <div className="showTraversal">{Traversal(InorderValue)}</div>
-        </div>
-        <div className="InputGroup">
-          <div className=" Preorder">
-            <img
-              className="hint"
-              src="./Img/hint.gif"
-              onClick={() => setpreorderModalShow(true)}
-            />
-          </div>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              let orderValue = getData("preorder");
-              setPreorderValue(getData("preorder"));
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                `Preorder  \n`,
-              ]);
-              let i = 0;
-              let Preordertraversal = setInterval(() => {
-                if (i > orderValue.length) {
-                  clearInterval(Preordertraversal);
-                }
-                search(parseInt(orderValue[i]));
-                i++;
-              }, 800);
-            }}
-          >
-            Preorder
-          </Button>
-          <div className="showTraversal">{Traversal(PreorderValue)}</div>
-        </div>
-        <div className="InputGroup">
-          <div className=" Postorder">
-            <img
-              className="hint"
-              src="./Img/hint.gif"
-              onClick={() => setpostorderModalShow(true)}
-            />
-          </div>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              let orderValue = getData("postorder");
-              setPostorderValue(getData("postorder"));
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                `Postorder  \n`,
-              ]);
-              let i = 0;
-              let Postordertraversal = setInterval(() => {
-                if (i > orderValue.length) {
-                  clearInterval(Postordertraversal);
-                }
-                search(parseInt(orderValue[i]));
-                i++;
-              }, 800);
-            }}
-          >
-            Postorder
-          </Button>
-          <div className="showTraversal">{Traversal(PostorderValue)}</div>
-        </div>
-      </div>
-      <div className={`record ${open === "show" && "open"} `}>
-        <div className="recordContainer">
-          <Button
-            variant="secondary"
-            onClick={() => {
-              if (open === "hide") {
-                setOpen("show");
-              } else {
-                setOpen("hide");
-              }
-            }}
-          >
-            {open}
-          </Button>
-          <MDBContainer>
-            <div
-              className="scrollbar body mx-auto"
-              style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+        <h1>Binary Search Tree</h1>
+        <div className="Input">
+          <div className="InputGroup">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                generateRandomTree(getRandom(5, 10));
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  "Random \n",
+                ]);
+              }}
             >
-              <div className="title">Record Table</div>
-              {tmp.reverse()}
+              Random
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                clear();
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  "Clear \n",
+                ]);
+              }}
+            >
+              Clear
+            </Button>
+          </div>
+          <div className="InputGroup">
+            <input
+              type="number"
+              onChange={(elem) =>
+                setbstsearchValue(parseInt(elem.currentTarget.value, 10))
+              }
+            />
+            <Button
+              variant="secondary"
+              onClick={() => {
+                search(bstsearchValue);
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Search  ${bstsearchValue} \n`,
+                ]);
+              }}
+            >
+              Search
+            </Button>
+            <input
+              type="number"
+              onChange={(elem) =>
+                setbstInsertValue(parseInt(elem.currentTarget.value, 10))
+              }
+            />
+            <Button
+              variant="secondary"
+              onClick={() => {
+                insert(bstinsertValue);
+                search(bstinsertValue);
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Insert  ${bstinsertValue} \n`,
+                ]);
+              }}
+            >
+              Insert
+            </Button>
+            <input
+              type="number"
+              onChange={(elem) =>
+                setbstRemoveValue(parseInt(elem.currentTarget.value, 10))
+              }
+            />
+            <Button
+              variant="secondary"
+              onClick={() => {
+                search(bstremoveValue);
+                setTimeout(() => {
+                  remove(bstremoveValue);
+                }, 1200);
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Remove  ${bstremoveValue} \n`,
+                ]);
+              }}
+            >
+              Remove
+            </Button>
+          </div>
+          <div className="InputGroup">
+            <div className="Inorder">
+              <img
+                className="hint"
+                src="/Img/hint.gif"
+                onClick={() => setinorderModalShow(true)}
+              />
             </div>
-          </MDBContainer>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                let orderValue = getData("inorder");
+                setInorderValue(getData("inorder"));
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Inorder  \n`,
+                ]);
+                let i = 0;
+                let Inordertraversal = setInterval(() => {
+                  if (i > orderValue.length) {
+                    clearInterval(Inordertraversal);
+                  }
+                  search(parseInt(orderValue[i]));
+                  i++;
+                }, 800);
+              }}
+            >
+              Inorder
+            </Button>
+            <div className="showTraversal">{Traversal(InorderValue)}</div>
+          </div>
+          <div className="InputGroup">
+            <div className=" Preorder">
+              <img
+                className="hint"
+                src="/Img/hint.gif"
+                onClick={() => setpreorderModalShow(true)}
+              />
+            </div>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                let orderValue = getData("preorder");
+                setPreorderValue(getData("preorder"));
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Preorder  \n`,
+                ]);
+                let i = 0;
+                let Preordertraversal = setInterval(() => {
+                  if (i > orderValue.length) {
+                    clearInterval(Preordertraversal);
+                  }
+                  search(parseInt(orderValue[i]));
+                  i++;
+                }, 800);
+              }}
+            >
+              Preorder
+            </Button>
+            <div className="showTraversal">{Traversal(PreorderValue)}</div>
+          </div>
+          <div className="InputGroup">
+            <div className=" Postorder">
+              <img
+                className="hint"
+                src="/Img/hint.gif"
+                onClick={() => setpostorderModalShow(true)}
+              />
+            </div>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                let orderValue = getData("postorder");
+                setPostorderValue(getData("postorder"));
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Postorder  \n`,
+                ]);
+                let i = 0;
+                let Postordertraversal = setInterval(() => {
+                  if (i > orderValue.length) {
+                    clearInterval(Postordertraversal);
+                  }
+                  search(parseInt(orderValue[i]));
+                  i++;
+                }, 800);
+              }}
+            >
+              Postorder
+            </Button>
+            <div className="showTraversal">{Traversal(PostorderValue)}</div>
+          </div>
         </div>
+        <div className={`record ${open === "show" && "open"} `}>
+          <div className="recordContainer">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                if (open === "hide") {
+                  setOpen("show");
+                } else {
+                  setOpen("hide");
+                }
+              }}
+            >
+              {open}
+            </Button>
+            <MDBContainer>
+              <div
+                className="scrollbar body mx-auto"
+                style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+              >
+                <div className="title">Record Table</div>
+                {tmp.reverse()}
+              </div>
+            </MDBContainer>
+          </div>
+        </div>
+        <MyVerticallyCenteredModal
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+        />
+        <InorderIntroduction
+          show={inordermodalShow}
+          onHide={() => setinorderModalShow(false)}
+        />
+        <PreorderIntroduction
+          show={preordermodalShow}
+          onHide={() => setpreorderModalShow(false)}
+        />
+        <PostorderIntroduction
+          show={postordermodalShow}
+          onHide={() => setpostorderModalShow(false)}
+        />
+        <BinarySearchTree data={arr} ref={ref} />
       </div>
-      <MyVerticallyCenteredModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
-      <InorderIntroduction
-        show={inordermodalShow}
-        onHide={() => setinorderModalShow(false)}
-      />
-      <PreorderIntroduction
-        show={preordermodalShow}
-        onHide={() => setpreorderModalShow(false)}
-      />
-      <PostorderIntroduction
-        show={postordermodalShow}
-        onHide={() => setpostorderModalShow(false)}
-      />
-      <BinarySearchTree data={arr} ref={ref} />
     </div>
   );
 }

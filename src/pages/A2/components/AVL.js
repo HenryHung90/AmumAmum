@@ -3,6 +3,7 @@ import { useState } from "react";
 import { AVLTree, useAVLTree } from "react-tree-vis";
 import { Button, Modal } from "react-bootstrap";
 import { MDBContainer } from "mdbreact";
+import A2_Header from "./Header";
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -47,8 +48,8 @@ function MyVerticallyCenteredModal(props) {
           左圖的左子樹高度為2，右子樹高度為0，
           <span style={{ color: "#4874b1" }}> 兩著相差為2(大於1)</span>
           ，故不為AVL
-          <img className="avlimg" src="./Img/avl1.png" />
-          <img className="avlimg" src="./Img/avl2.png" />
+          <img className="avlimg" src="/Img/avl1.png" />
+          <img className="avlimg" src="/Img/avl2.png" />
           <br />
           你可能會想為什麼需要AVL，請看下圖
           <br />
@@ -57,8 +58,8 @@ function MyVerticallyCenteredModal(props) {
           即可找到，而<span style={{ color: "#4874b1" }}>右圖需比較6次</span>，
           由此可看出平衡的重要性
           <br />
-          <img className="avlimg" src="./Img/avl3.png" />
-          <img className="avlimg" src="./Img/avl4.png" />
+          <img className="avlimg" src="/Img/avl3.png" />
+          <img className="avlimg" src="/Img/avl4.png" />
           <br />
           而AVL的尋找、插入的時間複雜度也為Ｏ(logN)。
         </p>
@@ -90,8 +91,8 @@ function MyVerticallyCenteredModal(props) {
           <br />
           所以請依照BST的規則排好即可，做到這裡你已經完成LL旋轉了！
           <br />
-          <img className="avlimg" src="./Img/avl5.png" />
-          <img className="avlimg" src="./Img/avl6.png" />
+          <img className="avlimg" src="/Img/avl5.png" />
+          <img className="avlimg" src="/Img/avl6.png" />
           <br />
           <span style={{ color: "rgb(72 177 86)", fontSize: "25px" }}>RR</span>
           <br />
@@ -113,8 +114,8 @@ function MyVerticallyCenteredModal(props) {
           <br />
           所以請依照BST的規則排好即可，做到這裡你已經完成RR旋轉了！
           <br />
-          <img className="avlimg" src="./Img/avl7.png" />
-          <img className="avlimg" src="./Img/avl8.png" />
+          <img className="avlimg" src="/Img/avl7.png" />
+          <img className="avlimg" src="/Img/avl8.png" />
           <br />
           做到這裡你會發現其實LL跟RR其實沒有什麼差別，只是一個是左邊不平衡，
           <br />
@@ -152,8 +153,8 @@ function MyVerticallyCenteredModal(props) {
           <br />
           所以請依照BST的規則排好即可，做到這裡你已經完成LR旋轉了！
           <br />
-          <img className="avlimg" src="./Img/avl9.png" />
-          <img className="avlimg" src="./Img/avl10.png" />
+          <img className="avlimg" src="/Img/avl9.png" />
+          <img className="avlimg" src="/Img/avl10.png" />
           <br />
           <span style={{ color: "rgb(72 177 86)", fontSize: "25px" }}>RL</span>
           <br />
@@ -182,8 +183,8 @@ function MyVerticallyCenteredModal(props) {
           <br />
           所以請依照BST的規則排好即可，做到這裡你已經完成RL旋轉了！
           <br />
-          <img className="avlimg" src="./Img/avl11.png" />
-          <img className="avlimg" src="./Img/avl12.png" />
+          <img className="avlimg" src="/Img/avl11.png" />
+          <img className="avlimg" src="/Img/avl12.png" />
           <br />
         </p>
         <h3>How can we use Adelson Velsky and Landis Tree ?</h3>
@@ -248,12 +249,12 @@ function InorderIntroduction(props) {
           <div>
             <h3>Inorder Algo</h3>
             <p>
-              <img src="./Img/inorder.png" />
+              <img src="/Img/inorder.png" />
             </p>
           </div>
         </div>
         <div className="traversalbox">
-          <img src="./Img/traversal.png" />
+          <img src="/Img/traversal.png" />
           <div>
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
             <br />
@@ -321,12 +322,12 @@ function PreorderIntroduction(props) {
           <div>
             <h3>Preorder Algo</h3>
             <p>
-              <img src="./Img/Preorder.png" />
+              <img src="/Img/Preorder.png" />
             </p>
           </div>
         </div>
         <div className="traversalbox">
-          <img src="./Img/traversal.png" />
+          <img src="/Img/traversal.png" />
           <div>
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
             <br />
@@ -394,12 +395,12 @@ function PostorderIntroduction(props) {
           <div>
             <h3>Inorder Algo</h3>
             <p>
-              <img src="./Img/Postorder.png" />
+              <img src="/Img/Postorder.png" />
             </p>
           </div>
         </div>
         <div className="traversalbox">
-          <img src="./Img/traversal.png" />
+          <img src="/Img/traversal.png" />
           <div>
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
             <br />
@@ -460,279 +461,282 @@ function AVL() {
 
   let tmp = [...record];
   return (
-    <div className="avl">
-      <div className="hintContainer">
-        <div className="loader"></div>
-        <img
-          className="hint"
-          src="./Img/hint.gif"
-          onClick={() => setModalShow(true)}
-        />
-      </div>
-      <h1>Adelson Velsky Landis Tree</h1>
-      <div className="Input">
-        <div className="InputGroup">
-          <Button
-            variant="secondary"
-            onClick={() => {
-              generateRandomTree(getRandom(5, 10));
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                "Random \n",
-              ]);
-            }}
-          >
-            Random
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              clear();
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                "Clear \n",
-              ]);
-            }}
-          >
-            Clear
-          </Button>
-        </div>
-        <div className="InputGroup">
-          <input
-            type="number"
-            onChange={(elem) =>
-              setavlsearchValue(parseInt(elem.currentTarget.value, 10))
-            }
+    <div className="A2">
+      <A2_Header />
+      <div className="avl">
+        <div className="hintContainer">
+          <div className="loader"></div>
+          <img
+            className="hint"
+            src="/Img/hint.gif"
+            onClick={() => setModalShow(true)}
           />
-          <Button
-            variant="secondary"
-            onClick={() => {
-              search(avlsearchValue);
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                `Search  ${avlsearchValue} \n`,
-              ]);
-            }}
-          >
-            Search
-          </Button>
-          <input
-            type="number"
-            onChange={(elem) =>
-              setavlInsertValue(parseInt(elem.currentTarget.value, 10))
-            }
-          />
-          <Button
-            variant="secondary"
-            onClick={() => {
-              insert(avlinsertValue);
-              search(avlinsertValue);
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                `Insert  ${avlinsertValue} \n`,
-              ]);
-            }}
-          >
-            Insert
-          </Button>
-          <input
-            type="number"
-            onChange={(elem) =>
-              setavlRemoveValue(parseInt(elem.currentTarget.value, 10))
-            }
-          />
-          <Button
-            variant="secondary"
-            onClick={() => {
-              search(avlremoveValue);
-              setTimeout(() => {
-                remove(avlremoveValue);
-              }, 1200);
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                `Remove  ${avlremoveValue} \n`,
-              ]);
-            }}
-          >
-            Remove
-          </Button>
         </div>
-        <div className="InputGroup">
-          <div className="Inorder">
-            <img
-              className="hint"
-              src="./Img/hint.gif"
-              onClick={() => setinorderModalShow(true)}
-            />
-          </div>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              let orderValue = getData("inorder");
-              setInorderValue(getData("inorder"));
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                `Inorder  \n`,
-              ]);
-              let i = 0;
-              let Inordertraversal = setInterval(() => {
-                if (i > orderValue.length) {
-                  clearInterval(Inordertraversal);
-                }
-                search(parseInt(orderValue[i]));
-                i++;
-              }, 800);
-            }}
-          >
-            Inorder
-          </Button>
-          <div className="showTraversal">{Traversal(InorderValue)}</div>
-        </div>
-        <div className="InputGroup">
-          <div className="Inorder">
-            <img
-              className="hint"
-              src="./Img/hint.gif"
-              onClick={() => setpreorderModalShow(true)}
-            />
-          </div>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              let orderValue = getData("preorder");
-              setPreorderValue(getData("preorder"));
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                `Preorder  \n`,
-              ]);
-              let i = 0;
-              let Preordertraversal = setInterval(() => {
-                if (i > orderValue.length) {
-                  clearInterval(Preordertraversal);
-                }
-                search(parseInt(orderValue[i]));
-                i++;
-              }, 800);
-            }}
-          >
-            Preorder
-          </Button>
-          <div className="showTraversal">{Traversal(PreorderValue)}</div>
-        </div>
-        <div className="InputGroup">
-          <div className="Inorder">
-            <img
-              className="hint"
-              src="./Img/hint.gif"
-              onClick={() => setpostorderModalShow(true)}
-            />
-          </div>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              let orderValue = getData("postorder");
-              setPostorderValue(getData("postorder"));
-              setRecord((prevArray) => [
-                ...record,
-                "-------------------",
-                new Date().toLocaleTimeString() + "\n",
-                new Date().getDate() + "日\n",
-                new Date().getMonth() + 1 + "月 ",
-                new Date().getFullYear() + " ",
-                `Postorder  \n`,
-              ]);
-              let i = 0;
-              let Postordertraversal = setInterval(() => {
-                if (i > orderValue.length) {
-                  clearInterval(Postordertraversal);
-                }
-                search(parseInt(orderValue[i]));
-                i++;
-              }, 800);
-            }}
-          >
-            Postorder
-          </Button>
-          <div className="showTraversal">{Traversal(PostorderValue)}</div>
-        </div>
-      </div>
-      <div className={`record ${open === "show" && "open"} `}>
-        <div className="recordContainer">
-          <Button
-            variant="secondary"
-            onClick={() => {
-              if (open === "hide") {
-                setOpen("show");
-              } else {
-                setOpen("hide");
-              }
-            }}
-          >
-            {open}
-          </Button>
-          <MDBContainer>
-            <div
-              className="scrollbar body mx-auto"
-              style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+        <h1>Adelson Velsky Landis Tree</h1>
+        <div className="Input">
+          <div className="InputGroup">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                generateRandomTree(getRandom(5, 10));
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  "Random \n",
+                ]);
+              }}
             >
-              <div className="title">Record Table</div>
-              {tmp.reverse()}
+              Random
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                clear();
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  "Clear \n",
+                ]);
+              }}
+            >
+              Clear
+            </Button>
+          </div>
+          <div className="InputGroup">
+            <input
+              type="number"
+              onChange={(elem) =>
+                setavlsearchValue(parseInt(elem.currentTarget.value, 10))
+              }
+            />
+            <Button
+              variant="secondary"
+              onClick={() => {
+                search(avlsearchValue);
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Search  ${avlsearchValue} \n`,
+                ]);
+              }}
+            >
+              Search
+            </Button>
+            <input
+              type="number"
+              onChange={(elem) =>
+                setavlInsertValue(parseInt(elem.currentTarget.value, 10))
+              }
+            />
+            <Button
+              variant="secondary"
+              onClick={() => {
+                insert(avlinsertValue);
+                search(avlinsertValue);
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Insert  ${avlinsertValue} \n`,
+                ]);
+              }}
+            >
+              Insert
+            </Button>
+            <input
+              type="number"
+              onChange={(elem) =>
+                setavlRemoveValue(parseInt(elem.currentTarget.value, 10))
+              }
+            />
+            <Button
+              variant="secondary"
+              onClick={() => {
+                search(avlremoveValue);
+                setTimeout(() => {
+                  remove(avlremoveValue);
+                }, 1200);
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Remove  ${avlremoveValue} \n`,
+                ]);
+              }}
+            >
+              Remove
+            </Button>
+          </div>
+          <div className="InputGroup">
+            <div className="Inorder">
+              <img
+                className="hint"
+                src="/Img/hint.gif"
+                onClick={() => setinorderModalShow(true)}
+              />
             </div>
-          </MDBContainer>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                let orderValue = getData("inorder");
+                setInorderValue(getData("inorder"));
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Inorder  \n`,
+                ]);
+                let i = 0;
+                let Inordertraversal = setInterval(() => {
+                  if (i > orderValue.length) {
+                    clearInterval(Inordertraversal);
+                  }
+                  search(parseInt(orderValue[i]));
+                  i++;
+                }, 800);
+              }}
+            >
+              Inorder
+            </Button>
+            <div className="showTraversal">{Traversal(InorderValue)}</div>
+          </div>
+          <div className="InputGroup">
+            <div className="Inorder">
+              <img
+                className="hint"
+                src="/Img/hint.gif"
+                onClick={() => setpreorderModalShow(true)}
+              />
+            </div>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                let orderValue = getData("preorder");
+                setPreorderValue(getData("preorder"));
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Preorder  \n`,
+                ]);
+                let i = 0;
+                let Preordertraversal = setInterval(() => {
+                  if (i > orderValue.length) {
+                    clearInterval(Preordertraversal);
+                  }
+                  search(parseInt(orderValue[i]));
+                  i++;
+                }, 800);
+              }}
+            >
+              Preorder
+            </Button>
+            <div className="showTraversal">{Traversal(PreorderValue)}</div>
+          </div>
+          <div className="InputGroup">
+            <div className="Inorder">
+              <img
+                className="hint"
+                src="/Img/hint.gif"
+                onClick={() => setpostorderModalShow(true)}
+              />
+            </div>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                let orderValue = getData("postorder");
+                setPostorderValue(getData("postorder"));
+                setRecord((prevArray) => [
+                  ...record,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Postorder  \n`,
+                ]);
+                let i = 0;
+                let Postordertraversal = setInterval(() => {
+                  if (i > orderValue.length) {
+                    clearInterval(Postordertraversal);
+                  }
+                  search(parseInt(orderValue[i]));
+                  i++;
+                }, 800);
+              }}
+            >
+              Postorder
+            </Button>
+            <div className="showTraversal">{Traversal(PostorderValue)}</div>
+          </div>
         </div>
+        <div className={`record ${open === "show" && "open"} `}>
+          <div className="recordContainer">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                if (open === "hide") {
+                  setOpen("show");
+                } else {
+                  setOpen("hide");
+                }
+              }}
+            >
+              {open}
+            </Button>
+            <MDBContainer>
+              <div
+                className="scrollbar body mx-auto"
+                style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+              >
+                <div className="title">Record Table</div>
+                {tmp.reverse()}
+              </div>
+            </MDBContainer>
+          </div>
+        </div>
+        <MyVerticallyCenteredModal
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+        />
+        <InorderIntroduction
+          show={inordermodalShow}
+          onHide={() => setinorderModalShow(false)}
+        />
+        <PreorderIntroduction
+          show={preordermodalShow}
+          onHide={() => setpreorderModalShow(false)}
+        />
+        <PostorderIntroduction
+          show={postordermodalShow}
+          onHide={() => setpostorderModalShow(false)}
+        />
+        <AVLTree data={arr} ref={ref} />
       </div>
-      <MyVerticallyCenteredModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
-      <InorderIntroduction
-        show={inordermodalShow}
-        onHide={() => setinorderModalShow(false)}
-      />
-      <PreorderIntroduction
-        show={preordermodalShow}
-        onHide={() => setpreorderModalShow(false)}
-      />
-      <PostorderIntroduction
-        show={postordermodalShow}
-        onHide={() => setpostorderModalShow(false)}
-      />
-      <AVLTree data={arr} ref={ref} />
     </div>
   );
 }

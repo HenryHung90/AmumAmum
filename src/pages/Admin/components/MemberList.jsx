@@ -13,13 +13,13 @@ const MemberList = () => {
   ////////////////////////////////
   return (
     <div className="member">
-      <h1>成員名單</h1>
+      <h1  className="AdminTitle">成員名單</h1>
       <div className="memberTable_th">
-        <h3>姓名</h3>
-        <h3>學號</h3>
-        <h3>電子郵件</h3>
-        <h3>密碼</h3>
-        <h3>權限</h3>
+        <h3 className="AdminStandText">姓名</h3>
+        <h3 className="AdminStandText">學號</h3>
+        <h3 className="AdminStandText">電子郵件</h3>
+        <h3 className="AdminStandText">密碼</h3>
+        <h3 className="AdminStandText">權限</h3>
       </div>
       {Member.map((val, key) => {
         return (

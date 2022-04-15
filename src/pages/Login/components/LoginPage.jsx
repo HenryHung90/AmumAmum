@@ -3,11 +3,10 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import bcryptjs from "bcryptjs";
 
-const Login = ({ AccessToken, UserToken}) => {
+const Login = ({ UserToken, User }) => {
   const Navigate = useNavigate();
-  const Admin = [process.env.REACT_APP_ADMIN_ONE]
+  const Admin = [process.env.REACT_APP_ADMIN_ONE];
   //////////////////帳號紀錄/////////////////////////
   const [Account, setAccount] = useState("");
   function AccountChange(e) {
@@ -18,52 +17,33 @@ const Login = ({ AccessToken, UserToken}) => {
   function PasswordChange(e) {
     setPassword(e.target.value);
   }
+  //const [Test,setTest] = useState("")
   ////////////////////////////////////////////////
   const CheckLogin = () => {
-    axios
-      .post(process.env.REACT_APP_AXIOS_LOGIN, {
-        StudentId: Account,
-      })
-      .then((response) => {
-        if (response.data[0] == null) {
-          alert("帳號密碼錯誤或不存在");
-        } else if(IsAdmin(response.data[0],Admin)){
-          bcryptjs.compare(Password, response.data[0].Password).then((gate) => {
-            if (gate) {
-              sessionStorage.setItem('StudentId',Account);
-              AccessToken();
-              UserToken();
-              Navigate("/Profile");
-              setPassword("");
-            } else {
-              alert("密碼錯誤");
-              setPassword("");
-            }
-          });
-        }else{
-          bcryptjs.compare(Password, response.data[0].Password).then((gate) => {
-            if (gate) {
-              console.log("User")
-              AccessToken();
-              Navigate("/Profile");
-              setPassword("");
-            } else {
-              alert("密碼錯誤");
-              setPassword("");
-            }
-          });
-        }
-      });
+    axios({
+      method: "POST",
+      data: {
+        username: Account,
+        password: Password,
+      },
+      withCredentials: true,
+      url: process.env.REACT_APP_AXIOS_LOGIN,
+    }).then((response) => {
+      //console.log(response)
+      if (response.data !== process.env.REACT_APP_LOGIN_FAIL) {
+        UserToken(() => {
+          return response;
+        });
+        User();
+        Navigate("/Profile");
+      } else {
+        alert("Login Failed");
+      }
+    });
   };
 
-  function IsAdmin(data,Admin){
-    for(let email of Admin){
-       return data.Email === email?true:false;
-    }
-  }
-
   return (
-    <div className="login">
+    <div className="LoginMain">
       <h1 className="Login_h1">D.S.V PORTAL</h1>
       <h3 className="Login_h3">帳號</h3>
       <TextField

@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
+import SelfInfo from "./components/SelfInfo";
 
-const profile = ({ Logout }) => {
+const Profile = ({ Logout }) => {
   return (
     <div>
-      This is profile page
+      <SelfInfo />
       <Link to="/A1">A1</Link>
       <Link to="/A2">A2</Link>
       <Link to="/A3">A3</Link>
@@ -17,12 +18,12 @@ const profile = ({ Logout }) => {
           fontSize: 14,
           backgroundColor: "black",
         }}
-        onClick={() => Logout()}
+        onClick={Logout}
       >
-        登出
+      登出
       </Button>
     </div>
   );
 };
 
-export default profile;
+export default Profile;

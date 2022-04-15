@@ -57,21 +57,33 @@ const Signup = () => {
     await axios
       .post(process.env.REACT_APP_AXIOS_SIGNUP, register)
       .then((response) => {
-        alert("送出成功！", "姓名:" + Name, "學號" + StudentId);
-        setName("");
-        setStudentId("");
-        setEmail("");
-        setPassword("");
-        setAccess("");
+        if (response.data === "has been registered") {
+          alert("該使用者已註冊過");
+        } else {
+          alert(
+            "送出成功！" +
+              "姓名:" +
+              Name +
+              "學號:" +
+              StudentId +
+              "\n教學模式:" +
+              Access
+          );
+          setName("");
+          setStudentId("");
+          setEmail("");
+          setPassword("");
+          setAccess("");
+        }
       });
     ////////////////////////////////
   }
   ////////////////////////////////
   return (
-    <div className="container">
+    <div className="AdminSignUp">
       <form>
-        <div className="Stand">
-          <h3>學生姓名</h3>
+        <div className="AdminStand">
+          <h3 className="AdminStandText">學生姓名</h3>
           <TextField
             id="Name"
             label="姓名"
@@ -85,8 +97,8 @@ const Signup = () => {
             onChange={NameChange}
           />
         </div>
-        <div className="Stand">
-          <h3>學生學號</h3>
+        <div className="AdminStand">
+          <h3 className="AdminStandText">學生學號</h3>
           <TextField
             id="StudentId"
             label="學號"
@@ -100,8 +112,8 @@ const Signup = () => {
             onChange={StudentIdChange}
           />
         </div>
-        <div className="Stand">
-          <h3>學生信箱</h3>
+        <div className="AdminStand">
+          <h3 className="AdminStandText">學生信箱</h3>
           <TextField
             id="Email"
             label="Email"
@@ -116,8 +128,8 @@ const Signup = () => {
             type="email"
           />
         </div>
-        <div className="Stand">
-          <h3>學生密碼</h3>
+        <div className="AdminStand">
+          <h3 className="AdminStandText">學生密碼</h3>
           <TextField
             id="Password"
             label="Password"
@@ -131,8 +143,8 @@ const Signup = () => {
             onChange={PasswordChange}
           />
         </div>
-        <div className="Stand">
-          <h3>學生權限</h3>
+        <div className="AdminStand">
+          <h3 className="AdminStandText">學生權限</h3>
           <FormControl variant="filled" sx={{ m: 1, minWidth: 300 }}>
             <InputLabel id="demo-simple-select-filled-label">權限</InputLabel>
             <Select

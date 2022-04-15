@@ -1,11 +1,12 @@
 import React from "react";
 import LoginPage from "./components/LoginPage";
 
-const Login = ({ AccessToken, UserToken }) => {
+const Login = ({ UserToken, User }) => {
   return (
     <div className="Outline">
-      <LoginPage AccessToken={AccessToken} UserToken={UserToken} />
+      <LoginPage UserToken={UserToken} User={User} />
     </div>
+      
   );
 };
 

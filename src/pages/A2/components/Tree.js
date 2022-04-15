@@ -1,10 +1,11 @@
 import React from "react";
 import { MDBContainer } from "mdbreact";
+import A2_Header from "./Header";
 function ScrollBarPage(params) {
-  const scrollContainerStyle = { width: "100%", maxHeight: "600px" };
+  const scrollContainerStyle = { width: "100%", maxHeight: "480px" };
   return (
     <MDBContainer>
-      <div className="scrollbar   mt-5 mx-auto" style={scrollContainerStyle}>
+      <div className="scrollbar  mx-auto" style={scrollContainerStyle}>
         <div>
           <h3>What is tree ?</h3>
           <span>
@@ -39,7 +40,7 @@ function ScrollBarPage(params) {
             為這棵樹的<span style={{ color: "rgb(58 181 57)" }}>leaf</span>)
             <br />
             5.樹的高度（height): 最大深度到第幾層。(下圖高度為3)
-            <img src="./Img/tree.png" />
+            <img src="/Img/tree.png" />
           </span>
         </div>
         <div>
@@ -71,15 +72,18 @@ function ScrollBarPage(params) {
     </MDBContainer>
   );
 }
-function Tree() {
+function A2_Tree() {
   return (
-    <div className="tree">
-      <h1>Tree Intruduction</h1>
-      <div className="intruduction">
-        <ScrollBarPage />
+    <div className="A2">
+      <A2_Header />
+      <div className="tree">
+        <h1>Tree Intruduction</h1>
+        <div className="intruduction">
+          <ScrollBarPage />
+        </div>
       </div>
     </div>
   );
 }
 
-export default Tree;
+export default A2_Tree;
