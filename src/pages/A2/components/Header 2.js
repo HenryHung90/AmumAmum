@@ -7,7 +7,7 @@ function Header() {
     <Navbar expand="lg" variant="dark" sticky="top" className="Header">
       <Container>
         <Link
-          to="/A1"
+          to="/A2"
           style={{
             textDecoration: "none",
             marginRight: "20px",
@@ -21,17 +21,17 @@ function Header() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Link
-              to="/A1/Tree"
+              to="/A2/Tree"
               style={{
                 textDecoration: "none",
                 marginRight: "20px",
                 color: "white",
               }}
             >
-              Introduction
+              Intruduction
             </Link>
             <Link
-              to="/A1/BST"
+              to="/A2/BST"
               style={{
                 textDecoration: "none",
                 marginRight: "20px",
@@ -41,7 +41,7 @@ function Header() {
               Binary Search Tree
             </Link>
             <Link
-              to="/A1/AVL"
+              to="/A2/AVL"
               style={{
                 textDecoration: "none",
                 marginRight: "20px",
@@ -51,7 +51,7 @@ function Header() {
               Adelson Velsky Landis Tree
             </Link>
             <Link
-              to="/A1/RBT"
+              to="/A2/RBT"
               style={{
                 textDecoration: "none",
                 marginRight: "20px",
@@ -61,7 +61,7 @@ function Header() {
               Red Black Tree
             </Link>
             <Link
-              to="/A1/Test"
+              to="/A2/Test"
               style={{ textDecoration: "none", color: "white" }}
             >
               Test

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { AVLTree, useAVLTree } from "react-tree-vis";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Carousel } from "react-bootstrap";
+import { RedBlackTree, useRedBlackTree } from "react-tree-vis";
 import { MDBContainer } from "mdbreact";
 import A2_Header from "./Header";
 function getRandom(min, max) {
@@ -17,6 +17,62 @@ for (let i = 0; i < getRandom(5, 10); i++) {
   }
   arr.push(tmp);
 }
+function ControlledCarousel() {
+  return (
+    <Carousel variant="dark">
+      <Carousel.Item interval={3600}>
+        <img
+          className="d-block w-100  showrbimg"
+          src="/Img/rb4.png"
+          alt="First slide"
+        />
+      </Carousel.Item>
+      <Carousel.Item interval={3000}>
+        <img
+          className="d-block w-100 showrbimg"
+          src="/Img/rb5.png"
+          alt="Second slide"
+        />
+      </Carousel.Item>
+      <Carousel.Item interval={2400}>
+        <img
+          className="d-block w-100 showrbimg"
+          src="/Img/rb6.png"
+          alt="Third slide"
+        />
+      </Carousel.Item>
+      <Carousel.Item interval={1800}>
+        <img
+          className="d-block w-100 showrbimg"
+          src="/Img/rb7.png"
+          alt="Fourth slide"
+        />
+      </Carousel.Item>
+      <Carousel.Item interval={1200}>
+        <img
+          className="d-block w-100 showrbimg"
+          src="/Img/rb8.png"
+          alt="Fifth slide"
+        />
+      </Carousel.Item>
+      <Carousel.Item interval={600}>
+        <img
+          className="d-block w-100 showrbimg"
+          src="/Img/rb9.png"
+          alt="sixth slide"
+        />
+      </Carousel.Item>
+      <Carousel.Item>
+        <img
+          className="d-block w-100 showrbimg"
+          src="/Img/rb10.png"
+          alt="seventh slide"
+        />
+      </Carousel.Item>
+    </Carousel>
+  );
+}
+
 function MyVerticallyCenteredModal(props) {
   return (
     <Modal
@@ -27,177 +83,126 @@ function MyVerticallyCenteredModal(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Adelson Velsky and Landis Tree
+          Red Black Tree
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h3>What is Adelson Velsky and Landis Tree ?</h3>
+        <h3>What is Red Black Tree ?</h3>
         <p>
-          簡單來說就是，他是種
-          <span style={{ color: "#4874b1" }}>平衡之後的BST，</span>
+          簡單來說就是，他是
+          <span style={{ color: "#4874b1" }}>BST和AVL的中間值</span>
           <br />
-          平衡的意思是
-          <span style={{ color: "#4874b1" }}>
-            左子樹的高度和右子樹的高度只能差1
-          </span>
-          ，請看下圖所示
+          為什麼會這樣說，是因為BST可能會有最壞的情況發生，變成斜曲的二元樹
           <br />
-          左圖的左子樹高度為2，右子樹高度為1，
-          <span style={{ color: "#4874b1" }}>兩著相差為1</span>，故為AVL
+          而AVL是為了避免這種情況的發生，嚴格執行平衡的動做，
+          但相對付出的時間也就很多
           <br />
-          左圖的左子樹高度為2，右子樹高度為0，
-          <span style={{ color: "#4874b1" }}> 兩著相差為2(大於1)</span>
-          ，故不為AVL
-          <img className="avlimg" src="/Img/avl1.png" />
-          <img className="avlimg" src="/Img/avl2.png" />
+          而RedBlackTree 則是不那麼要求平衡
           <br />
-          你可能會想為什麼需要AVL，請看下圖
-          <br />
-          左圖為AVL，右圖為BST，假設我們要搜尋Node 1
-          <br />而<span style={{ color: "#4874b1" }}>左圖只需比較3次</span>
-          即可找到，而<span style={{ color: "#4874b1" }}>右圖需比較6次</span>，
-          由此可看出平衡的重要性
-          <br />
-          <img className="avlimg" src="/Img/avl3.png" />
-          <img className="avlimg" src="/Img/avl4.png" />
-          <br />
-          而AVL的尋找、插入的時間複雜度也為Ｏ(logN)。
+          你可以想成說他犧牲一點平衡去換來時間跟效率
         </p>
-        <h3>How to make a AVL ?</h3>
+        <h3>How to make a Red Black Tree ?</h3>
         <p>
-          針對不同的平衡狀況，衍伸出4種平衡的方式
+          在實作之前，請先記住五大原則
           <br />
-          分別是 <span style={{ color: "#4874b1" }}> LL RR LR RL</span>
+          1.<span style={{ color: "#4874b1" }}>Node 必為黑色或紅色</span>
           <br />
-          記住一個原則，中間值向上提，大的放左小的放右
+          2.<span style={{ color: "#4874b1" }}>root(跟節點)必為黑色</span>
           <br />
-          <span style={{ color: "rgb(72 177 86)", fontSize: "25px" }}>LL</span>
+          3.<span style={{ color: "#4874b1" }}>null(空節點)必為黑色</span>
           <br />
-          請看下方兩張圖
+          4.<span style={{ color: "#4874b1" }}>不會有連續兩個紅色節點</span>
           <br />
-          因為Node 5的新增導致Node 10的不平衡，因此從Node 10開始標記
-          <span style={{ color: "#4874b1" }}>兩個L</span>
+          5.
+          <span style={{ color: "#4874b1" }}>
+            每條路徑上的黑色節點數是一樣的
+          </span>
           <br />
-          因Node 5在Node 10的左邊，所以在Node 10 到 Node 8之間標記L
+          你可能不太了解第4點與第5點是什麼意思，請看下圖
           <br />
-          因Node 5在Node 8的左邊，所以在Node 8 到 Node 6之間標記L
+          左圖中Node 6和 Node 7皆為紅色的，他違反第４點，需要調整成完整的Red
+          Black Tree
           <br />
-          標記好之後就可以開始旋轉，目前被選取到的分別是Node 10, Node 8, Node 6
-          <br />而<span style={{ color: "#4874b1" }}>中間值為Node 8</span>
-          ，所以他向上提，左節點則為Node 6，右節點則為Node 10
+          右圖中，從root出發到每個節點的最短路徑，所經的黑色節點數是一樣的，遵守第５點
           <br />
-          你可能會想說啊其他節點像Node 12怎麼辦，
-          <span style={{ color: "#4874b1" }}>別忘了AVL也是BST的一種</span>
+          <img className="rbimg" src="/Img/rb1.png" />
+          <img className="rbimg" src="/Img/rb2.png" />
           <br />
-          所以請依照BST的規則排好即可，做到這裡你已經完成LL旋轉了！
+          接下拉就是要時做出一顆Red Black Tree了，他和AVL 一樣也有旋轉，
           <br />
-          <img className="avlimg" src="/Img/avl5.png" />
-          <img className="avlimg" src="/Img/avl6.png" />
+          只是加上顏色的變化
           <br />
-          <span style={{ color: "rgb(72 177 86)", fontSize: "25px" }}>RR</span>
+          <span style={{ color: "rgb(72 177 86)", fontSize: "25px" }}>
+            LL RR LR RL
+          </span>
           <br />
-          請看下方兩張圖
+          旋轉方式都一樣，只是加上{" "}
+          <span style={{ color: "#4874b1" }}>
+            中減值向上提標黑色， 小的放左大的放右標紅色
+          </span>
           <br />
-          因為Node 15的新增導致Node 8的不平衡，因此從Node 8開始標記
-          <span style={{ color: "#4874b1" }}>兩個L</span>
+          了解上述規則後，我們要來談Insert
           <br />
-          因Node 15在Node 8的右邊，所以在Node 8 到 Node 10之間標記R
+          <span style={{ color: "rgb(72 177 86)", fontSize: "25px" }}>
+            Insert X
+          </span>
           <br />
-          因Node 15在Node 10的左邊，所以在Node 10 到 Node 12之間標記R
+          Insert X有５個步驟：
           <br />
-          標記好之後就可以開始旋轉，目前被選取到的分別是Node 8, Node 10, Node 12
-          <br />而<span style={{ color: "#4874b1" }}>中間值為Node 10</span>
-          ，所以他向上提，左節點則為Node 8，右節點則為Node 12
+          第一步：先Serch for X，以便找出適當的插入位址
           <br />
-          你可能會想說啊其他節點像Node 6或Node 9怎麼辦，
-          <span style={{ color: "#4874b1" }}>別忘了AVL也是BST的一種</span>
+          第二步：在Search for X的過程中，
+          <span style={{ color: "#4874b1" }}>
+            若發現某個Node 兩個子點是紅色Node
+          </span>
+          的話，
           <br />
-          所以請依照BST的規則排好即可，做到這裡你已經完成RR旋轉了！
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;則做color
+          change，請看下圖所示
           <br />
-          <img className="avlimg" src="/Img/avl7.png" />
-          <img className="avlimg" src="/Img/avl8.png" />
+          <img src="/Img/rb3.png" />
           <br />
-          做到這裡你會發現其實LL跟RR其實沒有什麼差別，只是一個是左邊不平衡，
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color
+          change 完後，須檢查有無連續的紅色Node，若有，則需做旋轉
           <br />
-          一個是右邊不平衡，但接下來的LR跟RL就有點不一樣了：）
+          第三步：此時才插入X
+          <span style={{ color: "#4874b1" }}>且標記為紅色</span>
           <br />
-          <span style={{ color: "rgb(72 177 86)", fontSize: "25px" }}>LR</span>
+          第四步：
+          <span style={{ color: "#4874b1" }}>
+            檢查有無連續紅色Node ，若有，則需做旋轉調整
+          </span>
           <br />
-          請看下方兩張圖
-          <br />
-          因為Node 13的新增導致Node 15的不平衡，因此從Node 15開始標記
-          <span style={{ color: "#4874b1" }}>一個L, 一個R</span>
-          <br />
-          因Node 13在Node 15的左邊，所以在Node 8 到 Node 15之間標記L
-          <br />
-          因Node 13在Node 8的左邊，所以在Node 8 到 Node 10之間標記R
-          <br />
-          標記好之後就可以開始旋轉，目前被選取到的分別是Node 8, Node 10, Node 15
-          <br />而<span style={{ color: "#4874b1" }}>中間值為Node 10</span>
-          ，所以他向上提，左節點則為Node 8，右節點則為Node 15
+          第五步：root一律改為黑色(if needed)
           <br />
           <span style={{ color: "#edb91e" }}>
-            這裏就是跟LL或RR不同的部分，一般來說中間點為被選取的第一個或第三個
-            <br />
-            這裡要搞清楚了，很多初學者都是敗在這裡
+            Note:Insert X 在第二步及第四步中，頂多發生一次旋轉
           </span>
           <br />
-          你可能會想說啊其他節點像Node 6或Node 18怎麼辦
+          看到這裡，你可能還不是很懂，請看下方的演示過程
           <br />
-          Node 6原本就是Node 8的左子點，不需要改動
+          有一筆資料為[8,4,6,9,3]要建成Red Black Tree
           <br />
-          Node 18也是同樣的道理，他原本就是Node 15的因此不需要變
-          <br />
-          你又可能會想說啊其他節點呢
-          <span style={{ color: "#4874b1" }}>別忘了AVL也是BST的一種</span>
-          <br />
-          所以請依照BST的規則排好即可，做到這裡你已經完成LR旋轉了！
-          <br />
-          <img className="avlimg" src="/Img/avl9.png" />
-          <img className="avlimg" src="/Img/avl10.png" />
-          <br />
-          <span style={{ color: "rgb(72 177 86)", fontSize: "25px" }}>RL</span>
-          <br />
-          請看下方兩張圖
-          <br />
-          因為Node 14的新增導致Node 10的不平衡，因此從Node 10開始標記
-          <span style={{ color: "#4874b1" }}>一個R, 一個L</span>
-          <br />
-          因Node 14在Node 10的左邊，所以在Node 10 到 Node 15之間標記R
-          <br />
-          因Node 14在Node 15的左邊，所以在Node 15 到 Node 13之間標記L
-          <br />
-          標記好之後就可以開始旋轉，目前被選取到的分別是Node 10, Node 13, Node
-          15
-          <br />而<span style={{ color: "#4874b1" }}>中間值為Node 13</span>
-          ，所以他向上提，左節點則為Node 10，右節點則為Node 15
-          <br />
-          你可能會想說啊其他節點像Node 8或Node 18怎麼辦
-          <br />
-          Node 8原本就是Node 10的左子點，不需要改動
-          <br />
-          Node 18也是同樣的道理，他原本就是Node 15的因此不需要變
-          <br />
-          你又可能會想說啊其他節點呢
-          <span style={{ color: "#4874b1" }}>別忘了AVL也是BST的一種</span>
-          <br />
-          所以請依照BST的規則排好即可，做到這裡你已經完成RL旋轉了！
-          <br />
-          <img className="avlimg" src="/Img/avl11.png" />
-          <img className="avlimg" src="/Img/avl12.png" />
-          <br />
+          <ControlledCarousel />
         </p>
-        <h3>How can we use Adelson Velsky and Landis Tree ?</h3>
+        <h3>How can we use Red Black Tree ?</h3>
         <p>
-          我們可以把資料建立成 AVL Tree，比起BST，AVL Tree更能有效的降低時間
+          我們可以把資料建立成 Red Black Tree，比起BST，Red Black
+          Tree更能有效的降低時間
           <br />
           因為BST可能會有上述的情況，進而影響到時間
+          <br />
+          你可能會想說Red Black Tree 跟 AVL哪一個比較好
+          <br />
+          這就要是你的資料情況了，
+          <br />
+          若你常常需要新增刪除，Red Black Tree 可能會比較好
+          <br />
+          若你只是做查詢的動作，AVL可能比較好
         </p>
         <h3>About function</h3>
         <p>
-          你可能會很好奇每個節點下面的小字是什麼？
-          <br />
-          <span style={{ color: "#4874b1" }}>他代表的是該節點的樹高</span>
+          圖中紅色的代表紅節點，而灰色的則代表黑節點
           <br />
           Random: 可隨機新增一顆樹
           <br />
@@ -442,12 +447,12 @@ function Traversal(orderValue) {
   }
   return print;
 }
-function AVL() {
+function RBT() {
   const { ref, insert, remove, getData, search, clear, generateRandomTree } =
-    useAVLTree();
-  const [avlinsertValue, setavlInsertValue] = useState(0);
-  const [avlremoveValue, setavlRemoveValue] = useState(0);
-  const [avlsearchValue, setavlsearchValue] = useState(0);
+    useRedBlackTree();
+  const [rbtinsertValue, setrbtInsertValue] = useState(0);
+  const [rbtremoveValue, setrbtRemoveValue] = useState(0);
+  const [rbtsearchValue, setrbtsearchValue] = useState(0);
   const [InorderValue, setInorderValue] = useState("");
   const [PreorderValue, setPreorderValue] = useState("");
   const [PostorderValue, setPostorderValue] = useState("");
@@ -463,7 +468,7 @@ function AVL() {
   return (
     <div className="A2">
       <A2_Header />
-      <div className="avl">
+      <div className="rbt">
         <div className="hintContainer">
           <div className="loader"></div>
           <img
@@ -472,7 +477,7 @@ function AVL() {
             onClick={() => setModalShow(true)}
           />
         </div>
-        <h1>Adelson Velsky Landis Tree</h1>
+        <h1>Red Black Tree</h1>
         <div className="Input">
           <div className="InputGroup">
             <Button
@@ -481,21 +486,12 @@ function AVL() {
                 generateRandomTree(getRandom(5, 10));
                 setRecord((prevArray) => [
                   ...record,
-                  <div>
-                    <p className="recordP">
-                      {"Random \n"}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
-                        {new Date().toLocaleTimeString() +
-                          "\n" +
-                          new Date().getFullYear() +
-                          "年" +
-                          (new Date().getMonth() + 1) +
-                          "月" +
-                          new Date().getDate() +
-                          "日"}
-                      </span>
-                    </p>
-                  </div>,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  "Random \n",
                 ]);
               }}
             >
@@ -507,21 +503,12 @@ function AVL() {
                 clear();
                 setRecord((prevArray) => [
                   ...record,
-                  <div>
-                    <p className="recordP">
-                      {"Clear \n"}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
-                        {new Date().toLocaleTimeString() +
-                          "\n" +
-                          new Date().getFullYear() +
-                          "年" +
-                          (new Date().getMonth() + 1) +
-                          "月" +
-                          new Date().getDate() +
-                          "日"}
-                      </span>
-                    </p>
-                  </div>,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  "Clear \n",
                 ]);
               }}
             >
@@ -532,30 +519,21 @@ function AVL() {
             <input
               type="number"
               onChange={(elem) =>
-                setavlsearchValue(parseInt(elem.currentTarget.value, 10))
+                setrbtsearchValue(parseInt(elem.currentTarget.value, 10))
               }
             />
             <Button
               variant="secondary"
               onClick={() => {
-                search(avlsearchValue);
+                search(rbtsearchValue);
                 setRecord((prevArray) => [
                   ...record,
-                  <div>
-                    <p className="recordP">
-                      {`Search  ${avlsearchValue} \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
-                        {new Date().toLocaleTimeString() +
-                          "\n" +
-                          new Date().getFullYear() +
-                          "年" +
-                          (new Date().getMonth() + 1) +
-                          "月" +
-                          new Date().getDate() +
-                          "日"}
-                      </span>
-                    </p>
-                  </div>,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Search  ${rbtsearchValue} \n`,
                 ]);
               }}
             >
@@ -564,31 +542,22 @@ function AVL() {
             <input
               type="number"
               onChange={(elem) =>
-                setavlInsertValue(parseInt(elem.currentTarget.value, 10))
+                setrbtInsertValue(parseInt(elem.currentTarget.value, 10))
               }
             />
             <Button
               variant="secondary"
               onClick={() => {
-                insert(avlinsertValue);
-                search(avlinsertValue);
+                insert(rbtinsertValue);
+                search(rbtinsertValue);
                 setRecord((prevArray) => [
                   ...record,
-                  <div>
-                    <p className="recordP">
-                      {`Insert  ${avlinsertValue} \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
-                        {new Date().toLocaleTimeString() +
-                          "\n" +
-                          new Date().getFullYear() +
-                          "年" +
-                          (new Date().getMonth() + 1) +
-                          "月" +
-                          new Date().getDate() +
-                          "日"}
-                      </span>
-                    </p>
-                  </div>,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Insert  ${rbtinsertValue} \n`,
                 ]);
               }}
             >
@@ -597,33 +566,24 @@ function AVL() {
             <input
               type="number"
               onChange={(elem) =>
-                setavlRemoveValue(parseInt(elem.currentTarget.value, 10))
+                setrbtRemoveValue(parseInt(elem.currentTarget.value, 10))
               }
             />
             <Button
               variant="secondary"
               onClick={() => {
-                search(avlremoveValue);
+                search(rbtremoveValue);
                 setTimeout(() => {
-                  remove(avlremoveValue);
+                  remove(rbtremoveValue);
                 }, 1200);
                 setRecord((prevArray) => [
                   ...record,
-                  <div>
-                    <p className="recordP">
-                      {`Remove  ${avlremoveValue} \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
-                        {new Date().toLocaleTimeString() +
-                          "\n" +
-                          new Date().getFullYear() +
-                          "年" +
-                          (new Date().getMonth() + 1) +
-                          "月" +
-                          new Date().getDate() +
-                          "日"}
-                      </span>
-                    </p>
-                  </div>,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Remove  ${rbtremoveValue} \n`,
                 ]);
               }}
             >
@@ -645,21 +605,12 @@ function AVL() {
                 setInorderValue(getData("inorder"));
                 setRecord((prevArray) => [
                   ...record,
-                  <div>
-                    <p className="recordP">
-                      {`Inorder  \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
-                        {new Date().toLocaleTimeString() +
-                          "\n" +
-                          new Date().getFullYear() +
-                          "年" +
-                          (new Date().getMonth() + 1) +
-                          "月" +
-                          new Date().getDate() +
-                          "日"}
-                      </span>
-                    </p>
-                  </div>,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Inorder  \n`,
                 ]);
                 let i = 0;
                 let Inordertraversal = setInterval(() => {
@@ -690,21 +641,12 @@ function AVL() {
                 setPreorderValue(getData("preorder"));
                 setRecord((prevArray) => [
                   ...record,
-                  <div>
-                    <p className="recordP">
-                      {`Preorder  \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
-                        {new Date().toLocaleTimeString() +
-                          "\n" +
-                          new Date().getFullYear() +
-                          "年" +
-                          (new Date().getMonth() + 1) +
-                          "月" +
-                          new Date().getDate() +
-                          "日"}
-                      </span>
-                    </p>
-                  </div>,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Preorder  \n`,
                 ]);
                 let i = 0;
                 let Preordertraversal = setInterval(() => {
@@ -735,21 +677,12 @@ function AVL() {
                 setPostorderValue(getData("postorder"));
                 setRecord((prevArray) => [
                   ...record,
-                  <div>
-                    <p className="recordP">
-                      {`Postorder  \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
-                        {new Date().toLocaleTimeString() +
-                          "\n" +
-                          new Date().getFullYear() +
-                          "年" +
-                          (new Date().getMonth() + 1) +
-                          "月" +
-                          new Date().getDate() +
-                          "日"}
-                      </span>
-                    </p>
-                  </div>,
+                  "-------------------",
+                  new Date().toLocaleTimeString() + "\n",
+                  new Date().getDate() + "日\n",
+                  new Date().getMonth() + 1 + "月 ",
+                  new Date().getFullYear() + " ",
+                  `Postorder  \n`,
                 ]);
                 let i = 0;
                 let Postordertraversal = setInterval(() => {
@@ -807,10 +740,10 @@ function AVL() {
           show={postordermodalShow}
           onHide={() => setpostorderModalShow(false)}
         />
-        <AVLTree data={arr} ref={ref} />
+        <RedBlackTree data={arr} ref={ref} />
       </div>
     </div>
   );
 }
 
-export default AVL;
+export default RBT;

@@ -28,7 +28,7 @@ function Header() {
                 color: "white",
               }}
             >
-              Introduction
+              Intruduction
             </Link>
             <Link
               to="/A1/BST"

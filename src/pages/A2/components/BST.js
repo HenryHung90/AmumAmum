@@ -18,11 +18,6 @@ for (let i = 0; i < getRandom(5, 10); i++) {
   }
   arr.push(tmp);
 }
-// function getli(params) {
-//   let fuck = document.querySelectorAll("li.null");
-//   console.log(fuck[0]);
-//   return document.querySelectorAll("li");
-// }
 function MyVerticallyCenteredModal(props) {
   return (
     <Modal
@@ -338,12 +333,21 @@ function BST() {
                 generateRandomTree(getRandom(5, 10));
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  "Random \n",
+                  <div>
+                    <p className="recordP">
+                      {"Random \n"}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
               }}
             >
@@ -355,12 +359,21 @@ function BST() {
                 clear();
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  "Clear \n",
+                  <div>
+                    <p className="recordP">
+                      {"Clear \n"}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
               }}
             >
@@ -380,12 +393,21 @@ function BST() {
                 search(bstsearchValue);
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  `Search  ${bstsearchValue} \n`,
+                  <div>
+                    <p className="recordP">
+                      {`Search  ${bstsearchValue} \n`}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
               }}
             >
@@ -404,12 +426,21 @@ function BST() {
                 search(bstinsertValue);
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  `Insert  ${bstinsertValue} \n`,
+                  <div>
+                    <p className="recordP">
+                      {`Insert  ${bstinsertValue} \n`}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
               }}
             >
@@ -430,12 +461,21 @@ function BST() {
                 }, 1200);
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  `Remove  ${bstremoveValue} \n`,
+                  <div>
+                    <p className="recordP">
+                      {`Remove  ${bstremoveValue} \n`}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
               }}
             >
@@ -457,12 +497,21 @@ function BST() {
                 setInorderValue(getData("inorder"));
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  `Inorder  \n`,
+                  <div>
+                    <p className="recordP">
+                      {`Inorder \n`}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
                 let i = 0;
                 let Inordertraversal = setInterval(() => {
@@ -493,12 +542,21 @@ function BST() {
                 setPreorderValue(getData("preorder"));
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  `Preorder  \n`,
+                  <div>
+                    <p className="recordP">
+                      {`Preorder \n`}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
                 let i = 0;
                 let Preordertraversal = setInterval(() => {
@@ -529,12 +587,21 @@ function BST() {
                 setPostorderValue(getData("postorder"));
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  `Postorder  \n`,
+                  <div>
+                    <p className="recordP">
+                      {`Postorder \n`}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
                 let i = 0;
                 let Postordertraversal = setInterval(() => {

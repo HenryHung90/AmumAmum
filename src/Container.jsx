@@ -9,17 +9,21 @@ import {
 
 import Admin from "./pages/Admin";
 import A1 from "./pages/A1";
-import A1_BST from "./pages/A1/components/BSTdoucument";
+import A1_Tree from './pages/A1/components/Treedocument';
+import A1_BST from "./pages/A1/components/BSTdocument";
+import A1_AVL from "./pages/A1/components/AVLdocument";
+import A1_RBT from './pages/A1/components/RBTdocument';
 import A2 from "./pages/A2";
-import A2_Tree from "./pages/A2/components/Tree";
+import A2_Tree from "./pages/A2/components/Treedocument";
 import A2_BST from "./pages/A2/components/BST";
 import A2_AVL from "./pages/A2/components/AVL";
 import A2_RBT from "./pages/A2/components/RBT";
 import A2_Test from "./pages/A2/components/Test";
 import A3 from "./pages/A3";
+//import A3_Tree from './pages/A3/components/Treedocument';
 import A3_BST from "./pages/A3/components/BSTInteractive";
 import A3_AVL from "./pages/A3/components/AVLInteractive";
-import Exam from "./pages/Exam";
+// import A3_RBT from './pages/A3/components/RBTInteractive';
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import axios from "axios";
@@ -132,7 +136,10 @@ const Container = () => {
         {user && (
           <>
             <Route path="/A1" element={<A1 />} />
+            <Route path="/A1/Tree" element={<A1_Tree />} />
             <Route path="/A1/BST" element={<A1_BST />} />
+            <Route path="/A1/AVL" element={<A1_AVL />} />
+            <Route path="/A1/RBT" element={<A1_RBT />} />
             <Route path="/A2" element={<A2 />} />
             <Route path="/A2/Tree" element={<A2_Tree />} />
             <Route path="/A2/BST" element={<A2_BST />} />
@@ -140,10 +147,10 @@ const Container = () => {
             <Route path="/A2/RBT" element={<A2_RBT />} />
             <Route path="/A2/Test" element={<A2_Test />} />
             <Route path="/A3" element={<A3 />} />
-            <Route path="/A3/Tree" element={<A2_Tree />} />
+            {/* <Route path="/A3/Tree" element={<A3_Tree />} /> */}
             <Route path="/A3/BST" element={<A3_BST />} />
             <Route path="/A3/AVL" element={<A3_AVL />} />
-            <Route path="/Exam" element={<Exam />} />
+            {/* <Route path="/A3/RBT" element={<A3_RBT />} /> */}
             <Route
               path="/Profile"
               element={<Profile Logout={SetLogout} />}

@@ -23,10 +23,7 @@ function Showpdf() {
   }
   return (
     <div className="pdfcontainer">
-      <Document
-        file="/BinarySearchTree.pdf"
-        onLoadSuccess={onDoucumentLoadSuccess}
-      >
+      <Document file="/RedBlackTree.pdf" onLoadSuccess={onDoucumentLoadSuccess}>
         <Page height="1000" pageNumber={pageNumber} />
       </Document>
       <p>
@@ -48,7 +45,7 @@ function Showpdf() {
   );
 }
 
-function BSTdoucument() {
+function RBTdocument() {
   return (
     <div className="A1">
       <A1_Header />
@@ -59,4 +56,4 @@ function BSTdoucument() {
   );
 }
 
-export default BSTdoucument;
+export default RBTdocument;
