@@ -15,14 +15,14 @@ code {
 }
 /****************************************************************/
 /**************************LoginPage*****************************/
-.Outline{
-  height:700px;
-  background-image:url(../public/Img/amumamum.PNG);
+.Outline {
+  height: 700px;
+  background-image: url(../public/Img/amumamum.PNG);
   background-position: center;
   background-repeat: no-repeat;
-  animation: fadeIn .5s steps(25,end), flowing 3s steps(25,end) infinite;
+  animation: fadeIn 0.5s steps(25, end), flowing 3s steps(25, end) infinite;
 }
-.LoginMain{
+.LoginMain {
   background-color: white;
   text-align: center;
   position: absolute;
@@ -33,42 +33,62 @@ code {
   height: 370px;
   border: 1px solid black;
   border-radius: 20px;
-    opacity: 0.8;
-  animation:fadeIn 1s steps(50, end);
+  opacity: 0.8;
+  animation: fadeIn 1s steps(50, end);
 }
 .Login_h1 {
   width: 80%;
   white-space: nowrap;
   margin: 0 auto;
-  margin-top:13px;
+  margin-top: 13px;
   color: #292929;
   border-right: 2px solid transparent;
   overflow: hidden;
-  animation: typing 0.5s steps(50, end), blink-caret .75s step-end infinite;
+  animation: typing 0.5s steps(50, end), blink-caret 0.75s step-end infinite;
 }
-.Login_h3{
-  margin-top:10px;
+.Login_h3 {
+  margin-top: 10px;
   color: #2559bb;
 }
-.subBtn{
-  margin-top:20px
+.subBtn {
+  margin-top: 20px;
 }
 @keyframes typing {
-  from { width: 0; }
-  to { width: 80%; }
+  from {
+    width: 0;
+  }
+  to {
+    width: 80%;
+  }
 }
 @keyframes blink-caret {
-  from, to { box-shadow: 1px 0 0 0 transparent; }
-  50% { box-shadow: 1px 0 0 0; }
+  from,
+  to {
+    box-shadow: 1px 0 0 0 transparent;
+  }
+  50% {
+    box-shadow: 1px 0 0 0;
+  }
 }
 @keyframes fadeIn {
-  from{opacity: 0;}
-  to{opacity: 0.8;}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.8;
+  }
 }
-@keyframes flowing{
-  from,to{margin:10px 0 0 20px;}
-  30%{margin:-10px 0 0 30px}
-  60%{margin:-15px 0 10px 0}
+@keyframes flowing {
+  from,
+  to {
+    margin: 10px 0 0 20px;
+  }
+  30% {
+    margin: -10px 0 0 30px;
+  }
+  60% {
+    margin: -15px 0 10px 0;
+  }
 }
 
 /* .btn {
@@ -76,12 +96,12 @@ code {
 } */
 /****************************************************************/
 /**************************  A1  ********************************/
-.showPDF{
+.showPDF {
   display: flex;
   justify-content: center;
   margin-top: 30px;
 }
-.pdfcontainer{
+.pdfcontainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -138,7 +158,9 @@ svg {
 .showTraversal {
   color: aliceblue;
 }
-.A1,.A2,.A3{
+.A1,
+.A2,
+.A3 {
   display: flex;
   top: 0%;
   width: 100%;
@@ -168,14 +190,14 @@ svg {
 }
 /****************************************************************/
 /*************************A2_Home********************************/
-.home{
+.home {
   width: 100%;
   left: 28%;
   display: flex;
   position: relative;
 }
-@media screen and (max-width:1440px) {
-  .home{
+@media screen and (max-width: 1440px) {
+  .home {
     width: 100%;
     left: 6%;
     display: flex;
@@ -200,7 +222,7 @@ h2 span {
 h2 span:nth-child(even) {
   animation-delay: 0.4s;
 }
-@keyframes animate {
+/* @keyframes animate {
   0%,
   18%,
   20%,
@@ -227,7 +249,7 @@ h2 span:nth-child(even) {
     text-shadow: 0 0 10px #76c8df, 0 0 20px #76c8df, 0 0 40px #76c8df,
       0 0 80px #76c8df, 0 0 160px #76c8df, 0 0 400px #76c8df;
   }
-}
+} */
 /****************************************************************/
 /*************************A2_Tree********************************/
 .tree {
@@ -397,7 +419,7 @@ h2 span:nth-child(even) {
 #react-tree-vis li div {
   box-shadow: none;
 }
-#react-tree-vis li div.highlight{
+#react-tree-vis li div.highlight {
   color: black;
 }
 .record {
@@ -429,7 +451,7 @@ h2 span:nth-child(even) {
   align-items: center;
   flex-direction: column;
 }
-.record .recordP{
+.record .recordP {
   border: 3px white solid;
   padding: 5px;
   border-radius: 10px;
@@ -469,13 +491,13 @@ h2 span:nth-child(even) {
 }
 /****************************************************************/
 /*************************A2_Test*********************************/
-.test{
+.test {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-.AnsInput{
+.AnsInput {
   margin-top: 30px;
   width: 50%;
   border: white 5px solid;
@@ -486,18 +508,18 @@ h2 span:nth-child(even) {
   flex-direction: column;
   text-align: left;
 }
-.btn-check:checked+.btn-secondary{
-  background-color: #889fad ;
+.btn-check:checked + .btn-secondary {
+  background-color: #889fad;
 }
 /****************************************************************/
 /*************************A3_BST*********************************/
-.BSTInteractive{
+.BSTInteractive {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-.dropdrupcontainer{
+.dropdrupcontainer {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
@@ -505,30 +527,31 @@ h2 span:nth-child(even) {
   align-items: center;
   margin-left: 20px;
 }
-.correct,.wrong{
+.correct,
+.wrong {
   width: 48px;
   height: 48px;
   visibility: hidden;
   margin-left: 100px;
   margin-bottom: 10px;
 }
-.correct{
+.correct {
   z-index: 5;
   position: absolute;
 }
-.wrong{
+.wrong {
   z-index: 6;
   position: absolute;
 }
-.Dndcontainer{
+.Dndcontainer {
   display: flex;
   flex-direction: row;
 }
-.treeanddnd{
+.treeanddnd {
   display: flex;
   flex-direction: row;
 }
-.bsttreecontainer{
+.bsttreecontainer {
   flex-direction: column;
   display: flex;
   justify-content: center;
@@ -536,23 +559,23 @@ h2 span:nth-child(even) {
 }
 /****************************************************************/
 /*************************A3_AVL*********************************/
-.AVlInteractive{
+.AVlInteractive {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-.itemsDndcontainer{
+.itemsDndcontainer {
   display: flex;
   flex-direction: column;
 }
-.avltreecontainer{
+.avltreecontainer {
   flex-direction: column;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.avlinteractiveButtons{
+.avlinteractiveButtons {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -560,20 +583,20 @@ h2 span:nth-child(even) {
 }
 /****************************************************************/
 /*************************A3_RBT*********************************/
-.RBTInteractive{
+.RBTInteractive {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-.Cards{
+.Cards {
   align-items: center;
   display: flex;
   margin-top: 10px;
   flex-direction: column;
   width: 80%;
 }
-.CardFront{
+.CardFront {
   border: 1px solid black;
   border: black solid 3px;
   margin: 5px;
@@ -585,7 +608,7 @@ h2 span:nth-child(even) {
   justify-content: center;
   text-align: center;
 }
-.CardBack{
+.CardBack {
   border: 1px solid black;
   border: black solid 3px;
   margin: 5px;
@@ -597,16 +620,30 @@ h2 span:nth-child(even) {
   justify-content: center;
   text-align: center;
 }
-.answrong{
+.answrong {
   box-shadow: 0 0 15px red;
   animation: shake 0.5s forwards;
 }
-@keyframes shake{
-  10%,90%{transform: translate3d(-2px,0,0);}
-  20%,80%{transform: translate3d(+4px,0,0);}
-  30%,70%{transform: translate3d(-8px,0,0);}
-  40%,60%{transform: translate3d(+8px,0,0);}
-  50%{transform: translate3d(-8px,0,0);}
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-2px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(+4px, 0, 0);
+  }
+  30%,
+  70% {
+    transform: translate3d(-8px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(+8px, 0, 0);
+  }
+  50% {
+    transform: translate3d(-8px, 0, 0);
+  }
 }
 /****************************************************************/
 /*************************Admin**********************************/
@@ -639,101 +676,150 @@ h2 span:nth-child(even) {
 }
 /****************************************************************/
 /*************************Profile*********************************/
-.ProfileTitle{
-  font-size:5em;
-  width:4em;
+.ProfileTitle {
+  font-size: 5em;
+  width: 4em;
   white-space: nowrap;
-  color:white;
-  margin:0 auto;
+  color: white;
+  margin: 0 auto;
   border-right: 2px solid transparent;
   overflow: hidden;
-  animation: typingProfile 1s steps(100,end), blink-caret 0.75s steps(15,end) infinite;
+  animation: typingProfile 1s steps(100, end),
+    blink-caret 0.75s steps(15, end) infinite;
 }
-.SelfProfile{
+.SelfProfile {
   width: 80%;
-  height:600px;
-  overflow:hidden;
-  margin:0 auto;
-  border:1px #292929 solid;
+  height: 600px;
+  overflow: hidden;
+  margin: 0 auto;
+  border: 1px #292929 solid;
   border-radius: 20px 20px;
-  background-color:whitesmoke;
-  animation: sildeProfile 0.7s steps(300,end), fadeIn 0.5s steps(400,end);
+  background-color: whitesmoke;
+  animation: sildeProfile 0.7s steps(300, end), fadeIn 0.5s steps(400, end);
 }
-.SelfProfile_Title{
-  font-size:3em;
-  margin:30px 100px 0 0;
-  color:#292929;
+.SelfProfile_Title {
+  font-size: 3em;
+  margin: 30px 100px 0 0;
+  color: #292929;
 }
-.SelfProfile_subTitle{
-  color:#292929;
+.SelfProfile_subTitle {
+  color: #292929;
   margin-top: 70px;
 }
-.SelfProfile_Text{
-  margin:15px 0 0 30px;
-  color:#2559bb;
+.SelfProfile_Text {
+  margin: 15px 0 0 30px;
+  color: #2559bb;
 }
-.SelfProfile_Stand{
+.SelfProfile_Stand {
   justify-content: space-around;
   display: flex;
 }
-.SelfProfile_Self{
+.SelfProfile_Self {
   display: flex;
-  margin-left:30px;
+  margin-left: 30px;
 }
-.Block{
-  visibility:hidden;
-  position:absolute;
+.Block {
+  visibility: hidden;
+  position: absolute;
   z-index: 100;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color:#424141;
+  background-color: #424141;
   opacity: 0.5;
 }
-.PasswordChange{
-  visibility:hidden;
-  position:absolute;
-  z-index:101;
-  top:10%;
-  left:33%;
-  width:500px;
-  height:500px;
+.PasswordChange, .EmailChange {
+  visibility: hidden;
+  position: absolute;
+  z-index: 101;
+  top: 10%;
+  left: 33%;
+  width: 500px;
+  height: 500px;
   background-color: whitesmoke;
-  border:1px solid #424141;
-  border-radius:20px 20px;
+  border: 1px solid #424141;
+  border-radius: 20px 20px;
 }
-.PasswordChange_Title{
-  text-align:center;
-  color:#292929;
-  font-size:2.5em;
-  margin-top:20px;
+.PasswordChange_Title, .EmailChange_Title {
+  text-align: center;
+  color: #292929;
+  font-size: 2.5em;
+  margin-top: 20px;
 }
-.PasswordLine{
+.PasswordLine, .EmailLine {
   display: flex;
-  justify-content:space-between;
-  margin:30px 100px 10px 100px;
+  justify-content: space-between;
+  margin: 30px 100px 10px 100px;
   border-bottom: 1px dashed #2559bb;
   padding-bottom: 8px;
 }
-.PasswordLine_Title{
-  margin-top:15px;
+.PasswordLine_Title, .EmailLine_Title {
+  margin-top: 15px;
 }
-.PasswordBtn{
-  margin-top:70px;
-  text-align:center;
+.PasswordBtn, .EmailBtn {
+  margin-top: 70px;
+  text-align: center;
 }
-#submitPassword{
+#submitPassword, #submitEmail {
   margin-right: 50px;
 }
-@keyframes typingProfile {
-  25% { width: 0; }
-  50%{}
-  to { width: 4em; }
+.Classroom{
+  display: flex;
+  justify-content:space-around;
+  margin: 50px 150px 10px 150px;
+}
+.GoStudy, .GoCheck{
+  transition-duration: .5s;
+  background-image: url(../public/Img/amumamum.PNG);
+  opacity: 0.5;
+  background-size:50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-size: 2em;
+  color:black;
+  width:300px;
+  height:300px;
+  text-align: center;
+  line-height:500px;
+  border:1px solid black;
+  border-radius: 20px 20px;
 }
 
-@keyframes sildeProfile{
-  0%{height: 0;}
-  10%{height:200px;}
-  60%{height:500px;}
-  100%{height:600px;}
+.GoStudy:hover, .GoCheck:hover{
+  transition-duration: .5s;
+  opacity: 1;
+  width:350px;
+  margin-left: -20px;
+  height:350px;
+  line-height:600px;
+  border:1px dashed black;
+}
+
+#GoStudy_Title, #GoCheck_Title{
+
+}
+@keyframes typingProfile {
+  25% {
+    width: 0;
+  }
+  50% {
+  }
+  to {
+    width: 4em;
+  }
+}
+
+@keyframes sildeProfile {
+  0% {
+    height: 0;
+  }
+  10% {
+    height: 200px;
+  }
+  60% {
+    height: 500px;
+  }
+  100% {
+    height: 600px;
+  }
 }

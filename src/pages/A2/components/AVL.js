@@ -462,7 +462,6 @@ function AVL() {
   let tmp = [...record];
   return (
     <div className="A2">
-      <A2_Header />
       <div className="avl">
         <div className="hintContainer">
           <div className="loader"></div>

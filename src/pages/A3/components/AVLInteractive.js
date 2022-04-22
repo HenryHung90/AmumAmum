@@ -228,7 +228,6 @@ function AVLinteractive() {
 
   return (
     <div className="A3">
-      <A3_Headr />
       <div className="AVlInteractive">
         <div className="hintContainer">
           <div className="loader"></div>
@@ -341,22 +340,40 @@ function AVLinteractive() {
                     wrongS.style.visibility = "hidden";
                     setRecord((prevArray) => [
                       ...record,
-                      "-------------------",
-                      new Date().toLocaleTimeString() + "\n",
-                      new Date().getDate() + "日\n",
-                      new Date().getMonth() + 1 + "月 ",
-                      new Date().getFullYear() + " ",
-                      "correct \n",
+                      <div>
+                        <p className="recordP">
+                          {"Correct \n"}
+                          <span style={{ fontSize: "10px", color: "wheat" }}>
+                            {new Date().toLocaleTimeString() +
+                              "\n" +
+                              new Date().getFullYear() +
+                              "年" +
+                              (new Date().getMonth() + 1) +
+                              "月" +
+                              new Date().getDate() +
+                              "日"}
+                          </span>
+                        </p>
+                      </div>,
                     ]);
                   } else {
                     setRecord((prevArray) => [
                       ...record,
-                      "-------------------",
-                      new Date().toLocaleTimeString() + "\n",
-                      new Date().getDate() + "日\n",
-                      new Date().getMonth() + 1 + "月 ",
-                      new Date().getFullYear() + " ",
-                      "wrong \n",
+                      <div>
+                        <p className="recordP">
+                          {"Wrong \n"}
+                          <span style={{ fontSize: "10px", color: "wheat" }}>
+                            {new Date().toLocaleTimeString() +
+                              "\n" +
+                              new Date().getFullYear() +
+                              "年" +
+                              (new Date().getMonth() + 1) +
+                              "月" +
+                              new Date().getDate() +
+                              "日"}
+                          </span>
+                        </p>
+                      </div>,
                     ]);
                   }
                 }}

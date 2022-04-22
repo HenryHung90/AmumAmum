@@ -86,10 +86,11 @@ router.post(process.env.ROUTER_USERINFO, async (req, res) => {
     res.send(SendResponse);
   });
 });
-////////////////////檢查舊密碼////////////////////
-router.post(process.env.ROUTER_CHECKPASSWORD, async (req, res) => {
+////////////////////修改密碼////////////////////
+router.post(process.env.ROUTER_CHANGEPASSWORD, async (req, res) => {
   SignUpTemplateCopy.findOne({ _id: req.body._id }, (err, result) => {
     if (err) throw err;
+    console.log(result);
     bcryptjs.compare(req.body.OldPassword, result.Password, (err, result) => {
       if (result === true) {
         SignUpTemplateCopy.updateOne(
@@ -106,4 +107,16 @@ router.post(process.env.ROUTER_CHECKPASSWORD, async (req, res) => {
     });
   });
 });
+////////////////////修改郵件////////////////////
+router.post(process.env.ROUTER_CHANGEEMAIL, async (req, res) => {
+  SignUpTemplateCopy.updateOne(
+    { _id: req.body._id },
+    { Email: req.body.Email },
+    (err, result) => {
+      if (err) throw err;
+      res.send("success");
+    }
+  );
+});
+
 module.exports = router;

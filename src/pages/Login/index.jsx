@@ -6,7 +6,6 @@ const Login = ({ UserToken, User }) => {
     <div className="Outline">
       <LoginPage UserToken={UserToken} User={User} />
     </div>
-      
   );
 };
 

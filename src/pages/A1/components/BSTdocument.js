@@ -51,7 +51,6 @@ function Showpdf() {
 function BSTdocument() {
   return (
     <div className="A1">
-      <A1_Header />
       <div className="showPDF">
         <Showpdf />
       </div>

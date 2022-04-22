@@ -351,7 +351,6 @@ function BSTInteractive() {
   let tmp = [...record];
   return (
     <div className="A3">
-      <A3_Headre />
       <div className="BSTInteractive">
         <div className="hintContainer">
           <div className="loader"></div>
@@ -389,12 +388,21 @@ function BSTInteractive() {
                 wrongS[2].style.visibility = "hidden";
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  "Random \n",
+                  <div>
+                    <p className="recordP">
+                      {"Random \n"}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
               }}
             >
@@ -467,12 +475,21 @@ function BSTInteractive() {
                 }
                 setRecord((prevArray) => [
                   ...record,
-                  "-------------------",
-                  new Date().toLocaleTimeString() + "\n",
-                  new Date().getDate() + "日\n",
-                  new Date().getMonth() + 1 + "月 ",
-                  new Date().getFullYear() + " ",
-                  tmp,
+                  <div>
+                    <p className="recordP">
+                      {tmp}
+                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
                 ]);
               }}
             >

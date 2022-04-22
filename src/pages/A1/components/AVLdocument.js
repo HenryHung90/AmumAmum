@@ -48,7 +48,6 @@ function Showpdf() {
 function AVLdocument() {
   return (
     <div className="A1">
-      <A1_Header />
       <div className="showPDF">
         <Showpdf />
       </div>

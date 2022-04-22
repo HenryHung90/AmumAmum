@@ -4,15 +4,14 @@ import {
   Route,
   Routes,
   Navigate,
-  useNavigate,
 } from "react-router-dom";
 
 import Admin from "./pages/Admin";
 import A1 from "./pages/A1";
-import A1_Tree from './pages/A1/components/Treedocument';
+import A1_Tree from "./pages/A1/components/Treedocument";
 import A1_BST from "./pages/A1/components/BSTdocument";
 import A1_AVL from "./pages/A1/components/AVLdocument";
-import A1_RBT from './pages/A1/components/RBTdocument';
+import A1_RBT from "./pages/A1/components/RBTdocument";
 import A2 from "./pages/A2";
 import A2_Tree from "./pages/A2/components/Treedocument";
 import A2_BST from "./pages/A2/components/BST";
@@ -151,10 +150,7 @@ const Container = () => {
             <Route path="/A3/BST" element={<A3_BST />} />
             <Route path="/A3/AVL" element={<A3_AVL />} />
             {/* <Route path="/A3/RBT" element={<A3_RBT />} /> */}
-            <Route
-              path="/Profile"
-              element={<Profile Logout={SetLogout} />}
-            />
+            <Route path="/Profile" element={<Profile Logout={SetLogout} />} />
           </>
         )}
         {admin && <Route path="/Admin" element={<Admin />} />}

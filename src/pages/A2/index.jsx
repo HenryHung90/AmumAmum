@@ -5,9 +5,6 @@ function A2(params) {
   return(
    <div className="A2">
       <A2_Header/>
-      <div className="container">
-        <A2_Home/>
-      </div>
    </div>
   )
 }
