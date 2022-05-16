@@ -315,7 +315,7 @@ function MyVerticallyCenteredModal(props) {
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="outline-dark" onClick={props.onHide}>
           Let's play!
         </Button>
       </Modal.Footer>
@@ -379,7 +379,7 @@ function RBTInteractive() {
         <div className={`record ${open === "show" && "open"} `}>
           <div className="recordContainer">
             <Button
-              variant="secondary"
+              variant="outline-dark"
               onClick={() => {
                 if (open === "hide") {
                   setOpen("show");

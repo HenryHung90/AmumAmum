@@ -1,5 +1,4 @@
 import React from "react";
-import A1_Header from "./Header";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
@@ -31,12 +30,12 @@ function Showpdf() {
       </p>
       <div style={{ display: "flex", flexDirection: "row" }}>
         {pageNumber > 1 && (
-          <Button variant="secondary" onClick={changePageBack}>
+          <Button variant="outline-dark" onClick={changePageBack}>
             Previous Page
           </Button>
         )}
         {pageNumber < numPages && (
-          <Button variant="secondary" onClick={changePageNext}>
+          <Button variant="outline-dark" onClick={changePageNext}>
             Next Page
           </Button>
         )}

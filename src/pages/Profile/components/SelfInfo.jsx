@@ -1,28 +1,31 @@
-import React, { useState, useEffect} from "react";
-import {useNavigate} from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import bcryptjs from "bcryptjs";
 import axios from "axios";
 
-const SelfInfo = ({Logout}) => {
+const SelfInfo = ({ Logout, UserToken }) => {
   /////////////////身份核對///////////////////
   const [UserData, setUserData] = useState("");
   const Refresh = useNavigate();
-
   useEffect(() => {
-    const GetSid = sessionStorage.getItem("Sid");
-    axios({
-      method: "POST",
-      data: {
-        _id: GetSid,
-      },
-      withCredentials: true,
-      url: process.env.REACT_APP_AXIOS_USERINFO,
-    }).then((response) => {
-      setUserData(response.data);
-    });
-  }, []);
+    let GetSid = sessionStorage.getItem("Sid");
+    if (UserToken === null) {
+      axios({
+        method: "POST",
+        data: {
+          _id: GetSid,
+        },
+        withCredentials: true,
+        url: process.env.REACT_APP_AXIOS_USERINFO,
+      }).then((response) => {
+        setUserData(response.data);
+      });
+    } else {
+      setUserData(UserToken);
+    }
+  }, [UserToken]);
 
   //////////////修改密碼/////////////////////
   const ChangePassword = () => {
@@ -83,15 +86,16 @@ const SelfInfo = ({Logout}) => {
   ////////////////////////////////////////////////////////
   ///////////////////////變更Email////////////////////////
   const ChangeEmail = () => {
-      const Block = document.getElementById("BlockDiv");
-      const EmailChange = document.getElementById("EmailChangeDiv");
-      Block.style.visibility = "visible";
-      EmailChange.style.visibility = "visible";
-  }
+    const Block = document.getElementById("BlockDiv");
+    const EmailChange = document.getElementById("EmailChangeDiv");
+    Block.style.visibility = "visible";
+    EmailChange.style.visibility = "visible";
+  };
   const submitEmail = () => {
-    const getNewEmail = document.getElementById("NewEmail")
+    const getNewEmail = document.getElementById("NewEmail");
     const GetSid = sessionStorage.getItem("Sid");
-    const emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+    const emailRule =
+      /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
     // ^\w+：@ 之前必須以一個以上的文字&數字開頭，例如 abc
     // ((-\w+)：@ 之前可以出現 1 個以上的文字、數字或「-」的組合，例如 -abc-
     // (\.\w+))：@ 之前可以出現 1 個以上的文字、數字或「.」的組合，例如 .abc.
@@ -101,58 +105,56 @@ const SelfInfo = ({Logout}) => {
     // (\.|-)：@ 之後只能出現「.」或是「-」，但這兩個字元不能連續時出現
     // ((\.|-)[A-Za-z0-9]+)*：@ 之後出現 0 個以上的「.」或是「-」配上大小寫英文及數字的組合
     // \.[A-Za-z]+$/：@ 之後出現 1 個以上的「.」配上大小寫英文及數字的組合，結尾需為大小寫英文
-    if(getNewEmail.value.search(emailRule)!== -1){
-        axios({
-          method: "POST",
-          data: {
-              _id:GetSid,
-              Email:getNewEmail.value,
-          },
-          withCredentials: true,
-          url:process.env.REACT_APP_AXIOS_CHANGEEMAIL,
-      }).then(response=>{
+    if (getNewEmail.value.search(emailRule) !== -1) {
+      axios({
+        method: "POST",
+        data: {
+          _id: GetSid,
+          Email: getNewEmail.value,
+        },
+        withCredentials: true,
+        url: process.env.REACT_APP_AXIOS_CHANGEEMAIL,
+      }).then((response) => {
         if (response.data === "success") {
-            alert("修改完成");
-            Refresh('/Login');           
-          }
-      })
-    }else{
-        alert('電子郵件格式不正確')
+          alert("修改完成");
+          Refresh("/Profile");
+        }
+      });
+    } else {
+      alert("電子郵件格式不正確");
     }
-  }
+  };
   const cancelEmail = () => {
     const Block = document.getElementById("BlockDiv");
     const PasswordChange = document.getElementById("EmailChangeDiv");
     Block.style.visibility = "hidden";
     PasswordChange.style.visibility = "hidden";
-  }
+  };
   //////////////////Btn goStudy////////////////
   const goStudy = () => {
-    switch (UserData.Access){
-        case '1':
-            Refresh('/A1')
-            break
-        case '2':
-            Refresh('/A2')
-            break
-        case '3':
-            Refresh('/A3')
-            break
-        default:
-            alert('尚未連接學習檔案，請聯絡管理員！')
-            break
+    switch (UserData.Access) {
+      case "1":
+        Refresh("/A1");
+        break;
+      case "2":
+        Refresh("/A2");
+        break;
+      case "3":
+        Refresh("/A3");
+        break;
+      default:
+        alert("尚未連接學習檔案，請聯絡管理員！");
+        break;
     }
-  }
-  const goCheck = () => {
-
-  }
+  };
+  const goCheck = () => {};
   return (
     <>
       <div className="PasswordChange" id="PasswordChangeDiv">
         <h3 className="PasswordChange_Title">修改密碼</h3>
         <div className="PasswordLine">
           <h5 className="PasswordLine_Title">輸入舊密碼</h5>
-          <TextField id="OldPassword" label="舊密碼" variant="standard"/>
+          <TextField id="OldPassword" label="舊密碼" variant="standard" />
         </div>
         <div className="PasswordLine">
           <h5 className="PasswordLine_Title">輸入新密碼</h5>
@@ -212,7 +214,9 @@ const SelfInfo = ({Logout}) => {
         </div>
       </div>
       <div className="Block" id="BlockDiv"></div>
-      <h1 className="ProfileTitle"  style={{userSelect: 'none'}}>PROFILE</h1>
+      <h1 className="ProfileTitle" style={{ userSelect: "none" }}>
+        PROFILE
+      </h1>
       <div className="SelfProfile">
         <div className="SelfProfile_Stand">
           <h3 className="SelfProfile_Title">元智大學 Yzu Ze University</h3>
@@ -245,24 +249,28 @@ const SelfInfo = ({Logout}) => {
           >
             修改電子郵件
           </Button>
-             <Button
-        variant="contained"
-        type="submit"
-        style={{
-          marginLeft: "1em",
-          marginTop: "1em",
-          height: "1.5em",
-          fontSize: "1em",
-          backgroundColor: "black",
-        }}
-        onClick={Logout}
-      >
-        登出
-      </Button>
+          <Button
+            variant="contained"
+            type="submit"
+            style={{
+              marginLeft: "1em",
+              marginTop: "1em",
+              height: "1.5em",
+              fontSize: "1em",
+              backgroundColor: "black",
+            }}
+            onClick={Logout}
+          >
+            登出
+          </Button>
         </div>
-        <div className="Classroom"  style={{userSelect: 'none'}}>
-            <div className="GoStudy" onClick={goStudy}>進入課程</div>
-            <div className="GoCheck" onClick={goCheck}>待開放</div>
+        <div className="Classroom" style={{ userSelect: "none" }}>
+          <div className="GoStudy" onClick={goStudy}>
+            進入課程
+          </div>
+          <div className="GoCheck" onClick={goCheck}>
+            待開放
+          </div>
         </div>
       </div>
     </>

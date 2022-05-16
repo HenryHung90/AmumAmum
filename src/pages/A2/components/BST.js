@@ -3,7 +3,7 @@ import { BinarySearchTree, useBinarySearchTree } from "react-tree-vis";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { MDBContainer } from "mdbreact";
-import A2_Header from "./Header";
+import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -18,6 +18,50 @@ for (let i = 0; i < getRandom(5, 10); i++) {
   }
   arr.push(tmp);
 }
+function Showpdf() {
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  function onDoucumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+    setPageNumber(1);
+  }
+  function changePage(offset) {
+    setPageNumber((prePageNumber) => prePageNumber + offset);
+  }
+  function changePageBack() {
+    changePage(-1);
+  }
+  function changePageNext() {
+    changePage(+1);
+  }
+  return (
+    <div className="pdfcontainer">
+      <Document
+        file="/BinarySearchTree.pdf"
+        onLoadSuccess={onDoucumentLoadSuccess}
+      >
+        <Page height="1000" pageNumber={pageNumber} />
+      </Document>
+      <p>
+        Page {pageNumber} of {numPages}
+      </p>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        {pageNumber > 1 && (
+          <Button variant="outline-dark" onClick={changePageBack}>
+            Previous Page
+          </Button>
+        )}
+        {pageNumber < numPages && (
+          <Button variant="outline-dark" onClick={changePageNext}>
+            Next Page
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function MyVerticallyCenteredModal(props) {
   return (
     <Modal
@@ -32,35 +76,10 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h3>What is Binary Search Tree ?</h3>
-        <p>
-          簡單來說就是，任一個節點的
-          <span style={{ color: "#4874b1" }}>左子樹都比父節點小</span> ，
-          <span style={{ color: "#4874b1" }}>右子樹都比父節點大</span>
-          ，
-          <br />
-          且每一個節點的值都不重複。所以當我們要查找資料的時候，就可以從根節點開始，
-          <br />
-          比根節點<span style={{ color: "#4874b1" }}>小的就從左子樹</span>
-          開始找，比較<span style={{ color: "#4874b1" }}>大的就從右子樹</span>
-          開始找。
-          <br />
-          相對於其他資料結構而言，尋找、插入的時間複雜度較低，為Ｏ(logN)。
-        </p>
-        <h3>How can we use Binary Search Tree ?</h3>
-        <p>我們可以把資料建立成Binary Search Tree，以降低我們搜尋的時間</p>
-        <h3>About function</h3>
-        <p>
-          Random: 可隨機新增一顆樹
-          <br />
-          Clear: 刪除整棵樹
-          <br />
-          Hide: 叫出記錄表()
-          <br />
-        </p>
+        <Showpdf />
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="outline-dark" onClick={props.onHide}>
           Try it!
         </Button>
       </Modal.Footer>
@@ -97,43 +116,51 @@ function InorderIntroduction(props) {
               以下圖為例
               <br />
             </p>
+            <img src="/Img/traversal.png" />
           </div>
-          <div>
-            <h3>Inorder Algo</h3>
-            <p>
-              <img src="/Img/Inorder.png" />
-            </p>
-          </div>
-        </div>
-        <div className="traversalbox">
-          <img src="/Img/traversal.png" />
           <div>
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
             <br />
-            L(Node 4 有左子樹) D(Node 4 印出4)
+            L(Node 4 有左子樹)
             <br />
-            L(Node 5 有左子樹) R(Node 4 有右子樹)
+            L(Node 5 有左子樹)
             <br />
-            L(Node 2 沒左子樹) L(Node 3 沒左子樹)
+            L(Node 2 沒左子樹)
             <br />
-            D(Node 2 印出2) &nbsp;&nbsp;&nbsp;&nbsp; D(Node 3 印出3)
+            D(Node 2 印出2)
             <br />
-            R(Node 2 沒右子樹) R(Node 3 有右子樹)
+            R(Node 2 沒右子樹)
             <br />
-            D(Node 5 印出5) &nbsp;&nbsp;&nbsp;&nbsp; L(Node 6 沒左子樹)
+            D(Node 5 印出5)
             <br />
-            R(Node 5 有右子樹) D(Node 6 印出6)
+            R(Node 5 有右子樹)
             <br />
-            L(Node 1 沒左子樹) R(Node 3 沒右子樹)
+            L(Node 1 沒左子樹)
             <br />
             D(Node 1 印出1)
             <br />
             R(Node 1 沒右子樹)
+            <br />
+            D(Node 4 印出4)
+            <br />
+            R(Node 4 有右子樹)
+            <br />
+            L(Node 3 沒左子樹)
+            <br />
+            D(Node 3 印出3)
+            <br />
+            R(Node 3 有右子樹)
+            <br />
+            L(Node 6 沒左子樹)
+            <br />
+            D(Node 6 印出6)
+            <br />
+            R(Node 3 沒右子樹)
           </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="outline-dark" onClick={props.onHide}>
           Close
         </Button>
       </Modal.Footer>
@@ -170,43 +197,51 @@ function PreorderIntroduction(props) {
               以下圖為例
               <br />
             </p>
+            <img src="/Img/traversal.png" />
           </div>
-          <div>
-            <h3>Preorder Algo</h3>
-            <p>
-              <img src="/Img/Preorder.png" />
-            </p>
-          </div>
-        </div>
-        <div className="traversalbox">
-          <img src="/Img/traversal.png" />
           <div>
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
             <br />
-            D(Node 4 印出4)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; R(Node 1 沒右子樹)
+            D(Node 4 印出4)
             <br />
-            L(Node 4 有左子樹) R(Node 4 有右子樹)
+            L(Node 4 有左子樹)
             <br />
-            D(Node 5 印出5)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D(Node 3 印出3)
+            D(Node 5 印出5)
             <br />
-            L(Node 5 有左子樹) L(Node 3 沒左子樹)
+            L(Node 5 有左子樹)
             <br />
-            D(Node 2 印出2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; R(Node 3 有右子樹)
+            D(Node 2 印出2)
             <br />
-            L(Node 2 沒左子樹) D(Node 6 印出6)
+            L(Node 2 沒左子樹)
             <br />
-            R(Node 2 沒右子樹) L(Node 6 沒左子樹)
+            R(Node 2 沒右子樹)
             <br />
-            R(Node 5 有右子樹) R(Node 6 沒右子樹)
+            R(Node 5 有右子樹)
             <br />
             D(Node 1 印出1)
             <br />
             L(Node 1 沒左子樹)
+            <br />
+            R(Node 1 沒右子樹)
+            <br />
+            R(Node 4 有右子樹)
+            <br />
+            D(Node 3 印出3)
+            <br />
+            L(Node 3 沒左子樹)
+            <br />
+            R(Node 3 有右子樹)
+            <br />
+            D(Node 6 印出6)
+            <br />
+            L(Node 6 沒左子樹)
+            <br />
+            R(Node 6 沒右子樹)
           </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="outline-dark" onClick={props.onHide}>
           Close
         </Button>
       </Modal.Footer>
@@ -243,43 +278,50 @@ function PostorderIntroduction(props) {
               以下圖為例
               <br />
             </p>
+            <img src="/Img/traversal.png" />
           </div>
-          <div>
-            <h3>Inorder Algo</h3>
-            <p>
-              <img src="/Img/Postorder.png" />
-            </p>
-          </div>
-        </div>
-        <div className="traversalbox">
-          <img src="/Img/traversal.png" />
           <div>
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
             <br />
-            L(Node 4 有左子樹) L(Node 3 沒左子樹)
+            L(Node 4 有左子樹)
             <br />
-            L(Node 5 有左子樹) R(Node 3 有右子樹)
+            L(Node 5 有左子樹)
             <br />
-            L(Node 2 沒左子樹) L(Node 6 沒左子樹)
+            L(Node 2 沒左子樹)
             <br />
-            R(Node 2 沒右子樹) R(Node 6 有右子樹)
+            R(Node 2 沒右子樹)
             <br />
-            D(Node 2 印出2) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D(Node 6 印出6)
+            D(Node 2 印出2)
             <br />
-            R(Node 5 有右子樹) D(Node 3 印出3)
+            R(Node 5 有右子樹)
             <br />
-            L(Node 1 沒左子樹)&nbsp; D(Node 4 印出4)
+            L(Node 1 沒左子樹)
             <br />
             R(Node 1 沒右子樹)
             <br />
             D(Node 1 印出1)
             <br />
             R(Node 4 有右子樹)
+            <br />
+            L(Node 3 沒左子樹)
+            <br />
+            R(Node 3 有右子樹)
+            <br />
+            L(Node 6 沒左子樹)
+            <br />
+            R(Node 6 有右子樹)
+            <br />
+            D(Node 6 印出6)
+            <br />
+            D(Node 3 印出3)
+            <br />
+            D(Node 4 印出4)
+            <br />
           </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="outline-dark" onClick={props.onHide}>
           Close
         </Button>
       </Modal.Footer>
@@ -312,12 +354,19 @@ function BST() {
   const [open, setOpen] = useState("hide");
 
   let tmp = [...record];
+
+  const [numVal, setNumVal] = useState("");
+  const handleChange = (val) => {
+    val = val.replace(/[^0-9,]+/g, "");
+    setNumVal(val);
+  };
   return (
     <div className="A2">
       <div className="bst">
         <div className="hintContainer">
           <div className="loader"></div>
           <img
+            id="A2_BST_Hint"
             className="hint"
             src="/Img/hint.gif"
             onClick={() => setModalShow(true)}
@@ -327,7 +376,8 @@ function BST() {
         <div className="Input">
           <div className="InputGroup">
             <Button
-              variant="secondary"
+              id="BST_Demonstrate_Random"
+              variant="outline-dark"
               onClick={() => {
                 generateRandomTree(getRandom(5, 10));
                 setRecord((prevArray) => [
@@ -335,7 +385,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {"Random \n"}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -353,7 +403,8 @@ function BST() {
               Random
             </Button>
             <Button
-              variant="secondary"
+              id="BST_Demonstrate_Clear"
+              variant="outline-dark"
               onClick={() => {
                 clear();
                 setRecord((prevArray) => [
@@ -361,7 +412,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {"Clear \n"}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -387,7 +438,8 @@ function BST() {
               }
             />
             <Button
-              variant="secondary"
+              id={`BST_Demonstrate_Search_${bstsearchValue}`}
+              variant="outline-dark"
               onClick={() => {
                 search(bstsearchValue);
                 setRecord((prevArray) => [
@@ -395,7 +447,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {`Search  ${bstsearchValue} \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -419,7 +471,8 @@ function BST() {
               }
             />
             <Button
-              variant="secondary"
+              id={`BST_Demonstrate_Insert_${bstinsertValue}`}
+              variant="outline-dark"
               onClick={() => {
                 insert(bstinsertValue);
                 search(bstinsertValue);
@@ -428,7 +481,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {`Insert  ${bstinsertValue} \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -452,7 +505,8 @@ function BST() {
               }
             />
             <Button
-              variant="secondary"
+              id={`BST_Demonstrate_Remove_${bstremoveValue}`}
+              variant="outline-dark"
               onClick={() => {
                 search(bstremoveValue);
                 setTimeout(() => {
@@ -463,7 +517,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {`Remove  ${bstremoveValue} \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -482,16 +536,71 @@ function BST() {
             </Button>
           </div>
           <div className="InputGroup">
+            <input
+              style={{ width: "300px" }}
+              type="text"
+              value={numVal}
+              onChange={(e) => handleChange(e.target.value)}
+            />
+            <Button
+              id={`BST_Demonstrate_Create_${numVal}`}
+              variant="outline-dark"
+              onClick={() => {
+                clear();
+                let tmparr = numVal.split(",");
+                setRecord((prevArray) => [
+                  ...record,
+                  <div>
+                    <p className="recordP">
+                      {`Creat \n`}
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
+                        {new Date().toLocaleTimeString() +
+                          "\n" +
+                          new Date().getFullYear() +
+                          "年" +
+                          (new Date().getMonth() + 1) +
+                          "月" +
+                          new Date().getDate() +
+                          "日"}
+                      </span>
+                    </p>
+                  </div>,
+                ]);
+                let i = 0;
+                let CreatTree = setInterval(() => {
+                  if (i === tmparr.length) {
+                    clearInterval(CreatTree);
+                  } else {
+                    insert(parseInt(tmparr[i]));
+                    search(parseInt(tmparr[i]));
+                    i++;
+                  }
+                }, 800);
+              }}
+            >
+              Create
+            </Button>
+          </div>
+          <div className="InputGroup">
             <div className="Inorder">
               <img
+                id="A2_BST_Demonstrate_Inorder_Hint"
                 className="hint"
                 src="/Img/hint.gif"
                 onClick={() => setinorderModalShow(true)}
               />
             </div>
             <Button
-              variant="secondary"
+              id="BST_Demonstrate_Inorder"
+              className="inbtn"
+              variant="outline-dark"
               onClick={() => {
+                let inbtn = document.querySelector(".inbtn");
+                let prebtn = document.querySelector(".prebtn");
+                let postbtn = document.querySelector(".postbtn");
+                inbtn.disabled = true;
+                prebtn.disabled = true;
+                postbtn.disabled = true;
                 let orderValue = getData("inorder");
                 setInorderValue(getData("inorder"));
                 setRecord((prevArray) => [
@@ -499,7 +608,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {`Inorder \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -515,10 +624,25 @@ function BST() {
                 let i = 0;
                 let Inordertraversal = setInterval(() => {
                   if (i > orderValue.length) {
+                    inbtn.disabled = false;
+                    prebtn.disabled = false;
+                    postbtn.disabled = false;
+                    let allnode = document.querySelectorAll(".normal");
+                    if (allnode) {
+                      allnode.forEach((e) => (e.style.textShadow = "none"));
+                    }
                     clearInterval(Inordertraversal);
+                  } else {
+                    let allnode = document.querySelectorAll(".normal");
+                    if (allnode) {
+                      allnode.forEach((e) => (e.style.textShadow = "none"));
+                    }
+                    search(parseInt(orderValue[i]));
+                    let thenode = document.querySelector(".highlight");
+                    thenode.style.textShadow =
+                      "rgb(255 255 255) 0px 0px 5px, rgb(255 255 255) 0px 0px 10px, rgb(255 0 0) 0px 0px 15px, #dc3545 0px 0px 20px, #dc3545 0px 0px 25px, #dc3545 0px 0px 30px, #dc3545 0px 0px 35px";
+                    i++;
                   }
-                  search(parseInt(orderValue[i]));
-                  i++;
                 }, 800);
               }}
             >
@@ -529,14 +653,23 @@ function BST() {
           <div className="InputGroup">
             <div className=" Preorder">
               <img
+                id="A2_BST_Demonstrate_Preorder_Hint"
                 className="hint"
                 src="/Img/hint.gif"
                 onClick={() => setpreorderModalShow(true)}
               />
             </div>
             <Button
-              variant="secondary"
+              id="BST_Demonstrate_Preorder"
+              className="prebtn"
+              variant="outline-dark"
               onClick={() => {
+                let inbtn = document.querySelector(".inbtn");
+                let prebtn = document.querySelector(".prebtn");
+                let postbtn = document.querySelector(".postbtn");
+                inbtn.disabled = true;
+                prebtn.disabled = true;
+                postbtn.disabled = true;
                 let orderValue = getData("preorder");
                 setPreorderValue(getData("preorder"));
                 setRecord((prevArray) => [
@@ -544,7 +677,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {`Preorder \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -560,10 +693,25 @@ function BST() {
                 let i = 0;
                 let Preordertraversal = setInterval(() => {
                   if (i > orderValue.length) {
+                    inbtn.disabled = false;
+                    prebtn.disabled = false;
+                    postbtn.disabled = false;
+                    let allnode = document.querySelectorAll(".normal");
+                    if (allnode) {
+                      allnode.forEach((e) => (e.style.textShadow = "none"));
+                    }
                     clearInterval(Preordertraversal);
+                  } else {
+                    let allnode = document.querySelectorAll(".normal");
+                    if (allnode) {
+                      allnode.forEach((e) => (e.style.textShadow = "none"));
+                    }
+                    search(parseInt(orderValue[i]));
+                    let thenode = document.querySelector(".highlight");
+                    thenode.style.textShadow =
+                      "0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00ccff, 0 0 20px #00ccff, 0 0 25px #00ccff, 0 0 30px #00ccff, 0 0 35px #00ccff";
+                    i++;
                   }
-                  search(parseInt(orderValue[i]));
-                  i++;
                 }, 800);
               }}
             >
@@ -574,14 +722,23 @@ function BST() {
           <div className="InputGroup">
             <div className=" Postorder">
               <img
+                id="A2_BST_Demonstrate_Postorder_Hint"
                 className="hint"
                 src="/Img/hint.gif"
                 onClick={() => setpostorderModalShow(true)}
               />
             </div>
             <Button
-              variant="secondary"
+              id="BST_Demonstrate_Postorder"
+              variant="outline-dark"
+              className="postbtn"
               onClick={() => {
+                let inbtn = document.querySelector(".inbtn");
+                let prebtn = document.querySelector(".prebtn");
+                let postbtn = document.querySelector(".postbtn");
+                inbtn.disabled = true;
+                prebtn.disabled = true;
+                postbtn.disabled = true;
                 let orderValue = getData("postorder");
                 setPostorderValue(getData("postorder"));
                 setRecord((prevArray) => [
@@ -589,7 +746,7 @@ function BST() {
                   <div>
                     <p className="recordP">
                       {`Postorder \n`}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -605,10 +762,25 @@ function BST() {
                 let i = 0;
                 let Postordertraversal = setInterval(() => {
                   if (i > orderValue.length) {
+                    inbtn.disabled = false;
+                    prebtn.disabled = false;
+                    postbtn.disabled = false;
+                    let allnode = document.querySelectorAll(".normal");
+                    if (allnode) {
+                      allnode.forEach((e) => (e.style.textShadow = "none"));
+                    }
                     clearInterval(Postordertraversal);
+                  } else {
+                    let allnode = document.querySelectorAll(".normal");
+                    if (allnode) {
+                      allnode.forEach((e) => (e.style.textShadow = "none"));
+                    }
+                    search(parseInt(orderValue[i]));
+                    let thenode = document.querySelector(".highlight");
+                    thenode.style.textShadow =
+                      "0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ffc107, 0 0 20px #ffc107, 0 0 25px #ffc107, 0 0 30px #ffc107, 0 0 35px #ffc107";
+                    i++;
                   }
-                  search(parseInt(orderValue[i]));
-                  i++;
                 }, 800);
               }}
             >
@@ -620,7 +792,8 @@ function BST() {
         <div className={`record ${open === "show" && "open"} `}>
           <div className="recordContainer">
             <Button
-              variant="secondary"
+              id={`A2_BST_Demonstrate_Recordtable_${open}`}
+              variant="outline-dark"
               onClick={() => {
                 if (open === "hide") {
                   setOpen("show");

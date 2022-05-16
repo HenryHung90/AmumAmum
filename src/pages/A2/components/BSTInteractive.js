@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { MDBContainer } from "mdbreact";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import A3_Headre from "./Header";
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -45,7 +44,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
   padding: grid * 2,
   margin: `0 ${grid}px 0 0 `,
-  background: isDragging ? "#6cb593" : "#889fad",
+  background: isDragging ? "rgb(155, 155, 155)" : "#fff",
   ...draggableStyle,
 });
 
@@ -86,7 +85,8 @@ class InReactBeautifulDndHorizontal extends React.Component {
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
         <Button
-          variant="secondary"
+          id="A2_BST_Interactive_InorderChange"
+          variant="outline-dark"
           style={{ marginBottom: "10px" }}
           disabled={disabled}
           onClick={() => {
@@ -96,9 +96,9 @@ class InReactBeautifulDndHorizontal extends React.Component {
         >
           Change
         </Button>
-        <div className="Dndcontainer">
+        <div className="Dndcontainer" id="BST_Interactive_Drag_Inorder">
           <DragDropContext onDragEnd={this.onDragEnd}>
-            <Droppable droppableId="droppable" direction="horizontal">
+            <Droppable id="Test" droppableId="droppable" direction="horizontal">
               {(provided, snapshot) => (
                 <div
                   {...provided.droppableProps}
@@ -167,7 +167,8 @@ class PreReactBeautifulDndHorizontal extends React.Component {
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
         <Button
-          variant="secondary"
+          id="A2_BST_Interactive_PreorderChange"
+          variant="outline-dark"
           style={{ marginBottom: "10px" }}
           disabled={disabled}
           onClick={() => {
@@ -177,7 +178,7 @@ class PreReactBeautifulDndHorizontal extends React.Component {
         >
           Change
         </Button>
-        <div className="Dndcontainer">
+        <div className="Dndcontainer" id="BST_Interactive_Drag_Preorder">
           <DragDropContext onDragEnd={this.onDragEnd}>
             <Droppable droppableId="droppable" direction="horizontal">
               {(provided, snapshot) => (
@@ -248,7 +249,8 @@ class PostReactBeautifulDndHorizontal extends React.Component {
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
         <Button
-          variant="secondary"
+          id="A2_BST_Interactive_PostorderChange"
+          variant="outline-dark"
           style={{ marginBottom: "10px" }}
           disabled={disabled}
           onClick={() => {
@@ -258,7 +260,7 @@ class PostReactBeautifulDndHorizontal extends React.Component {
         >
           Change
         </Button>
-        <div className="Dndcontainer">
+        <div className="Dndcontainer" id="BST_Interactive_Drag_Postorder">
           <DragDropContext onDragEnd={this.onDragEnd}>
             <Droppable droppableId="droppable" direction="horizontal">
               {(provided, snapshot) => (
@@ -334,7 +336,7 @@ function MyVerticallyCenteredModal(props) {
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="outline-dark" onClick={props.onHide}>
           Try it!
         </Button>
       </Modal.Footer>
@@ -355,6 +357,7 @@ function BSTInteractive() {
         <div className="hintContainer">
           <div className="loader"></div>
           <img
+            id="A2_BST_Gamerule"
             className="hint"
             src="/Img/hint.gif"
             onClick={() => setModalShow(true)}
@@ -365,7 +368,8 @@ function BSTInteractive() {
           <div className="bsttreecontainer">
             <BinarySearchTree data={arr} ref={ref} />
             <Button
-              variant="secondary"
+              id="BST_Interactive_Random"
+              variant="outline-dark"
               style={{ marginTop: "20px" }}
               onClick={() => {
                 async function newTree(params) {
@@ -391,7 +395,12 @@ function BSTInteractive() {
                   <div>
                     <p className="recordP">
                       {"Random \n"}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span
+                        style={{
+                          fontSize: "10px",
+                          color: "rgb(155, 155, 155)",
+                        }}
+                      >
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -414,7 +423,8 @@ function BSTInteractive() {
             <PreReactBeautifulDndHorizontal arr={tmpArr} />
             <PostReactBeautifulDndHorizontal arr={tmpArr} />
             <Button
-              variant="secondary"
+              id="A2_BST_Interactive_submit"
+              variant="outline-dark"
               style={{ marginTop: "20px" }}
               onClick={() => {
                 let inorderValue = getData("inorder");
@@ -478,7 +488,12 @@ function BSTInteractive() {
                   <div>
                     <p className="recordP">
                       {tmp}
-                      <span style={{ fontSize: "10px", color: "wheat" }}>
+                      <span
+                        style={{
+                          fontSize: "10px",
+                          color: "rgb(155, 155, 155)",
+                        }}
+                      >
                         {new Date().toLocaleTimeString() +
                           "\n" +
                           new Date().getFullYear() +
@@ -500,7 +515,8 @@ function BSTInteractive() {
         <div className={`record ${open === "show" && "open"} `}>
           <div className="recordContainer">
             <Button
-              variant="secondary"
+              id={`A2_BST_Interactive_Recordtable_${open}`}
+              variant="outline-dark"
               onClick={() => {
                 if (open === "hide") {
                   setOpen("show");

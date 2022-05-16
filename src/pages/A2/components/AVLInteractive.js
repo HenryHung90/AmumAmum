@@ -5,8 +5,7 @@ import { MDBContainer } from "mdbreact";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "@emotion/styled";
 import { v4 as uuidv4 } from "uuid";
-import TaskCard from "./TaskCard";
-import A3_Headr from "./Header";
+import TaskCard from "../../A3/components/TaskCard";
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -83,7 +82,7 @@ const TaskColumnStyles = styled.div`
 `;
 
 const Title = styled.span`
-  background: #889fad;
+  background: rgb(155, 155, 155);
   padding: 2px 10px;
   border-radius: 5px;
   align-self: flex-start;
@@ -138,7 +137,7 @@ function MyVerticallyCenteredModal(props) {
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="outline-dark" onClick={props.onHide}>
           Try it!
         </Button>
       </Modal.Footer>
@@ -232,6 +231,7 @@ function AVLinteractive() {
         <div className="hintContainer">
           <div className="loader"></div>
           <img
+            id="A2_AVL_Gamerule"
             className="hint"
             src="/Img/hint.gif"
             onClick={() => setModalShow(true)}
@@ -243,7 +243,7 @@ function AVLinteractive() {
             <Kanban />
             <div className="avlinteractiveButtons">
               {/* <Button
-                variant="secondary"
+                variant="outline-dark"
                 style={{ marginTop: "220px", position: "static" }}
                 onClick={() => {
                   // let old;
@@ -285,7 +285,8 @@ function AVLinteractive() {
                 Random
               </Button> */}
               <Button
-                variant="secondary"
+                id="A2_AVL_Interactive_submit"
+                variant="outline-dark"
                 style={{
                   marginLeft: "50px",
                   marginTop: "220px",
@@ -343,7 +344,12 @@ function AVLinteractive() {
                       <div>
                         <p className="recordP">
                           {"Correct \n"}
-                          <span style={{ fontSize: "10px", color: "wheat" }}>
+                          <span
+                            style={{
+                              fontSize: "10px",
+                              color: "rgb(155, 155, 155)",
+                            }}
+                          >
                             {new Date().toLocaleTimeString() +
                               "\n" +
                               new Date().getFullYear() +
@@ -362,7 +368,12 @@ function AVLinteractive() {
                       <div>
                         <p className="recordP">
                           {"Wrong \n"}
-                          <span style={{ fontSize: "10px", color: "wheat" }}>
+                          <span
+                            style={{
+                              fontSize: "10px",
+                              color: "rgb(155, 155, 155)",
+                            }}
+                          >
                             {new Date().toLocaleTimeString() +
                               "\n" +
                               new Date().getFullYear() +
@@ -400,7 +411,8 @@ function AVLinteractive() {
         <div className={`record ${open === "show" && "open"} `}>
           <div className="recordContainer">
             <Button
-              variant="secondary"
+              id={`A2_AVL_Demonstrate_Recordtable_${open}`}
+              variant="outline-dark"
               onClick={() => {
                 if (open === "hide") {
                   setOpen("show");

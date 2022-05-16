@@ -1,12 +1,12 @@
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import SelfInfo from "./components/SelfInfo";
-import EmailChange from './components/EmailChange';
-import PasswordChange from './components/PasswordChange';
+import EmailChange from "./components/EmailChange";
+import PasswordChange from "./components/PasswordChange";
 
-const Profile = ({ Logout }) => {
+const Profile = ({ Logout, UserToken }) => {
   return (
     <div>
-      <SelfInfo Logout={Logout}/>
+      <SelfInfo Logout={Logout} UserToken={UserToken} />
     </div>
   );
 };
