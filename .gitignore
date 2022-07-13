@@ -11,7 +11,6 @@
 # production
 /build
 node_modules
-.env
 test.http
 
 # misc
