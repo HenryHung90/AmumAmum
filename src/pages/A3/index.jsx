@@ -1,14 +1,80 @@
 import React from "react";
-import { Nav, Navbar, Container, Button } from "react-bootstrap";
+import { Nav, Navbar, Container, Button, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Home from "./components/Home";
-import Tree from "./components/Treedocument";
+import Tree from "../A1/components/Treedocument";
 import BST from "./components/BSTGame";
 import AVL from "./components/AVLGame";
 import RBT from "./components/RBTGame";
 import Robots from "./components/Robots";
+import Grade from "../Grade/components/Grade";
 import axios from "axios";
+import Note from "./components/Note";
 
+function BSTTEST(params) {
+  return (
+    <div className="testContainer">
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSfQiQz29af9rDxC0XJw65MTlgGa0ARVTRVYK8L6I95IQZv8Hw/viewform?embedded=true"
+        width="640"
+        height="4556"
+        frameBorder="0"
+        marginHeight="0"
+        marginWidth="0"
+      >
+        載入中…
+      </iframe>
+    </div>
+  );
+}
+function AVLTEST(params) {
+  return (
+    <div className="testContainer">
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSeOS0jLLO6VG-Gb9XUJ73rMhr8qBBk5DoCj3XmdSJVxbWA1Yw/viewform?embedded=true"
+        width="640"
+        height="4556"
+        frameBorder="0"
+        marginHeight="0"
+        marginWidth="0"
+      >
+        載入中…
+      </iframe>
+    </div>
+  );
+}
+function RBTTEST(params) {
+  return (
+    <div className="testContainer">
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSd6BogVec0_Fnkit5c-oZOiTzXn8e7480LzbM-cdezgeOMi8g/viewform?embedded=true"
+        width="640"
+        height="4556"
+        frameBorder="0"
+        marginHeight="0"
+        marginWidth="0"
+      >
+        載入中…
+      </iframe>
+    </div>
+  );
+}
+function MIXEDTEST(params) {
+  return (
+    <div className="testContainer">
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSd6e6BWDc7ePfG_5hgO3SzLOq6at3_WawwnGlIjkQdQgu9rtg/viewform?embedded=true"
+        width="640"
+        height="4556"
+        frameBorder="0"
+        marginHeight="0"
+        marginWidth="0"
+      >
+        載入中…
+      </iframe>
+    </div>
+  );
+}
 class A3 extends React.Component {
   constructor(props) {
     super(props);
@@ -117,6 +183,9 @@ class A3 extends React.Component {
       case "第三章:RBT 紅黑樹":
         this.handle(<RBT />);
         break;
+      case "從網頁修改筆記":
+        this.handle(<Note />);
+        break;
       default:
         break;
     }
@@ -222,8 +291,6 @@ class A3 extends React.Component {
       ["A3_Test", "A3_到測驗頁面"],
       ["A3_Profile", "A3_回到個人檔案頁面"],
       //PDF
-      ["canvas", "A3_教學文件"],
-      ["span", "A3_教學文件文字"],
       ["A3_PDF_BST_PreviousPage", "A3_BST教學文件上一頁"],
       ["A3_PDF_BST_NextPage", "A3_BST教學文件下一頁"],
       ["A3_PDF_AVL_PreviousPage", "A3_AVL教學文件上一頁"],
@@ -231,23 +298,29 @@ class A3 extends React.Component {
       ["A3_PDF_RBT_PreviousPage", "A3_RBT教學文件上一頁"],
       ["A3_PDF_RBT_NextPage", "A3_RBT教學文件下一頁"],
       //BST
+      ["A3_BST_GameDifficulty_4", "A3_BST遊戲難度設定簡單"],
+      ["A3_BST_GameDifficulty_6", "A3_BST遊戲難度設定普通"],
+      ["A3_BST_GameDifficulty_8", "A3_BST遊戲難度設定困難"],
+      ["A3_BST_Game_Restart", "A3_BST遊戲重新開始"],
+      ["A3_BST_Gamerule", "A3_BST遊戲規則"],
       ["A3_BST_Hint", "A3_BST教學"],
-      ["A3_BST_Gamerule", "A3_BST遊戲教學"],
-      ["A3_BST_GameStart", "A3_BST遊戲開始"],
-      ["A3_BST_GameRestart", "A3_BST遊戲重新開始"],
+      ["A3_BST_Game_Start", "A3_BST遊戲開始"],
       //AVL
+      ["A3_AVL_GameDifficulty_4", "A3_AVL遊戲難度設定簡單"],
+      ["A3_AVL_GameDifficulty_6", "A3_AVL遊戲難度設定普通"],
+      ["A3_AVL_GameDifficulty_8", "A3_AVL遊戲難度設定困難"],
+      ["A3_AVL_Game_Restart", "A3_AVL遊戲重新開始"],
+      ["A3_AVL_Gamerule", "A3_AVL遊戲規則"],
       ["A3_AVL_Hint", "A3_AVL教學"],
-      ["A3_AVL_Gamerule", "A3_AVL遊戲教學"],
-      ["A3_AVL_GameDifficulty_4", "A3_AVL遊戲難度簡單"],
-      ["A3_AVL_GameDifficulty_6", "A3_AVL遊戲難度一般"],
-      ["A3_AVL_GameDifficulty_8", "A3_AVL遊戲難度困難"],
-      ["A3_AVL_GameStart", "A3_AVL遊戲開始"],
-      ["A3_AVL_GameRestart", "A3_AVL遊戲重新開始"],
+      ["A3_AVL_Game_Start", "A3_AVL遊戲開始"],
       //RBT
-      ["A3_RBT_Gamerule", "A3_RBT教學"],
-      ["A3_RBT_Hint", "A3_RBT遊戲教學"],
-      ["A3_RBT_GameStart", "A3_RBT遊戲開始"],
-      ["A3_RBT_GameRestart", "A3_RBT遊戲重新開始"],
+      ["A3_RBT_GameDifficulty_4", "A3_RBT遊戲難度設定簡單"],
+      ["A3_RBT_GameDifficulty_6", "A3_RBT遊戲難度設定普通"],
+      ["A3_RBT_GameDifficulty_8", "A3_RBT遊戲難度設定困難"],
+      ["A3_RBT_Game_Restart", "A3_RBT遊戲重新開始"],
+      ["A3_RBT_Gamerule", "A3_RBT遊戲規則"],
+      ["A3_RBT_Hint", "A3_RBT教學"],
+      ["A3_RBT_Game_Start", "A3_RBT遊戲開始"],
     ]);
 
     //儲存抓到的名稱
@@ -264,8 +337,8 @@ class A3 extends React.Component {
       } else {
         //遊戲選項
         let GameOption = ContainerKey.split("_");
-        if (GameOption[1] === "Insert" || GameOption[1] === "Remove") {
-          let OptionInput = GameOption.join(" ");
+        if (GameOption[1] === "Game") {
+          let OptionInput = GameOption[0] + "遊戲選項 " + GameOption[3];
           UserInput.Mark.Operating.Text.push(OptionInput);
           UserInput.Mark.Operating.Time.push(UserClickTime);
           //描述儲存
@@ -274,7 +347,7 @@ class A3 extends React.Component {
         }
       }
       //儲存完畢 上傳session
-      //console.log(UserInput);
+      console.log(UserInput);
       sessionStorage.setItem("UserInput", JSON.stringify(UserInput));
     }
   };
@@ -283,7 +356,7 @@ class A3 extends React.Component {
     return (
       <div className="A3">
         <div>
-          <Navbar expand="lg" variant="dark" sticky="top" className="Header">
+          <Navbar expand="lg" variant="light" sticky="top" className="Header">
             <Container>
               <div
                 onClick={() => {
@@ -359,17 +432,70 @@ class A3 extends React.Component {
                   >
                     Red Black Tree
                   </Button>
+                  <NavDropdown
+                    title="Test"
+                    id="basic-nav-dropdown"
+                    style={{ marginRight: "20px" }}
+                  >
+                    <NavDropdown.Item
+                      id="A3_Test"
+                      onClick={() => {
+                        this.handle(<BSTTEST />);
+                      }}
+                    >
+                      BST Test
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      onClick={() => {
+                        this.handle(<AVLTEST />);
+                      }}
+                      id="A3_Test"
+                    >
+                      AVL Test
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      onClick={() => {
+                        this.handle(<RBTTEST />);
+                      }}
+                      id="A3_Test"
+                    >
+                      RBT Test
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      onClick={() => {
+                        this.handle(<MIXEDTEST />);
+                      }}
+                      id="A3_Test"
+                    >
+                      Mixed Test
+                    </NavDropdown.Item>
+                  </NavDropdown>
+
                   <Button
                     variant="outline-dark"
-                    href="https://forms.gle/SQc3WPkFbmaEtG9KA"
-                    target="_blank"
+                    onClick={() => {
+                      this.handle(<Grade />);
+                    }}
                     style={{
                       textDecoration: "none",
                       cursor: "pointer",
                     }}
-                    id="A3_Test"
+                    id="A3_Grade"
                   >
-                    Test
+                    Grade
+                  </Button>
+                  <Button
+                    variant="outline-dark"
+                    onClick={() => {
+                      this.handle(<Note />);
+                    }}
+                    style={{
+                      textDecoration: "none",
+                      cursor: "pointer",
+                    }}
+                    id="A3_Note"
+                  >
+                    Note
                   </Button>
                 </Nav>
               </Navbar.Collapse>
@@ -381,11 +507,7 @@ class A3 extends React.Component {
                     marginRight: "20px",
                   }}
                 >
-                  <img
-                    src="https://img.icons8.com/ios/50/000000/user--v2.png"
-                    id="A3_Profile"
-                    alt="Profile"
-                  />
+                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAEpElEQVR4nO2bbYhVRRjHf9fdjWXR0lxRaTPfwkwJV8TCSnRVVKywNEIlXfSLoJUGWRSIvXwoiEgTUlcRFdECe0XUb75QoSAqlIjWaopaJqLoqtvL3j485/DM2Ze795x7ZmZd7w8ue++cOfP8Z86cmWeemYUiRYrczWQ82OwOvAIMB34DNgR/7wp6AKeArPH5F9gGjPCoyxkfoBU/AzQZv5uAXcA4b+ocsBOp7C/I6zcc2AL8Q7RX/ARMB7r4kWmPtUgFrwPlRvpDwCqggWhDHAdqgXvcyrTH82jlnm3leiWwArhMtCEuBun3uZFpjwr0Ka/Pka8r8BpwlmhDXANWAn3tyrTLN0hl/gJK28lbBsxFxgyzIW4Dm4HB9mTaoxatyNg87+mCvDI/Em2Iv5GGGJa+THv0REf9TxLcPx7YTbQhmpCe9XBKGq3yGHAJEf5rAeVUA9sRRypsiCvA0EIF2qI3sI6o4JMplDsIqEOdqp0plJkqGWAxMoKb7u8G4IEU7awPym4ESlIstyB6Ad8TfVd3YKebfow2bpmF8mMzDriAVv4sMMmSrQrgz8DOD5ZsxGIGcAut/JfA/RbtLTZsvWTRTl4sBf5D38d5lu2VAvXorOL1/X+H6JTkYmk7x7C50IG9NqlFp6JzwCMObGaAY+iCqTx3dnvUIN09i6zkHnVk9xn06b/pyGYL+gNX0XX+4w5t70NXiV6WyiXAfnSOn+7Q9hj06X/o0G6Etw0Rnzm2/R26NPYSHxiIvvdHcTsADUMH3DUO7UbYinb9UY5tb0LdXi9BkWrU2dmaUpmDkNXiHqAqR75+SCAkC3yRku3YfB0IuIVEdAuhP/JEzdD45znyf2rkG1mg7UT0QcXWFVBOBfAucJNodCcL3EC20JpTGVzLIj3FC8tQoaMTllEDnDbKaUJ6lbmoWdrKfSuM6zUJbRfMcXTkj0sFEtY2t8QOA08E1zPAiSD9FNGdoa7ofsHBJMLToAoVvizmvQNQvz30Gl+l5erN7AXTjPQlRvoLcYWnxSxDRByX9yngD+PeQ7Qdwe2Guta7g7Qy4Pcg7QQe9wxXByIayH+/biY6bWWR0FV7IatV6NgwHnjduH9BbNUpciAQsS/P/LPRGaMRmJ/nfYMRF7f57HAGzxul4ci9MY+8M9AQeAMwMaatBUR7zhXgyZhlpEoGfSrvtZN3BDpf30C6cRIGIg0xF/EBvFKOPo23cuSrRLpq6KtPtS/NDSVoA7yRI9+mPPPdkYQD2vttXK9BnZxvXYlyyUWkcutauZYBfkadnAcd6nJGGIPb28q1iXSAAKVt6pAKXqXlIcuvyL2S6xTMR59ytZF+Lzo+rPWgKzFxfepdSCUhesrrafS8T4fbn0+bI+iiJHwNzC2xO+oEV5JVVegGDwEmBN/DGN5lZKbo1HRDT3uEi6LQ+bnkS1RSkvSA62gvGIu4uo3B7/bO/XUaeqDhqXrgI3T93tOjLqeYoat64/tzPkW5pBQNkJif1T5FuaYKOfPbPKbvfe3ukim0/IeH5V4VeeBldK8wC5ynAx1WdMUiNBZwm070Xx5xmIwcX3/Rt5AiRYoUyYf/Afajg+opGChMAAAAAElFTkSuQmCC" />
                 </Link>
               </Nav>
             </Container>

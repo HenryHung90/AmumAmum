@@ -12,15 +12,18 @@ import A2 from "./pages/A2";
 import A3 from "./pages/A3";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
-import Gateway from "./pages/Gateway";
+import Error from "./pages/Error";
+import AdminGrades from "./pages/AdminGrades";
+import AboutUs from "./pages/AboutUs";
 import axios from "axios";
 DialogflowSetting();
 
 const Container = () => {
   ///////////////Login審查/////////
   const [user, setUser] = useState(false);
+  const [userAccess, setUserAccess] = useState("");
   ///////////////LoginUser存取//////
-  const [admin, setAdmin] = useState(true);
+  const [admin, setAdmin] = useState(false);
   ///////////////資料設定///////////
   const [userData, setUserData] = useState(null);
   ////////////////////////////////
@@ -29,7 +32,6 @@ const Container = () => {
     sessionStorage.removeItem("UserInput");
     setUser(false);
     setUserData(null);
-    <Navigate to="/login" />;
   };
   /////////////////////////////////
   //人員審查
@@ -46,19 +48,32 @@ const Container = () => {
   useEffect(() => {
     const GetSid = sessionStorage.getItem("Sid");
 
-    if (GetSid != null || GetSid != "null") {
+    if (GetSid !== null || GetSid !== "null") {
       axios({
         method: "POST",
         data: {
           _id: GetSid,
         },
         withCredentials: true,
-        url: process.env.REACT_APP_AXIOS_CHECKUSER,
-      }).then((response) => {
-        setUser(response.data);
-      });
+        url: process.env.REACT_APP_AXIOS_USERINFO,
+      })
+        .then((response) => {
+          if (response.data === false) {
+            return;
+          }
+          setUserAccess(response.data.Access);
+          if (response.data.Access === "Admin") {
+            setAdmin(true);
+          }
+          setUserData(response.data);
+          setUser(true);
+        })
+        .then((response) => {
+          <Navigate to={window.location.pathname} />;
+        });
     }
-  }, []);
+  }, [user]);
+
   ////////////////////////////////
   // 監聽視窗事件->儲存使用者行為
   // window.onbeforeunload = (e) => {
@@ -105,74 +120,105 @@ const Container = () => {
   // };
   // check();
   ////////////////////////////////////////////////////////////////
-  return (
-    <Router>
-      <Routes>
-        {!user && (
-          <>
-            <Route
-              path="/Login"
-              element={
-                <Login
-                  User={() => {
-                    setUser(true);
-                  }}
-                />
-              }
-            />
-          </>
-        )}
-        {user && (
-          <>
-            <Route
-              path="/Profile"
-              element={<Profile Logout={SetLogout} UserToken={userData} />}
-            />
-          </>
-        )}
-        {userData != null && (
-          <>
-            {userData.Access === "1" && (
-              <Route path="/A1" element={<A1 UserToken={userData} />} />
-            )}
-            {userData.Access === "2" && (
-              <Route path="/A2" element={<A2 UserToken={userData} />} />
-            )}
-            {userData.Access === "3" && (
-              <Route path="/A3" element={<A3 UserToken={userData} />} />
-            )}
-          </>
-        )}
-
-        {/* 防止輸入網址跑走 */}
-        {/* <Route
-          path="*"
-          element={<Navigate to={user ? "/Profile" : "Login"} />}
+  if (user === true) {
+    return (
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={<Profile Logout={SetLogout} UserToken={userData} />}
           />
-        <Route path="/Admin" element={<Admin />} /> */}
-        <Route
-          path="/Gateway"
-          element={
-            <Gateway
-              Location={window.location.pathname}
-              UserToken={setUserData}
-              User={() => setUser(true)}
-            />
-          }
-        />
-        {/* <Route
-          path="*"
-          element={
-            <Gateway
-              Location={window.location.pathname}
-              UserToken={setUserData}
-              User={() => setUser(true)}
-            />
-          }
-        /> */}
-      </Routes>
-    </Router>
-  );
+          <Route
+            path="/Profile"
+            element={<Profile Logout={SetLogout} UserToken={userData} />}
+          />
+          <Route path="/Grade" element={<A1 UserToken={userData} />} />
+          <Route path="/AboutUs" element={<AboutUs />} />
+          {userAccess === "1" && (
+            <Route path="/A1" element={<A1 UserToken={userData} />} />
+          )}
+          {userAccess === "2" && (
+            <Route path="/A2" element={<A2 UserToken={userData} />} />
+          )}
+          {userAccess === "3" && (
+            <Route path="/A3" element={<A3 UserToken={userData} />} />
+          )}
+          {userAccess === "12" && (
+            <>
+              <Route path="/A1" element={<A1 UserToken={userData} />} />
+              <Route path="/A2" element={<A2 UserToken={userData} />} />
+            </>
+          )}
+          {userAccess === "13" && (
+            <>
+              <Route path="/A1" element={<A2 UserToken={userData} />} />
+              <Route path="/A3" element={<A3 UserToken={userData} />} />
+            </>
+          )}
+          {userAccess === "23" && (
+            <>
+              <Route path="/A2" element={<A2 UserToken={userData} />} />
+              <Route path="/A3" element={<A3 UserToken={userData} />} />
+            </>
+          )}
+          {userAccess === "123" && (
+            <>
+              <Route path="/A1" element={<A1 UserToken={userData} />} />
+              <Route path="/A2" element={<A2 UserToken={userData} />} />
+              <Route path="/A3" element={<A3 UserToken={userData} />} />
+            </>
+          )}
+          {admin && (
+            <>
+              <Route path="/A1" element={<A1 UserToken={userData} />} />
+              <Route path="/A2" element={<A2 UserToken={userData} />} />
+              <Route path="/A3" element={<A3 UserToken={userData} />} />
+              <Route path="/Admin" element={<Admin />} />
+              <Route path="/AdminGrade" element={<AdminGrades />} />
+            </>
+          )}
+          <Route path="*" element={<Error />} />
+        </Routes>
+      </Router>
+    );
+  } else {
+    return (
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Login
+                User={() => {
+                  setUser(true);
+                }}
+              />
+            }
+          />
+          <Route
+            path="/Profile"
+            element={
+              <Login
+                User={() => {
+                  setUser(true);
+                }}
+              />
+            }
+          />
+          <Route path="*" element={<Error />} />
+        </Routes>
+      </Router>
+    );
+  }
+
+  // <Route path="/Gateway" element={
+  //           <Gateway
+  //             Location={window.location.pathname}
+  //             UserToken={setUserData}
+  //             User={() => setUser(true)}
+  //           />
+  //         }
+  //       />
 };
 
 function DialogflowSetting() {

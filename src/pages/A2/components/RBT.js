@@ -1,10 +1,9 @@
 import React from "react";
 import { useState } from "react";
-import { Button, Modal, Carousel } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { RedBlackTree, useRedBlackTree } from "react-tree-vis";
 import { MDBContainer } from "mdbreact";
-import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
-
+import RBTdocument from "../../A1/components/RBTdocument";
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -19,46 +18,6 @@ for (let i = 0; i < getRandom(5, 10); i++) {
   arr.push(tmp);
 }
 
-function Showpdf() {
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  function onDoucumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-    setPageNumber(1);
-  }
-  function changePage(offset) {
-    setPageNumber((prePageNumber) => prePageNumber + offset);
-  }
-  function changePageBack() {
-    changePage(-1);
-  }
-  function changePageNext() {
-    changePage(+1);
-  }
-  return (
-    <div className="pdfcontainer">
-      <Document file="/RedBlackTree.pdf" onLoadSuccess={onDoucumentLoadSuccess}>
-        <Page height="1000" pageNumber={pageNumber} />
-      </Document>
-      <p>
-        Page {pageNumber} of {numPages}
-      </p>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        {pageNumber > 1 && (
-          <Button variant="outline-dark" onClick={changePageBack}>
-            Previous Page
-          </Button>
-        )}
-        {pageNumber < numPages && (
-          <Button variant="outline-dark" onClick={changePageNext}>
-            Next Page
-          </Button>
-        )}
-      </div>
-    </div>
-  );
-}
 function MyVerticallyCenteredModal(props) {
   return (
     <Modal
@@ -73,7 +32,7 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Showpdf />
+        <RBTdocument />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>
@@ -333,6 +292,46 @@ function Traversal(orderValue) {
   }
   return print;
 }
+function buttonDisabledTrue() {
+  let Random = document.querySelector(".A2-Random");
+  let Clear = document.querySelector(".A2-Clear");
+  let Search = document.querySelector(".A2-Search");
+  let Insert = document.querySelector(".A2-Insert");
+  let Remove = document.querySelector(".A2-Remove");
+  let Create = document.querySelector(".A2-Create");
+  let inbtn = document.querySelector(".inbtn");
+  let prebtn = document.querySelector(".prebtn");
+  let postbtn = document.querySelector(".postbtn");
+  inbtn.disabled = true;
+  prebtn.disabled = true;
+  postbtn.disabled = true;
+  Random.disabled = true;
+  Clear.disabled = true;
+  Search.disabled = true;
+  Insert.disabled = true;
+  Remove.disabled = true;
+  Create.disabled = true;
+}
+function buttonDisabledFalse() {
+  let Random = document.querySelector(".A2-Random");
+  let Clear = document.querySelector(".A2-Clear");
+  let Search = document.querySelector(".A2-Search");
+  let Insert = document.querySelector(".A2-Insert");
+  let Remove = document.querySelector(".A2-Remove");
+  let Create = document.querySelector(".A2-Create");
+  let inbtn = document.querySelector(".inbtn");
+  let prebtn = document.querySelector(".prebtn");
+  let postbtn = document.querySelector(".postbtn");
+  inbtn.disabled = false;
+  prebtn.disabled = false;
+  postbtn.disabled = false;
+  Random.disabled = false;
+  Clear.disabled = false;
+  Search.disabled = false;
+  Insert.disabled = false;
+  Remove.disabled = false;
+  Create.disabled = false;
+}
 function RBT() {
   const { ref, insert, remove, getData, search, clear, generateRandomTree } =
     useRedBlackTree();
@@ -363,7 +362,6 @@ function RBT() {
         <div className="hintContainer">
           <div className="loader"></div>
           <img
-            id="A2_RBT_Hint"
             className="hint"
             src="/Img/hint.gif"
             onClick={() => setModalShow(true)}
@@ -373,7 +371,7 @@ function RBT() {
         <div className="Input">
           <div className="InputGroup">
             <Button
-              id="RBT_Demonstrate_Random"
+              className="A2-Random"
               variant="outline-dark"
               onClick={() => {
                 generateRandomTree(getRandom(5, 10));
@@ -405,7 +403,7 @@ function RBT() {
               Random
             </Button>
             <Button
-              id="RBT_Demonstrate_Clear"
+              className="A2-Clear"
               variant="outline-dark"
               onClick={() => {
                 clear();
@@ -445,7 +443,7 @@ function RBT() {
               }
             />
             <Button
-              id={`RBT_Demonstrate_Search_${rbtsearchValue}`}
+              className="A2-Search"
               variant="outline-dark"
               onClick={() => {
                 search(rbtsearchValue);
@@ -483,7 +481,7 @@ function RBT() {
               }
             />
             <Button
-              id={`RBT_Demonstrate_Insert_${rbtinsertValue}`}
+              className="A2-Insert"
               variant="outline-dark"
               onClick={() => {
                 insert(rbtinsertValue);
@@ -522,7 +520,7 @@ function RBT() {
               }
             />
             <Button
-              id={`RBT_Demonstrate_Remove_${rbtremoveValue}`}
+              className="A2-Remove"
               variant="outline-dark"
               onClick={() => {
                 search(rbtremoveValue);
@@ -565,9 +563,10 @@ function RBT() {
               onChange={(e) => handleChange(e.target.value)}
             />
             <Button
-              id={`RBT_Demonstrate_Create_${numVal}`}
+              className="A2-Create"
               variant="outline-dark"
               onClick={() => {
+                buttonDisabledTrue();
                 clear();
                 let tmparr = numVal.split(",");
                 setRecord((prevArray) => [
@@ -592,6 +591,7 @@ function RBT() {
                 let CreatTree = setInterval(() => {
                   if (i === tmparr.length) {
                     clearInterval(CreatTree);
+                    buttonDisabledFalse();
                   } else {
                     insert(parseInt(tmparr[i]));
                     search(parseInt(tmparr[i]));
@@ -606,23 +606,19 @@ function RBT() {
           <div className="InputGroup">
             <div className="Inorder">
               <img
-                id="A2_RBT_Demonstrate_Inorder_Hint"
                 className="hint"
                 src="/Img/hint.gif"
                 onClick={() => setinorderModalShow(true)}
               />
             </div>
             <Button
-              id="RBT_Demonstrate_Inorder"
               className="inbtn"
               variant="outline-dark"
               onClick={() => {
                 let inbtn = document.querySelector(".inbtn");
                 let prebtn = document.querySelector(".prebtn");
                 let postbtn = document.querySelector(".postbtn");
-                inbtn.disabled = true;
-                prebtn.disabled = true;
-                postbtn.disabled = true;
+                buttonDisabledTrue();
                 let orderValue = getData("inorder");
                 setInorderValue(getData("inorder"));
                 setRecord((prevArray) => [
@@ -649,6 +645,9 @@ function RBT() {
                     inbtn.disabled = false;
                     prebtn.disabled = false;
                     postbtn.disabled = false;
+                    buttonDisabledFalse();
+                    let thenode = document.querySelector(".highlight");
+                    thenode.classList.remove("highlight");
                     let allnode = document.querySelectorAll(".normal");
                     if (allnode) {
                       allnode.forEach((e) => (e.style.textShadow = "none"));
@@ -675,23 +674,19 @@ function RBT() {
           <div className="InputGroup">
             <div className=" Preorder">
               <img
-                id="A2_RBT_Demonstrate_Preorder_Hint"
                 className="hint"
                 src="/Img/hint.gif"
                 onClick={() => setpreorderModalShow(true)}
               />
             </div>
             <Button
-              id="RBT_Demonstrate_Preorder"
               className="prebtn"
               variant="outline-dark"
               onClick={() => {
                 let inbtn = document.querySelector(".inbtn");
                 let prebtn = document.querySelector(".prebtn");
                 let postbtn = document.querySelector(".postbtn");
-                inbtn.disabled = true;
-                prebtn.disabled = true;
-                postbtn.disabled = true;
+                buttonDisabledTrue();
                 let orderValue = getData("preorder");
                 setPreorderValue(getData("preorder"));
                 setRecord((prevArray) => [
@@ -718,6 +713,9 @@ function RBT() {
                     inbtn.disabled = false;
                     prebtn.disabled = false;
                     postbtn.disabled = false;
+                    buttonDisabledFalse();
+                    let thenode = document.querySelector(".highlight");
+                    thenode.classList.remove("highlight");
                     let allnode = document.querySelectorAll(".normal");
                     if (allnode) {
                       allnode.forEach((e) => (e.style.textShadow = "none"));
@@ -744,23 +742,19 @@ function RBT() {
           <div className="InputGroup">
             <div className=" Postorder">
               <img
-                id="A2_RBT_Demonstrate_Postorder_Hint"
                 className="hint"
                 src="/Img/hint.gif"
                 onClick={() => setpostorderModalShow(true)}
               />
             </div>
             <Button
-              id="RBT_Demonstrate_Postorder"
               variant="outline-dark"
               className="postbtn"
               onClick={() => {
                 let inbtn = document.querySelector(".inbtn");
                 let prebtn = document.querySelector(".prebtn");
                 let postbtn = document.querySelector(".postbtn");
-                inbtn.disabled = true;
-                prebtn.disabled = true;
-                postbtn.disabled = true;
+                buttonDisabledTrue();
                 let orderValue = getData("postorder");
                 setPostorderValue(getData("postorder"));
                 setRecord((prevArray) => [
@@ -787,6 +781,9 @@ function RBT() {
                     inbtn.disabled = false;
                     prebtn.disabled = false;
                     postbtn.disabled = false;
+                    buttonDisabledFalse();
+                    let thenode = document.querySelector(".highlight");
+                    thenode.classList.remove("highlight");
                     let allnode = document.querySelectorAll(".normal");
                     if (allnode) {
                       allnode.forEach((e) => (e.style.textShadow = "none"));
@@ -814,7 +811,6 @@ function RBT() {
         <div className={`record ${open === "show" && "open"} `}>
           <div className="recordContainer">
             <Button
-              id={`A2_RBT_Demonstrate_Recordtable_${open}`}
               variant="outline-dark"
               onClick={() => {
                 if (open === "hide") {

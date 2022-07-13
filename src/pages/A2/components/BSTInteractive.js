@@ -85,7 +85,6 @@ class InReactBeautifulDndHorizontal extends React.Component {
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
         <Button
-          id="A2_BST_Interactive_InorderChange"
           variant="outline-dark"
           style={{ marginBottom: "10px" }}
           disabled={disabled}
@@ -96,9 +95,9 @@ class InReactBeautifulDndHorizontal extends React.Component {
         >
           Change
         </Button>
-        <div className="Dndcontainer" id="BST_Interactive_Drag_Inorder">
+        <div className="Dndcontainer">
           <DragDropContext onDragEnd={this.onDragEnd}>
-            <Droppable id="Test" droppableId="droppable" direction="horizontal">
+            <Droppable droppableId="droppable" direction="horizontal">
               {(provided, snapshot) => (
                 <div
                   {...provided.droppableProps}
@@ -167,7 +166,6 @@ class PreReactBeautifulDndHorizontal extends React.Component {
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
         <Button
-          id="A2_BST_Interactive_PreorderChange"
           variant="outline-dark"
           style={{ marginBottom: "10px" }}
           disabled={disabled}
@@ -178,7 +176,7 @@ class PreReactBeautifulDndHorizontal extends React.Component {
         >
           Change
         </Button>
-        <div className="Dndcontainer" id="BST_Interactive_Drag_Preorder">
+        <div className="Dndcontainer">
           <DragDropContext onDragEnd={this.onDragEnd}>
             <Droppable droppableId="droppable" direction="horizontal">
               {(provided, snapshot) => (
@@ -249,7 +247,6 @@ class PostReactBeautifulDndHorizontal extends React.Component {
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
         <Button
-          id="A2_BST_Interactive_PostorderChange"
           variant="outline-dark"
           style={{ marginBottom: "10px" }}
           disabled={disabled}
@@ -260,7 +257,7 @@ class PostReactBeautifulDndHorizontal extends React.Component {
         >
           Change
         </Button>
-        <div className="Dndcontainer" id="BST_Interactive_Drag_Postorder">
+        <div className="Dndcontainer">
           <DragDropContext onDragEnd={this.onDragEnd}>
             <Droppable droppableId="droppable" direction="horizontal">
               {(provided, snapshot) => (
@@ -357,7 +354,6 @@ function BSTInteractive() {
         <div className="hintContainer">
           <div className="loader"></div>
           <img
-            id="A2_BST_Gamerule"
             className="hint"
             src="/Img/hint.gif"
             onClick={() => setModalShow(true)}
@@ -368,7 +364,6 @@ function BSTInteractive() {
           <div className="bsttreecontainer">
             <BinarySearchTree data={arr} ref={ref} />
             <Button
-              id="BST_Interactive_Random"
               variant="outline-dark"
               style={{ marginTop: "20px" }}
               onClick={() => {
@@ -423,7 +418,6 @@ function BSTInteractive() {
             <PreReactBeautifulDndHorizontal arr={tmpArr} />
             <PostReactBeautifulDndHorizontal arr={tmpArr} />
             <Button
-              id="A2_BST_Interactive_submit"
               variant="outline-dark"
               style={{ marginTop: "20px" }}
               onClick={() => {
@@ -515,7 +509,6 @@ function BSTInteractive() {
         <div className={`record ${open === "show" && "open"} `}>
           <div className="recordContainer">
             <Button
-              id={`A2_BST_Interactive_Recordtable_${open}`}
               variant="outline-dark"
               onClick={() => {
                 if (open === "hide") {

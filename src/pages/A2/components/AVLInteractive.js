@@ -5,7 +5,7 @@ import { MDBContainer } from "mdbreact";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "@emotion/styled";
 import { v4 as uuidv4 } from "uuid";
-import TaskCard from "../../A3/components/TaskCard";
+import TaskCard from "./TaskCard";
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -196,7 +196,10 @@ const Kanban = () => {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                     style={{
-                      height: `${(column.items.length - 1) * 65 + 120}px`,
+                      height:
+                        index === 7
+                          ? "570px"
+                          : `${column.items.length * 30 + 120}px`,
                       position: "relative",
                       top: `${Treestyle[index]}`,
                       marginLeft: "10px",
@@ -231,7 +234,6 @@ function AVLinteractive() {
         <div className="hintContainer">
           <div className="loader"></div>
           <img
-            id="A2_AVL_Gamerule"
             className="hint"
             src="/Img/hint.gif"
             onClick={() => setModalShow(true)}
@@ -285,7 +287,6 @@ function AVLinteractive() {
                 Random
               </Button> */}
               <Button
-                id="A2_AVL_Interactive_submit"
                 variant="outline-dark"
                 style={{
                   marginLeft: "50px",
@@ -303,11 +304,9 @@ function AVLinteractive() {
                         let b = document
                           .getElementById(i.toString())
                           .getElementsByClassName("theItem");
-                        console.log(b);
                         if (b.length > 1 || b.length === 0) {
                           correctS.style.visibility = "hidden";
                           wrongS.style.visibility = "visible";
-                          console.log(1);
                           break;
                         } else {
                           ans.push(b[0].innerText);
@@ -317,24 +316,19 @@ function AVLinteractive() {
                     catchItems();
                   }
                   check();
-                  console.log(ans);
                   if (ans.length === 7) {
                     for (let i = 0; i < 6; i++) {
                       if (ans[i] > ans[i + 1]) {
-                        console.log(ans[i]);
                         correctS.style.visibility = "hidden";
                         wrongS.style.visibility = "visible";
-                        console.log(2);
                         break;
                       } else {
                         flag++;
                       }
                     }
-                    console.log(flag);
                   } else {
                     correctS.style.visibility = "hidden";
                     wrongS.style.visibility = "visible";
-                    console.log(3);
                   }
                   if (flag === 6) {
                     correctS.style.visibility = "visible";
@@ -411,7 +405,6 @@ function AVLinteractive() {
         <div className={`record ${open === "show" && "open"} `}>
           <div className="recordContainer">
             <Button
-              id={`A2_AVL_Demonstrate_Recordtable_${open}`}
               variant="outline-dark"
               onClick={() => {
                 if (open === "hide") {

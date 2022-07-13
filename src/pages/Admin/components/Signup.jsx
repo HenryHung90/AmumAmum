@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import axios from "axios";
 import bcryptjs from "bcryptjs";
 
@@ -32,8 +30,45 @@ const Signup = () => {
   }
   //Access
   const [Access, setAccess] = useState("");
+  const [AccessStudy, setAccessStudy] = useState([false, false, false, false]);
   function AccessChange(e) {
-    setAccess(e.target.value);
+    let Value = e.target.value;
+    let TempStudy = AccessStudy;
+
+    if (Value === "Admin") {
+      TempStudy[3] = CheckAccessStudy(3);
+    } else {
+      if (Value === "1") {
+        TempStudy[0] = CheckAccessStudy(0);
+      }
+      if (Value === "2") {
+        TempStudy[1] = CheckAccessStudy(1);
+      }
+      if (Value === "3") {
+        TempStudy[2] = CheckAccessStudy(2);
+      }
+      setAccessStudy(TempStudy);
+    }
+    //權限檢查
+    let TempWord = "";
+    for (let i = 0; i < AccessStudy.length; i++) {
+      if (AccessStudy[3] === true) {
+        TempWord = "Admin";
+        break;
+      }
+      if (AccessStudy[i] === true) {
+        let word = i + 1;
+        TempWord += word.toString();
+      }
+    }
+    setAccess(TempWord);
+    console.log(TempWord);
+  }
+  function CheckAccessStudy(target) {
+    if (AccessStudy[target] === false) {
+      return true;
+    }
+    return false;
   }
   ////////////////////////////////
 
@@ -78,9 +113,10 @@ const Signup = () => {
       });
     ////////////////////////////////
   }
-  ////////////////////////////////
+  //////////////////////////////////
   return (
     <div className="AdminSignUp">
+      <h1 className="AdminTitle">手動新增成員</h1>
       <form>
         <div className="AdminStand">
           <h3 className="AdminStandText">學生姓名</h3>
@@ -145,28 +181,44 @@ const Signup = () => {
         </div>
         <div className="AdminStand">
           <h3 className="AdminStandText">學生權限</h3>
-          <FormControl variant="filled" sx={{ m: 1, minWidth: 300 }}>
-            <InputLabel id="demo-simple-select-filled-label">權限</InputLabel>
-            <Select
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
-              value={Access}
+          <div>
+            <FormControlLabel
               onChange={AccessChange}
-            >
-              <MenuItem value={1}>傳統式學習</MenuItem>
-              <MenuItem value={2}>互動式學習</MenuItem>
-              <MenuItem value={3}>引導式學習</MenuItem>
-            </Select>
-          </FormControl>
+              control={<Checkbox />}
+              label="傳統式學習"
+              value="1"
+            />
+            <FormControlLabel
+              onChange={AccessChange}
+              control={<Checkbox />}
+              label="互動式學習"
+              value="2"
+            />
+            <FormControlLabel
+              onChange={AccessChange}
+              control={<Checkbox />}
+              label="引導式學習"
+              value="3"
+            />
+            <FormControlLabel
+              onChange={AccessChange}
+              control={<Checkbox />}
+              style={{ color: "red" }}
+              label="管理員"
+              value="Admin"
+            />
+          </div>
         </div>
-        <Button
-          variant="contained"
-          color="success"
-          className="submit"
-          onClick={AddStudent}
-        >
-          送出
-        </Button>
+        <div className="AdminStand">
+          <Button
+            variant="contained"
+            color="success"
+            className="AdminSubmit"
+            onClick={AddStudent}
+          >
+            送出
+          </Button>
+        </div>
       </form>
     </div>
   );

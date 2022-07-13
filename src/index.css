@@ -13,6 +13,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+iframe {
+  height: 1000px;
+}
 /****************************************************************/
 /**************************LoginPage*****************************/
 .Outline {
@@ -98,12 +101,58 @@ code {
 /**************************  A1  ********************************/
 .showPDF {
   display: flex;
+  flex-direction: column;
+  padding: 65px 350px;
+  align-items: center;
   justify-content: center;
 }
 .pdfcontainer {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.titlePDF {
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.subtitle {
+  font-size: 35px;
+  font-family: "STKaiti";
+  font-weight: bold;
+}
+.secSubtitle {
+  font-size: 25px;
+  margin-top: 20px;
+}
+.secSubtitle + p {
+  margin-top: 15px;
+}
+p,
+pre {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 40px;
+}
+.red {
+  color: red;
+}
+.green {
+  color: #6fa41e;
+}
+.blue {
+  color: #2a77c2;
+}
+.center {
+  /* align-items: center; */
+  margin: 0px auto;
+  display: flex;
+  justify-content: center;
+}
+img {
+  justify-content: center;
+  object-fit: cover;
 }
 /****************************************************************/
 /**************************  A2  ********************************/
@@ -203,66 +252,6 @@ svg {
   position: relative;
   min-height: 80vh;
 }
-/* .home{
-  width: 100%;
-  left: 20%;
-  display: flex;
-  position: relative;
-}
-@media screen and (max-width:1440px) {
-  .home{
-    width: 100%;
-    left: 6%;
-    display: flex;
-    position: relative;
-  }
-}
-h2 {
-  margin-top: 200px;
-  position: relative;
-  font-size: 5rem;
-  color: rgb(115, 165, 172);
-  text-transform: uppercase;
-  width: 80%;
-  text-align: center;
-  -webkit-box-reflect: below -42px linear-gradient(transparent, #0004);
-  display: flex;
-  flex-direction: row;
-}
-h2 span {
-  animation: animate 5s linear infinite;
-}
-h2 span:nth-child(even) {
-  animation-delay: 0.4s;
-}
-@keyframes animate {
-  0%,
-  18%,
-  20%,
-  50.1%,
-  60%,
-  65.1%,
-  80%,
-  90.1%,
-  92% {
-    color: #0e3742;
-    text-shadow: none;
-  }
-  18.1%,
-  20.1%,
-  30%,
-  50%,
-  60.1%,
-  65%,
-  80.1%,
-  90%,
-  92.1%,
-  100% {
-    color: wheat;
-    text-shadow: 0 0 10px #76c8df, 0 0 20px #76c8df, 0 0 40px #76c8df,
-      0 0 80px #76c8df, 0 0 160px #76c8df, 0 0 400px #76c8df;
-  }
-} */
 /****************************************************************/
 /*************************A2_Tree********************************/
 .tree {
@@ -702,6 +691,27 @@ h2 span:nth-child(even) {
   align-items: center;
   flex-direction: column;
 }
+.winlose {
+  animation: zy 2.5s 0.15s linear infinite;
+}
+@keyframes zy {
+  10% {
+    transform: rotate(15deg);
+  }
+  20% {
+    transform: rotate(-10deg);
+  }
+  30% {
+    transform: rotate(5deg);
+  }
+  40% {
+    transform: rotate(-5deg);
+  }
+  50%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
 /****************************************************************/
 /*************************A3 AVL game**********************************/
 .AVLgame {
@@ -755,13 +765,9 @@ h2 span:nth-child(even) {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
-  margin-left: 50px;
-  margin-right: 50px;
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
 }
 .gamerule {
   width: 20px;
@@ -778,46 +784,468 @@ h2 span:nth-child(even) {
   top: 150px;
   cursor: pointer;
 }
+.timer-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-left: 100px;
+  margin-right: 100px;
+  border-radius: 50%;
+}
+
+.timer {
+  font-family: "Montserrat";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text {
+  color: #aaa;
+}
+
+.value {
+  font-size: 40px;
+}
+
+.info {
+  max-width: 360px;
+  text-align: center;
+  font-size: 16px;
+}
+.myturn {
+  box-shadow: -5px -5px 20px #0dcaf0, 5px 5px 20px #ff0081;
+}
+.roundContainer {
+  display: block;
+  text-align: left;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 10px;
+  left: 400px;
+  position: absolute;
+  top: 150px;
+  animation: zy 2.5s 0.15s linear infinite;
+}
+@media (max-width: 1440px) {
+  .roundContainer {
+    display: block;
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 10px;
+    left: 100px;
+    position: absolute;
+    top: 150px;
+    animation: zy 2.5s 0.15s linear infinite;
+  }
+}
+.roundContainer h2 {
+  margin: 0;
+}
+.controlContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 10px;
+  right: 50px;
+  position: absolute;
+  top: 100px;
+}
+@media (max-width: 1440px) {
+  .controlContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 10px;
+    right: 30px;
+    position: absolute;
+    top: 100px;
+  }
+}
+.toolate {
+  box-shadow: 0 0 15px red;
+  animation: shake 0.5s infinite;
+}
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-2px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(+4px, 0, 0);
+  }
+  30%,
+  70% {
+    transform: translate3d(-8px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(+8px, 0, 0);
+  }
+  50% {
+    transform: translate3d(-8px, 0, 0);
+  }
+}
+/****************************************************************/
+/*************************A3 RBT game**********************************/
+.RBTgame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+/****************************************************************/
+/*************************A3 Grade**********************************/
+.Gradecontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.chart {
+  margin-bottom: 30px;
+  width: 800px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.gradetitle {
+  flex-direction: column;
+  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+  padding: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: flex-start;
+  height: 600px;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.userCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.polar {
+  height: 100%;
+  width: 600px;
+  justify-content: normal;
+  align-items: normal;
+}
+.rankingtable {
+  position: initial;
+  margin-top: 30px;
+  margin-left: 20px;
+}
+.linearbody {
+  width: 450px;
+  height: 500px;
+  border-radius: 10px;
+  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  flex-direction: column;
+}
+.rankingbody {
+  width: 200px;
+  height: 300px;
+  border-radius: 10px;
+  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  flex-direction: column;
+}
+.rankingItem {
+  border-bottom: 1px #babecc solid;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.rankingImg {
+  width: 40px;
+}
+/****************************************************************/
+/*************************Test**********************************/
+.testContainer {
+  display: flex;
+  justify-content: center;
+}
 /****************************************************************/
 /*************************Admin**********************************/
-/* .container {
+.AdminTitle {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.AdminStand {
+  display: flex;
+  margin-top: 50px;
+  justify-content: space-evenly;
+}
+.AdminMember {
+  margin-top: 100px;
+  height: auto;
+}
+.memberTable {
   text-align: center;
   margin: 0 auto;
-  padding: 2% 2% 2% 2%;
-  width: 70%;
-  border: 1px dashed black;
-} */
-
-.submit {
-  margin-top: 50px;
+  padding: 10px;
 }
-
-.Stand {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.memberTable_th {
-  display: flex;
-  justify-content: space-evenly;
-}
-
 .memberTable_td {
+  padding: 12px;
+}
+.memberBtn {
+  margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  border: 1px dashed black;
+  padding: 10px;
+  width: 80%;
+  margin-left: 10%;
+}
+#memberuploadBtn {
+  width: 200px;
+}
+.EditedBtn {
+  width: 130px;
+}
+/****************************************************************/
+/*************************AdminGrade*********************************/
+.AdminGrade {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.AdminGradeContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.studentCard {
+  margin-top: 50px;
+  height: 700px;
+}
+.AdminmemberTable {
+  margin-top: 50px;
+  width: 700px;
+  display: flex;
+  flex-flow: wrap-reverse;
+}
+.studentButton {
+  width: 100px;
+}
+/****************************************************************/
+/*************************Note**********************************/
+.Note_Container {
+  margin: 10px 10px 10px 10px;
+}
+.Note_Title {
+  position: relative;
+  text-align: center;
+}
+.Note_Create {
+  position: absolute;
+  top: 15%;
+  left: 25%;
+  width: 600px;
+  height: 600px;
+  background-image: url(../public/Img/Note/Note_Box_Back.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 10px;
+  z-index: 1000000;
+}
+#NoteBlock {
+  visibility: hidden;
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #424141;
+  opacity: 0.5;
+}
+.Note_Box {
+  display: flex;
+  float: left;
+  width: 98%;
+  height: 600px;
+  margin: 10px;
+}
+.NoteContentTxt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.Note_Box_Classify {
+  width: 16%;
+  height: 580px;
+  text-align: center;
+}
+.Note_Box_Content {
+  overflow-x: auto;
+  height: 580px;
+  width: 75%;
+}
+.AddSubClassify {
+  transition-duration: 0.4s;
+  height: 100%;
+  width: 70px;
+  text-align: center;
+  line-height: 100%;
+  border-radius: 20px;
+}
+.AddSubClassify:hover {
+  transition-duration: 0.4s;
+  background-color: whitesmoke;
+}
+.Note_CreateBtn {
   margin-top: 10px;
+  margin-left: 100px;
+}
+.AddNote {
+  transition-duration: 0.4s;
+  height: 50px;
+  text-align: center;
+  border: 0.5px solid black;
+  border-radius: 20px;
+  background-color: #598eb1;
+}
+.AddNote:hover {
+  transition-duration: 0.4s;
+  background-color: #74b7e3;
+}
+.NoteDroppable {
+  transition-duration: 0.4s;
+  border-radius: 10px;
+  display: flex;
+  margin-bottom: 8px;
+}
+.NoteDroppable:hover {
+  transition-duration: 0.4s;
+  background-color: #002053;
+}
+.NoteDeleteIcon {
+  transition-duration: 0.4s;
+  border-radius: 0 20px 20px 0;
+  padding: 13px 10px 0 10px;
+}
+.NoteDeleteIcon:hover {
+  transition-duration: 0.4s;
+  color: #002053;
+}
+.NoteEditClassify {
+  border-radius: 10px;
+  transition-duration: 0.4s;
+}
+.NoteEditClassify:hover {
+  transition-duration: 0.4s;
+  background-color: rgb(118, 117, 117);
+  color: white;
+}
+.NoteDeleteClassify {
+  border-radius: 10px;
+  transition-duration: 0.4s;
+}
+.NoteDeleteClassify:hover {
+  transition-duration: 0.4s;
+  background-color: rgb(118, 117, 117);
+  color: white;
+}
+.Note_h2 {
+  text-align: center;
+  margin-top: 23%;
+}
+/****************************************************************/
+/*************************AboutUs*********************************/
+.AnoutUscontainerThePlan {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 800px;
+  text-align: left;
+}
+.AnoutUscontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.sgroup {
+  display: flex;
+  flex-direction: row;
+}
+.Card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+.card {
+  margin-bottom: 20px;
+  margin-right: 20px;
+  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+  border-radius: 15px;
+  padding: 10px 20px;
+  display: flex;
+  position: relative;
+  display: inline-block;
+  width: 20rem;
+}
+.card-text {
+  color: #6e6d6d;
+}
+.card-img-top {
+  border-radius: 15px;
+  height: 200px;
+}
+.contactImg img {
+  margin-right: 5px;
+}
+.developer {
+  width: 40px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  cursor: pointer;
+}
+.aboutusButton {
+  width: 150px;
+  margin-right: 15px;
+}
+.AboutUsChildContainer {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  text-align: left;
+  flex-direction: column;
 }
 /****************************************************************/
 /*************************Profile*********************************/
 .ProfileTitle {
-  font-size: 5em;
-  width: 4em;
+  font-size: 4em;
+  width: 12.2em;
   white-space: nowrap;
-  color: black;
   margin: 0 auto;
   border-right: 2px solid transparent;
   overflow: hidden;
-  animation: typingProfile 1s steps(100, end),
+  animation: typingProfile 1.8s steps(150, start),
     blink-caret 0.75s steps(15, end) infinite;
 }
 .SelfProfile {
@@ -827,7 +1255,7 @@ h2 span:nth-child(even) {
   margin: 0 auto;
   border: 1px #292929 solid;
   border-radius: 20px 20px;
-  background-color: whitesmoke;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1440' height='800' preserveAspectRatio='none' viewBox='0 0 1440 800'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1018%26quot%3b)' fill='none'%3e%3cuse xlink:href='%23SvgjsSymbol1025' x='0' y='0'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsSymbol1025' x='0' y='720'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsSymbol1025' x='720' y='0'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsSymbol1025' x='720' y='720'%3e%3c/use%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1018'%3e%3crect width='1440' height='800' fill='white'%3e%3c/rect%3e%3c/mask%3e%3cpath d='M-1 0 a1 1 0 1 0 2 0 a1 1 0 1 0 -2 0z' id='SvgjsPath1024'%3e%3c/path%3e%3cpath d='M-3 0 a3 3 0 1 0 6 0 a3 3 0 1 0 -6 0z' id='SvgjsPath1023'%3e%3c/path%3e%3cpath d='M-5 0 a5 5 0 1 0 10 0 a5 5 0 1 0 -10 0z' id='SvgjsPath1022'%3e%3c/path%3e%3cpath d='M2 -2 L-2 2z' id='SvgjsPath1021'%3e%3c/path%3e%3cpath d='M6 -6 L-6 6z' id='SvgjsPath1020'%3e%3c/path%3e%3cpath d='M30 -30 L-30 30z' id='SvgjsPath1019'%3e%3c/path%3e%3c/defs%3e%3csymbol id='SvgjsSymbol1025'%3e%3cuse xlink:href='%23SvgjsPath1019' x='30' y='30' stroke='%231c538e' stroke-width='3'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='30' y='90' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='30' y='150' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='30' y='210' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='30' y='270' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='30' y='330' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='30' y='390' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='30' y='450' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='30' y='510' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1024' x='30' y='570' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='30' y='630' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='30' y='690' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1024' x='90' y='30' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='90' y='90' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='90' y='150' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='90' y='210' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='90' y='270' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1024' x='90' y='330' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='90' y='390' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='90' y='450' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='90' y='510' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='90' y='570' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='90' y='630' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1024' x='90' y='690' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='150' y='30' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='150' y='90' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='150' y='150' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1019' x='150' y='210' stroke='%231c538e' stroke-width='3'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='150' y='270' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1019' x='150' y='330' stroke='%231c538e' stroke-width='3'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='150' y='390' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1024' x='150' y='450' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1024' x='150' y='510' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='150' y='570' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='150' y='630' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='150' y='690' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='210' y='30' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='210' y='90' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='210' y='150' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1024' x='210' y='210' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='210' y='270' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='210' y='330' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='210' y='390' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='210' y='450' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='210' y='510' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='210' y='570' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='210' y='630' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='210' y='690' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='270' y='30' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='270' y='90' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='270' y='150' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='270' y='210' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='270' y='270' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='270' y='330' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='270' y='390' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='270' y='450' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='270' y='510' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='270' y='570' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='270' y='630' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='270' y='690' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1024' x='330' y='30' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='330' y='90' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='330' y='150' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='330' y='210' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='330' y='270' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='330' y='330' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='330' y='390' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='330' y='450' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='330' y='510' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1019' x='330' y='570' stroke='%231c538e' stroke-width='3'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1019' x='330' y='630' stroke='%231c538e' stroke-width='3'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1019' x='330' y='690' stroke='%231c538e' stroke-width='3'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='390' y='30' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='390' y='90' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='390' y='150' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='390' y='210' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='390' y='270' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='390' y='330' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='390' y='390' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='390' y='450' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1024' x='390' y='510' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='390' y='570' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='390' y='630' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='390' y='690' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='450' y='30' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='450' y='90' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='450' y='150' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='450' y='210' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='450' y='270' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='450' y='330' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='450' y='390' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='450' y='450' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='450' y='510' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='450' y='570' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='450' y='630' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='450' y='690' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='510' y='30' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='510' y='90' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='510' y='150' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='510' y='210' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='510' y='270' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='510' y='330' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='510' y='390' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='510' y='450' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='510' y='510' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1024' x='510' y='570' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='510' y='630' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='510' y='690' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1019' x='570' y='30' stroke='%231c538e' stroke-width='3'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1024' x='570' y='90' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1024' x='570' y='150' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='570' y='210' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='570' y='270' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='570' y='330' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='570' y='390' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='570' y='450' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='570' y='510' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1019' x='570' y='570' stroke='%231c538e' stroke-width='3'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='570' y='630' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='570' y='690' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='630' y='30' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='630' y='90' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='630' y='150' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1024' x='630' y='210' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='630' y='270' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='630' y='330' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='630' y='390' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='630' y='450' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='630' y='510' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='630' y='570' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='630' y='630' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='630' y='690' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='690' y='30' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='690' y='90' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1019' x='690' y='150' stroke='%231c538e' stroke-width='3'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='690' y='210' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='690' y='270' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='690' y='330' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1021' x='690' y='390' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='690' y='450' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1020' x='690' y='510' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='690' y='570' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1022' x='690' y='630' stroke='%231c538e'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsPath1023' x='690' y='690' stroke='%231c538e'%3e%3c/use%3e%3c/symbol%3e%3c/svg%3e");
   animation: sildeProfile 0.7s steps(300, end), fadeIn 0.5s steps(400, end);
 }
 .SelfProfile_Title {
@@ -838,18 +1266,20 @@ h2 span:nth-child(even) {
 .SelfProfile_subTitle {
   color: #292929;
   margin-top: 70px;
+  margin-left: 80px;
 }
 .SelfProfile_Text {
   margin: 15px 0 0 30px;
   color: #2559bb;
 }
 .SelfProfile_Stand {
-  justify-content: space-around;
+  margin-left: 5%;
   display: flex;
 }
 .SelfProfile_Self {
   display: flex;
-  margin-left: 30px;
+  margin-right: 30px;
+  float: right;
 }
 .Block {
   visibility: hidden;
@@ -874,12 +1304,60 @@ h2 span:nth-child(even) {
   border: 1px solid #424141;
   border-radius: 20px 20px;
 }
+.ChooseClass {
+  visibility: hidden;
+  position: absolute;
+  z-index: 101;
+  top: 10%;
+  left: 15%;
+  width: 1000px;
+  height: 500px;
+  background-color: whitesmoke;
+  border: 1px solid #424141;
+  border-radius: 20px 20px;
+}
+
 .PasswordChange_Title,
-.EmailChange_Title {
+.EmailChange_Title,
+.ChooseClass_Title {
   text-align: center;
   color: #292929;
   font-size: 2.5em;
   margin-top: 20px;
+}
+.ChooseClassLine {
+  text-align: center;
+}
+.ChooseClassBox {
+  width: 90%;
+  height: 300px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+.ChooseClassBox_DIV {
+  /* transition-duration: .5s; */
+  border: 1px solid;
+  width: 20%;
+  height: 80%;
+  border-radius: 10px;
+  background-image: url(../public/Img/amumamum.PNG);
+  background-position: top;
+  background-size: 70%;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  text-align: center;
+  font-size: 30px;
+  line-height: 400px;
+}
+@media screen and (min-width: 1920px) {
+  .ChooseClass {
+    left: 23%;
+  }
+}
+.ChooseClassBox_DIV:hover {
+  /* transition-duration: .5s; */
+  opacity: 1;
 }
 .PasswordLine,
 .EmailLine {
@@ -905,6 +1383,7 @@ h2 span:nth-child(even) {
 .Classroom {
   display: flex;
   justify-content: space-around;
+  height: 350px;
   margin: 50px 150px 10px 150px;
 }
 .GoStudy,
@@ -935,18 +1414,15 @@ h2 span:nth-child(even) {
   line-height: 600px;
   border: 1px dashed black;
 }
-
-#GoStudy_Title,
-#GoCheck_Title {
-}
 @keyframes typingProfile {
-  25% {
+  from{
     width: 0;
   }
-  50% {
+  80%{
+    width:11em;
   }
   to {
-    width: 4em;
+    width: 12.1em;
   }
 }
 

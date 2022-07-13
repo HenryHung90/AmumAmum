@@ -3,7 +3,7 @@ import { useState } from "react";
 import { AVLTree, useAVLTree } from "react-tree-vis";
 import { Button, Modal } from "react-bootstrap";
 import { MDBContainer } from "mdbreact";
-import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
+import AVLdocument from "../../A1/components/AVLdocument";
 
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -19,54 +19,6 @@ for (let i = 0; i < getRandom(5, 10); i++) {
   arr.push(tmp);
 }
 
-function Showpdf() {
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  function onDoucumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-    setPageNumber(1);
-  }
-  function changePage(offset) {
-    setPageNumber((prePageNumber) => prePageNumber + offset);
-  }
-  function changePageBack() {
-    changePage(-1);
-  }
-  function changePageNext() {
-    changePage(+1);
-  }
-  return (
-    <div className="pdfcontainer">
-      <Document file="/AVL.pdf" onLoadSuccess={onDoucumentLoadSuccess}>
-        <Page height="1000" pageNumber={pageNumber} />
-      </Document>
-      <p>
-        Page {pageNumber} of {numPages}
-      </p>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        {pageNumber > 1 && (
-          <Button
-            id="A2_PDF_AVL_PreviousPage"
-            variant="outline-dark"
-            onClick={changePageBack}
-          >
-            Previous Page
-          </Button>
-        )}
-        {pageNumber < numPages && (
-          <Button
-            id="A2_PDF_AVL_NextPage"
-            variant="outline-dark"
-            onClick={changePageNext}
-          >
-            Next Page
-          </Button>
-        )}
-      </div>
-    </div>
-  );
-}
 function MyVerticallyCenteredModal(props) {
   return (
     <Modal
@@ -81,7 +33,7 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Showpdf />
+        <AVLdocument />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>
@@ -341,6 +293,46 @@ function Traversal(orderValue) {
   }
   return print;
 }
+function buttonDisabledTrue() {
+  let Random = document.querySelector(".A2-Random");
+  let Clear = document.querySelector(".A2-Clear");
+  let Search = document.querySelector(".A2-Search");
+  let Insert = document.querySelector(".A2-Insert");
+  let Remove = document.querySelector(".A2-Remove");
+  let Create = document.querySelector(".A2-Create");
+  let inbtn = document.querySelector(".inbtn");
+  let prebtn = document.querySelector(".prebtn");
+  let postbtn = document.querySelector(".postbtn");
+  inbtn.disabled = true;
+  prebtn.disabled = true;
+  postbtn.disabled = true;
+  Random.disabled = true;
+  Clear.disabled = true;
+  Search.disabled = true;
+  Insert.disabled = true;
+  Remove.disabled = true;
+  Create.disabled = true;
+}
+function buttonDisabledFalse() {
+  let Random = document.querySelector(".A2-Random");
+  let Clear = document.querySelector(".A2-Clear");
+  let Search = document.querySelector(".A2-Search");
+  let Insert = document.querySelector(".A2-Insert");
+  let Remove = document.querySelector(".A2-Remove");
+  let Create = document.querySelector(".A2-Create");
+  let inbtn = document.querySelector(".inbtn");
+  let prebtn = document.querySelector(".prebtn");
+  let postbtn = document.querySelector(".postbtn");
+  inbtn.disabled = false;
+  prebtn.disabled = false;
+  postbtn.disabled = false;
+  Random.disabled = false;
+  Clear.disabled = false;
+  Search.disabled = false;
+  Insert.disabled = false;
+  Remove.disabled = false;
+  Create.disabled = false;
+}
 function AVL() {
   const { ref, insert, remove, getData, search, clear, generateRandomTree } =
     useAVLTree();
@@ -371,7 +363,6 @@ function AVL() {
         <div className="hintContainer">
           <div className="loader"></div>
           <img
-            id="A2_AVL_Demonstrate_Hint"
             className="hint"
             src="/Img/hint.gif"
             onClick={() => setModalShow(true)}
@@ -381,7 +372,7 @@ function AVL() {
         <div className="Input">
           <div className="InputGroup">
             <Button
-              id="AVL_Demonstrate_Radom"
+              className="A2-Random"
               variant="outline-dark"
               onClick={() => {
                 generateRandomTree(getRandom(5, 10));
@@ -413,7 +404,7 @@ function AVL() {
               Random
             </Button>
             <Button
-              id="AVL_Demonstrate_Clear"
+              className="A2-Clear"
               variant="outline-dark"
               onClick={() => {
                 clear();
@@ -453,7 +444,7 @@ function AVL() {
               }
             />
             <Button
-              id={`AVL_Demonstrate_Search_${avlsearchValue}`}
+              className="A2-Search"
               variant="outline-dark"
               onClick={() => {
                 search(avlsearchValue);
@@ -491,7 +482,7 @@ function AVL() {
               }
             />
             <Button
-              id={`AVL_Demonstrate_Insert_${avlinsertValue}`}
+              className="A2-Insert"
               variant="outline-dark"
               onClick={() => {
                 insert(avlinsertValue);
@@ -530,7 +521,7 @@ function AVL() {
               }
             />
             <Button
-              id={`AVL_Demonstrate_Remove_${avlremoveValue}`}
+              className="A2-Remove"
               variant="outline-dark"
               onClick={() => {
                 search(avlremoveValue);
@@ -573,9 +564,10 @@ function AVL() {
               onChange={(e) => handleChange(e.target.value)}
             />
             <Button
-              id={`AVL_Demonstrate_Create_${numVal}`}
+              className="A2-Create"
               variant="outline-dark"
               onClick={() => {
+                buttonDisabledTrue();
                 clear();
                 let tmparr = numVal.split(",");
                 setRecord((prevArray) => [
@@ -600,6 +592,7 @@ function AVL() {
                 let CreatTree = setInterval(() => {
                   if (i === tmparr.length) {
                     clearInterval(CreatTree);
+                    buttonDisabledFalse();
                   } else {
                     insert(parseInt(tmparr[i]));
                     search(parseInt(tmparr[i]));
@@ -614,7 +607,6 @@ function AVL() {
           <div className="InputGroup">
             <div className="Inorder">
               <img
-                id="A2_AVL_Demonstrate_Inorder_Hint"
                 className="hint"
                 src="/Img/hint.gif"
                 onClick={() => setinorderModalShow(true)}
@@ -627,9 +619,7 @@ function AVL() {
                 let inbtn = document.querySelector(".inbtn");
                 let prebtn = document.querySelector(".prebtn");
                 let postbtn = document.querySelector(".postbtn");
-                inbtn.disabled = true;
-                prebtn.disabled = true;
-                postbtn.disabled = true;
+                buttonDisabledTrue();
                 let orderValue = getData("inorder");
                 setInorderValue(getData("inorder"));
                 setRecord((prevArray) => [
@@ -656,6 +646,7 @@ function AVL() {
                     inbtn.disabled = false;
                     prebtn.disabled = false;
                     postbtn.disabled = false;
+                    buttonDisabledFalse();
                     let allnode = document.querySelectorAll(".normal");
                     if (allnode) {
                       allnode.forEach((e) => (e.style.textShadow = "none"));
@@ -682,7 +673,6 @@ function AVL() {
           <div className="InputGroup">
             <div className=" Preorder">
               <img
-                id="A2_AVL_Demonstrate_Preorder_Hint"
                 className="hint"
                 src="/Img/hint.gif"
                 onClick={() => setpreorderModalShow(true)}
@@ -695,9 +685,7 @@ function AVL() {
                 let inbtn = document.querySelector(".inbtn");
                 let prebtn = document.querySelector(".prebtn");
                 let postbtn = document.querySelector(".postbtn");
-                inbtn.disabled = true;
-                prebtn.disabled = true;
-                postbtn.disabled = true;
+                buttonDisabledTrue();
                 let orderValue = getData("preorder");
                 setPreorderValue(getData("preorder"));
                 setRecord((prevArray) => [
@@ -724,6 +712,7 @@ function AVL() {
                     inbtn.disabled = false;
                     prebtn.disabled = false;
                     postbtn.disabled = false;
+                    buttonDisabledFalse();
                     let allnode = document.querySelectorAll(".normal");
                     if (allnode) {
                       allnode.forEach((e) => (e.style.textShadow = "none"));
@@ -750,7 +739,6 @@ function AVL() {
           <div className="InputGroup">
             <div className=" Postorder">
               <img
-                id="A2_AVL_Demonstrate_Postorder_Hint"
                 className="hint"
                 src="/Img/hint.gif"
                 onClick={() => setpostorderModalShow(true)}
@@ -763,9 +751,7 @@ function AVL() {
                 let inbtn = document.querySelector(".inbtn");
                 let prebtn = document.querySelector(".prebtn");
                 let postbtn = document.querySelector(".postbtn");
-                inbtn.disabled = true;
-                prebtn.disabled = true;
-                postbtn.disabled = true;
+                buttonDisabledTrue();
                 let orderValue = getData("postorder");
                 setPostorderValue(getData("postorder"));
                 setRecord((prevArray) => [
@@ -792,6 +778,7 @@ function AVL() {
                     inbtn.disabled = false;
                     prebtn.disabled = false;
                     postbtn.disabled = false;
+                    buttonDisabledFalse();
                     let allnode = document.querySelectorAll(".normal");
                     if (allnode) {
                       allnode.forEach((e) => (e.style.textShadow = "none"));
@@ -819,7 +806,6 @@ function AVL() {
         <div className={`record ${open === "show" && "open"} `}>
           <div className="recordContainer">
             <Button
-              id={`A2_AVL_Demonstrate_Recordtable_${open}`}
               variant="outline-dark"
               onClick={() => {
                 if (open === "hide") {

@@ -9,6 +9,8 @@ const SelfInfo = ({ Logout, UserToken }) => {
   /////////////////身份核對///////////////////
   const [UserData, setUserData] = useState("");
   const Refresh = useNavigate();
+
+  //取得UserToken
   useEffect(() => {
     let GetSid = sessionStorage.getItem("Sid");
     if (UserToken === null) {
@@ -29,10 +31,8 @@ const SelfInfo = ({ Logout, UserToken }) => {
 
   //////////////修改密碼/////////////////////
   const ChangePassword = () => {
-    const Block = document.getElementById("BlockDiv");
-    const PasswordChange = document.getElementById("PasswordChangeDiv");
-    Block.style.visibility = "visible";
-    PasswordChange.style.visibility = "visible";
+    document.getElementById("PasswordChangeDiv").style.visibility = "visible";
+    document.getElementById("BlockDiv").style.visibility = "visible";
   };
   //密碼修改送出
   const submitPassword = () => {
@@ -63,10 +63,9 @@ const SelfInfo = ({ Logout, UserToken }) => {
         }).then((response) => {
           if (response.data === "success") {
             alert("修改完成");
-            const Block = document.getElementById("BlockDiv");
-            const PasswordChange = document.getElementById("PasswordChangeDiv");
-            Block.style.visibility = "hidden";
-            PasswordChange.style.visibility = "hidden";
+            document.getElementById("BlockDiv").style.visibility = "hidden";
+            document.getElementById("PasswordChangeDiv").style.visibility =
+              "hidden";
           } else {
             alert("修改失敗，舊密碼不一致");
           }
@@ -78,18 +77,14 @@ const SelfInfo = ({ Logout, UserToken }) => {
   };
   //取消變更
   const cancelPassword = () => {
-    const Block = document.getElementById("BlockDiv");
-    const PasswordChange = document.getElementById("PasswordChangeDiv");
-    Block.style.visibility = "hidden";
-    PasswordChange.style.visibility = "hidden";
+    document.getElementById("BlockDiv").style.visibility = "hidden";
+    document.getElementById("PasswordChangeDiv").style.visibility = "hidden";
   };
   ////////////////////////////////////////////////////////
   ///////////////////////變更Email////////////////////////
   const ChangeEmail = () => {
-    const Block = document.getElementById("BlockDiv");
-    const EmailChange = document.getElementById("EmailChangeDiv");
-    Block.style.visibility = "visible";
-    EmailChange.style.visibility = "visible";
+    document.getElementById("BlockDiv").style.visibility = "visible";
+    document.getElementById("EmailChangeDiv").style.visibility = "visible";
   };
   const submitEmail = () => {
     const getNewEmail = document.getElementById("NewEmail");
@@ -125,29 +120,43 @@ const SelfInfo = ({ Logout, UserToken }) => {
     }
   };
   const cancelEmail = () => {
-    const Block = document.getElementById("BlockDiv");
-    const PasswordChange = document.getElementById("EmailChangeDiv");
-    Block.style.visibility = "hidden";
-    PasswordChange.style.visibility = "hidden";
+    document.getElementById("BlockDiv").style.visibility = "hidden";
+    document.getElementById("EmailChangeDiv").style.visibility = "hidden";
   };
   //////////////////Btn goStudy////////////////
   const goStudy = () => {
-    switch (UserData.Access) {
-      case "1":
-        Refresh("/A1");
-        break;
-      case "2":
-        Refresh("/A2");
-        break;
-      case "3":
-        Refresh("/A3");
-        break;
-      default:
-        alert("尚未連接學習檔案，請聯絡管理員！");
-        break;
-    }
+    document.getElementById("BlockDiv").style.visibility = "visible";
+    document.getElementById("ChooseClassDiv").style.visibility = "visible";
+    document.getElementById("Class_A1").style.visibility = "visible";
+    document.getElementById("Class_A2").style.visibility = "visible";
+    document.getElementById("Class_A3").style.visibility = "visible";
   };
-  const goCheck = () => {};
+  const GoStudy_A1 = () => {
+    Refresh("/A1");
+  };
+  const GoStudy_A2 = () => {
+    Refresh("/A2");
+  };
+  const GoStudy_A3 = () => {
+    Refresh("/A3");
+  };
+  const GoStudy_Admin = () => {
+    Refresh("/Admin");
+  };
+  const cancelStudy = () => {
+    document.getElementById("BlockDiv").style.visibility = "hidden";
+    document.getElementById("ChooseClassDiv").style.visibility = "hidden";
+    document.getElementById("Class_A1").style.visibility = "hidden";
+    document.getElementById("Class_A2").style.visibility = "hidden";
+    document.getElementById("Class_A3").style.visibility = "hidden";
+  };
+
+  const goCheck = () => {
+    Refresh("/AdminGrade");
+  };
+  const goAboutUs = () => {
+    Refresh("/Aboutus");
+  };
   return (
     <>
       <div className="PasswordChange" id="PasswordChangeDiv">
@@ -213,18 +222,216 @@ const SelfInfo = ({ Logout, UserToken }) => {
           </Button>
         </div>
       </div>
+
+      <div className="ChooseClass" id="ChooseClassDiv">
+        <h3 className="ChooseClass_Title">選擇進入課程</h3>
+        <div className="ChooseClassLine">
+          <div className="ChooseClassBox">
+            {UserData.Access === "1" && (
+              <>
+                <div className="ChooseClassBox_DIV" id="Class_A2">
+                  尚未開放
+                </div>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A1"
+                  onClick={GoStudy_A1}
+                >
+                  傳統式學習
+                </div>
+                <div className="ChooseClassBox_DIV" id="Class_A3">
+                  尚未開放
+                </div>
+              </>
+            )}
+            {UserData.Access === "2" && (
+              <>
+                <div className="ChooseClassBox_DIV" id="Class_A1">
+                  尚未開放
+                </div>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A2"
+                  onClick={GoStudy_A2}
+                >
+                  互動式學習
+                </div>
+                <div className="ChooseClassBox_DIV" id="Class_A3">
+                  尚未開放
+                </div>
+              </>
+            )}
+            {UserData.Access === "3" && (
+              <>
+                <div className="ChooseClassBox_DIV" id="Class_A1">
+                  尚未開放
+                </div>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A3"
+                  onClick={GoStudy_A3}
+                >
+                  引導式學習
+                </div>
+                <div className="ChooseClassBox_DIV" id="Class_A2">
+                  尚未開放
+                </div>
+              </>
+            )}
+            {UserData.Access === "12" && (
+              <>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A1"
+                  onClick={GoStudy_A1}
+                >
+                  傳統式學習
+                </div>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A2"
+                  onClick={GoStudy_A2}
+                >
+                  互動式學習
+                </div>
+              </>
+            )}
+            {UserData.Access === "13" && (
+              <>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A1"
+                  onClick={GoStudy_A1}
+                >
+                  傳統式學習
+                </div>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A3"
+                  onClick={GoStudy_A3}
+                >
+                  引導式學習
+                </div>
+              </>
+            )}
+            {UserData.Access === "23" && (
+              <>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A2"
+                  onClick={GoStudy_A2}
+                >
+                  互動式學習
+                </div>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A3"
+                  onClick={GoStudy_A3}
+                >
+                  引導式學習
+                </div>
+              </>
+            )}
+            {UserData.Access === "123" && (
+              <>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A1"
+                  onClick={GoStudy_A1}
+                >
+                  傳統式學習
+                </div>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A2"
+                  onClick={GoStudy_A2}
+                >
+                  互動式學習
+                </div>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A3"
+                  onClick={GoStudy_A3}
+                >
+                  引導式學習
+                </div>
+              </>
+            )}
+            {UserData.Access === "Admin" && (
+              <>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A1"
+                  onClick={GoStudy_A1}
+                >
+                  傳統式學習
+                </div>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A2"
+                  onClick={GoStudy_A2}
+                >
+                  互動式學習
+                </div>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A3"
+                  onClick={GoStudy_A3}
+                >
+                  引導式學習
+                </div>
+                <div
+                  className="ChooseClassBox_DIV"
+                  id="Class_A3"
+                  onClick={GoStudy_Admin}
+                >
+                  管理員介面
+                </div>
+              </>
+            )}
+          </div>
+          <Button
+            id="cancelStudy"
+            variant="outlined"
+            color="error"
+            onClick={cancelStudy}
+          >
+            取消
+          </Button>
+        </div>
+      </div>
+
       <div className="Block" id="BlockDiv"></div>
       <h1 className="ProfileTitle" style={{ userSelect: "none" }}>
-        PROFILE
+        Data Structure Virtualization
       </h1>
+      <img
+        className="developer"
+        src="./Img/developer.gif"
+        onClick={goAboutUs}
+      />
       <div className="SelfProfile">
         <div className="SelfProfile_Stand">
-          <h3 className="SelfProfile_Title">元智大學 Yzu Ze University</h3>
-          <h3 className="SelfProfile_subTitle">{UserData.StudentId}</h3>
+          <h3 className="SelfProfile_Title">
+            {UserData.Name} {UserData.StudentId}
+          </h3>
+        </div>
+        <div className="Classroom" style={{ userSelect: "none" }}>
+          <div className="GoStudy" onClick={goStudy}>
+            進入課程
+          </div>
+          <div
+            className="GoCheck"
+            style={{
+              display: UserData.Access === "Admin" ? "flex" : "none",
+              justifyContent: "center",
+            }}
+            onClick={goCheck}
+          >
+            查看成績
+          </div>
         </div>
         <div className="SelfProfile_Self">
-          <h3 className="SelfProfile_Text">{UserData.Name}</h3>
-          <h3 className="SelfProfile_Text">{UserData.Email}</h3>
           <Button
             variant="contained"
             style={{
@@ -257,20 +464,16 @@ const SelfInfo = ({ Logout, UserToken }) => {
               marginTop: "1em",
               height: "1.5em",
               fontSize: "1em",
+              width: "10em",
               backgroundColor: "black",
             }}
-            onClick={Logout}
+            onClick={() => {
+              Logout();
+              Refresh("/");
+            }}
           >
             登出
           </Button>
-        </div>
-        <div className="Classroom" style={{ userSelect: "none" }}>
-          <div className="GoStudy" onClick={goStudy}>
-            進入課程
-          </div>
-          <div className="GoCheck" onClick={goCheck}>
-            待開放
-          </div>
         </div>
       </div>
     </>
