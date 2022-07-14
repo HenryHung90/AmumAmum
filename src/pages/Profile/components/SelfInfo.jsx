@@ -403,7 +403,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
 
       <div className="Block" id="BlockDiv"></div>
       <h1 className="ProfileTitle" style={{ userSelect: "none" }}>
-        Data Structure Virtualization
+        Data Structure Visualization
       </h1>
       <img
         className="developer"

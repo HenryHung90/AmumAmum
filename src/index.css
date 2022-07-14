@@ -1240,13 +1240,12 @@ svg {
 /*************************Profile*********************************/
 .ProfileTitle {
   font-size: 4em;
-  width: 12.2em;
+  width: 12.5em;
   white-space: nowrap;
   margin: 0 auto;
   border-right: 2px solid transparent;
   overflow: hidden;
   animation: typingProfile 1.8s steps(150, start),
-    blink-caret 0.75s steps(15, end) infinite;
 }
 .SelfProfile {
   width: 80%;
@@ -1422,7 +1421,7 @@ svg {
     width:11em;
   }
   to {
-    width: 12.1em;
+    width: 12.5em;
   }
 }
 
