@@ -147,7 +147,7 @@ const Note = ({}) => {
           method: "POST",
           data: formData,
           withCredentials: true,
-          url: "http://localhost:4000/note/uploadpicture",
+          url: process.env.REACT_APP_AXIOS_UPLOADPICTURE,
         })
           .then((response) => {
             setNoteImg([]);
