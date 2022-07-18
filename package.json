@@ -35,6 +35,7 @@
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
     "react-tree-vis": "^1.0.0",
+    "search-suggestion": "^1.0.3",
     "socket.io-client": "^4.4.1",
     "uuid": "^8.3.2",
     "vanilla-tilt": "^1.7.2",

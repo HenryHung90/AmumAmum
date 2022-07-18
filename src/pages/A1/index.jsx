@@ -7,7 +7,14 @@ import BST from "./components/BSTdocument";
 import AVL from "./components/AVLdocument";
 import RBT from "./components/RBTdocument";
 import Grade from "../Grade/components/Grade";
+import Treedocument from "./components/Treedocument";
+import BSTdocument from "./components/BSTdocument";
+import AVLdocument from "./components/AVLdocument";
+import RBTdocument from "./components/RBTdocument";
+import Suggestion from "search-suggestion";
+import { MDBContainer } from "mdbreact";
 
+//Google表癲link
 function BSTTEST(params) {
   return (
     <div className="testContainer">
@@ -72,12 +79,63 @@ function MIXEDTEST(params) {
     </div>
   );
 }
+//Search
+const scrollContainerStyle = { width: "100%", maxHeight: "100px" };
+let Searchitems = [
+  "根節點",
+  "root",
+  "子樹",
+  "child tree",
+  "子结點",
+  "child node",
+  "葉结點",
+  "外部结點",
+  "leaf",
+  "樹高",
+  "tree height",
+  "完滿二元樹",
+  "full binary tree",
+  "完整二元樹",
+  "complete binary tree",
+  "完美二元樹",
+  "perfect binary tree",
+  "中序",
+  "inorder",
+  "前序",
+  "preorder",
+  "後序",
+  "postorder",
+  "二元搜尋樹",
+  "binary search tree",
+  "bst",
+  "bst定義",
+  "bst搜尋",
+  "bst插入",
+  "bst刪除",
+  "bst建立",
+  "avl",
+  "avl定義",
+  "avl搜尋",
+  "avl插入",
+  "avl刪除",
+  "avl建立",
+  "紅黑樹",
+  "rbt",
+  "Red Black Tree",
+  "red black tree",
+  "redblacktree定義",
+  "redblacktree搜尋",
+  "redblacktree插入",
+  "redblacktree刪除",
+  "redblacktree建立",
+];
 class A1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       Container: <Home />,
       StudentId: "",
+      currentData: [],
     };
     this.handle = this.handle.bind(this);
   }
@@ -85,6 +143,30 @@ class A1 extends React.Component {
   handle(Num) {
     this.setState({ Container: Num });
   }
+
+  //Searching
+  createData = (word, data) => {
+    const re = new RegExp(`${word.toLowerCase()}.*\\B`, "g");
+    return data.filter((item) => re.test(item.toLowerCase()));
+  };
+  //只要有改input就馬上做此function，並在下方用Suggestion輸出結果，用MDBContainer包起來為了可以滾
+  handleChange = (e) => {
+    const value = e.target.value;
+    let filterData = [];
+    if (value) {
+      filterData = this.createData(value, Searchitems);
+    }
+    if (filterData.length === 0) {
+      let notFound = ["Not Found!!"];
+      this.setState({
+        currentData: notFound,
+      });
+    } else {
+      this.setState({
+        currentData: filterData,
+      });
+    }
+  };
   /*到此 */
   render() {
     return (
@@ -213,6 +295,114 @@ class A1 extends React.Component {
                   >
                     Grade
                   </Button>
+                  <Suggestion
+                    getDisplayName={(item) => item}
+                    items={this.state.currentData}
+                  >
+                    {({
+                      getInputProps,
+                      getListItemProps,
+                      getItemProps,
+                      items,
+                      isOpen,
+                    }) => (
+                      <div>
+                        <input
+                          style={{ width: "200px" }}
+                          {...getInputProps({
+                            placeholder: "Tap to search!",
+                            onChange: this.handleChange,
+                          })}
+                        />
+                        {isOpen && (
+                          <MDBContainer>
+                            <div
+                              className="scrollbar body mx-auto searchBar"
+                              style={
+                                (scrollContainerStyle,
+                                { whiteSpace: "pre-wrap" })
+                              }
+                              {...getListItemProps()}
+                            >
+                              {items.map((item, index) => (
+                                <div
+                                  className="searchItem "
+                                  {...getItemProps({ item, index })}
+                                  onClick={() => {
+                                    if (
+                                      item === "根節點" ||
+                                      item === "root" ||
+                                      item === "子樹" ||
+                                      item === "child tree" ||
+                                      item === "子结點" ||
+                                      item === "child node" ||
+                                      item === "葉结點" ||
+                                      item === "外部结點" ||
+                                      item === "leaf" ||
+                                      item === "樹高" ||
+                                      item === "tree height" ||
+                                      item === "完滿二元樹" ||
+                                      item === "full binary tree" ||
+                                      item === "完整二元樹" ||
+                                      item === "complete binary tree" ||
+                                      item === "完美二元樹" ||
+                                      item === "perfect binary tree" ||
+                                      item === "中序" ||
+                                      item === "inorder" ||
+                                      item === "前序" ||
+                                      item === "preorder" ||
+                                      item === "後序" ||
+                                      item === "postorder"
+                                    ) {
+                                      this.handle(<Treedocument />);
+                                    }
+                                    if (
+                                      item === "二元搜尋樹" ||
+                                      item === "binary search tree" ||
+                                      item === "bst" ||
+                                      item === "bst定義" ||
+                                      item === "bst搜尋" ||
+                                      item === "bst插入" ||
+                                      item === "bst刪除" ||
+                                      item === "bst建立"
+                                    ) {
+                                      this.handle(<BSTdocument />);
+                                    }
+                                    if (
+                                      item === "avl" ||
+                                      item === "avl定義" ||
+                                      item === "avl搜尋" ||
+                                      item === "avl插入" ||
+                                      item === "avl刪除" ||
+                                      item === "avl建立"
+                                    ) {
+                                      this.handle(<AVLdocument />);
+                                    }
+                                    if (
+                                      item === "紅黑樹" ||
+                                      item === "rbt" ||
+                                      item === "Red Black Tree" ||
+                                      item === "red black tree" ||
+                                      item === "redblacktree定義" ||
+                                      item === "redblacktree搜尋" ||
+                                      item === "redblacktree插入" ||
+                                      item === "redblacktree刪除" ||
+                                      item === "redblacktree建立"
+                                    ) {
+                                      this.handle(<RBTdocument />);
+                                    }
+                                  }}
+                                  key={item}
+                                >
+                                  {item}
+                                </div>
+                              ))}
+                            </div>
+                          </MDBContainer>
+                        )}
+                      </div>
+                    )}
+                  </Suggestion>
                 </Nav>
               </Navbar.Collapse>
               <Nav className="logSystem">

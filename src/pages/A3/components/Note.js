@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -7,6 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { v4 as uuidv4 } from "uuid";
+import $ from "jquery";
 
 import axios from "axios";
 
@@ -25,6 +26,8 @@ const Note = ({}) => {
   const [NoteSub, setNoteSub] = useState("");
   //辨識修改id
   const [NoteId, setNoteId] = useState("");
+  //暫存上傳圖片項目
+  const [NoteImg, setNoteImg] = useState([]);
   //分類儲存
   const [UserClassify, setUserClassify] = useState([]);
   //內容儲存
@@ -124,48 +127,65 @@ const Note = ({}) => {
     document.getElementById("NoteBlock").style.visibility = "hidden";
     document.body.style.overflow = "auto";
     setUserInputNote("");
+    setNoteImg([]);
   };
   const SubmitNote = () => {
     if (UserInputNote.length <= 0) {
       window.alert("筆記欄位不得為空");
       return;
     }
-
     //找出欲新增筆記內容的小分類
     for (let i = 0; i < UserContent[NotePage].length; i++) {
       if (UserContent[NotePage][i].Title === NoteSub) {
-        //建立小分類樣式
-        const UploadNote = {
-          id: uuidv4(),
-          content: UserInputNote,
-          img: [],
-        };
-        let TempUserContent = UserContent;
-        //推入資料（上傳用）
-        TempUserContent[NotePage][i].Note.push(UploadNote);
-        setUserContent(TempUserContent);
-        setTest("");
-
-        //推入Draggable
-        let TempColumns = {};
-        for (let i = 0; i < TempUserContent[NotePage].length; i++) {
-          const PushData = {
-            [i.toString()]: {
-              name: TempUserContent[NotePage][i].Title,
-              items: TempUserContent[NotePage][i].Note,
-            },
-          };
-          TempColumns = { ...TempColumns, ...PushData };
+        //建立圖片暫存檔
+        let files = NoteImg;
+        let formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append("photos", files[i]);
         }
-        setColumns(TempColumns);
+        axios({
+          method: "POST",
+          data: formData,
+          withCredentials: true,
+          url: "http://localhost:4000/note/uploadpicture",
+        })
+          .then((response) => {
+            setNoteImg([]);
+            return response.data;
+          })
+          .then((photolocation) => {
+            //建立小分類樣式
+            const UploadNote = {
+              id: uuidv4(),
+              content: UserInputNote,
+              img: [...photolocation],
+            };
+            console.log(UploadNote);
+            let TempUserContent = UserContent;
+            //推入資料（上傳用）
+            TempUserContent[NotePage][i].Note.push(UploadNote);
+            setUserContent(TempUserContent);
+            setTest("");
 
+            //推入Draggable
+            let TempColumns = {};
+            for (let i = 0; i < TempUserContent[NotePage].length; i++) {
+              const PushData = {
+                [i.toString()]: {
+                  name: TempUserContent[NotePage][i].Title,
+                  items: TempUserContent[NotePage][i].Note,
+                },
+              };
+              TempColumns = { ...TempColumns, ...PushData };
+            }
+            setColumns(TempColumns);
+          });
         break;
       }
     }
     window.alert("新增完成!");
     CancelNote();
   };
-
   //修改筆記
   const UpdatingNotes = (Id, SubName) => {
     let TempUserContent = UserContent;
@@ -176,6 +196,7 @@ const Note = ({}) => {
           if (TempUserContent[NotePage][i].Note[j].id === Id) {
             //TempUserContent[NotePage][i].Note[j]
             setUserInputNote(TempUserContent[NotePage][i].Note[j].content);
+            setNoteImg(TempUserContent[NotePage][i].Note[j].img);
             setNoteId(j);
             setNoteSub(i);
             break;
@@ -193,6 +214,7 @@ const Note = ({}) => {
     document.getElementById("NoteBlock").style.visibility = "hidden";
     document.body.style.overflow = "auto";
     setUserInputNote("");
+    setNoteImg([]);
   };
   const SubmitUpdatingNote = () => {
     if (UserInputNote.length <= 0) {
@@ -605,6 +627,44 @@ const Note = ({}) => {
     }
   };
 
+  /////img Func/////
+  function previewFile(Id, Input) {
+    let preview = document.querySelector(`#${Id}`);
+    let files = document.querySelector(`#${Input}`).files;
+
+    let TempImg = NoteImg;
+    TempImg.push(...files);
+    setNoteImg(TempImg);
+
+    console.log(TempImg);
+
+    function readAndPreview(file) {
+      // 支援的圖片型別（可自定義）
+      if (/\.(jpe?g|png)$/i.test(file.name)) {
+        let reader = new FileReader();
+        reader.addEventListener(
+          "load",
+          function () {
+            var image = new Image();
+            image.height = 100;
+            image.title = file.name;
+            image.src = this.result;
+            preview.appendChild(image);
+          },
+          false
+        );
+        reader.readAsDataURL(file);
+      }
+    }
+    //files 就是input選中的檔案，你也可以對上傳圖片個數進行限制 （files.length）
+    if (files.length <= 3) {
+      [].forEach.call(files, readAndPreview);
+    } else {
+      window.alert("單個筆記不得上傳超過三張圖片");
+      return;
+    }
+  }
+
   return (
     <>
       <div
@@ -618,13 +678,25 @@ const Note = ({}) => {
           label="寫下你的筆記"
           multiline
           rows={10}
-          style={{ width: "400px", left: "15%" }}
+          style={{ width: "80%", left: "10%" }}
           placeholder="開始吧！"
           value={UserInputNote}
           onChange={(e) => {
             setUserInputNote(e.target.value);
           }}
         />
+
+        <div className="Note_ShowImage" id="AddNote_ShowImage">
+          {NoteImg.map((val, index) => {
+            return (
+              <img
+                style={{ width: "80px", height: "80px" }}
+                src={`${process.env.REACT_APP_AXIOS_FINDPIC}/${val}`}
+                alt={`筆記圖片_${index}`}
+              ></img>
+            );
+          })}
+        </div>
         <div className="Note_CreateBtn">
           <Button
             variant="outlined"
@@ -649,6 +721,21 @@ const Note = ({}) => {
           >
             關閉
           </Button>
+          <label>
+            <input
+              id="AddNote_InputImg"
+              type="file"
+              accept="image/jpeg,image/png"
+              multiple
+              style={{
+                display: "none",
+              }}
+              onChange={() => {
+                previewFile("AddNote_ShowImage", "AddNote_InputImg");
+              }}
+            />
+            上傳圖片
+          </label>
         </div>
       </div>
       <div
@@ -662,13 +749,18 @@ const Note = ({}) => {
           label="寫下你的筆記"
           multiline
           rows={10}
-          style={{ width: "400px", left: "15%" }}
+          style={{ width: "80%", left: "10%" }}
           placeholder="開始吧！"
           value={UserInputNote}
           onChange={(e) => {
             setUserInputNote(e.target.value);
           }}
         />
+        <div className="Note_ShowImage" id="EditNote_ShowImage">
+          {NoteImg.map((val, index) => {
+            return <img src={val} alt={`Note_${index}`}></img>;
+          })}
+        </div>
         <div className="Note_CreateBtn">
           <Button
             variant="outlined"
@@ -693,6 +785,21 @@ const Note = ({}) => {
           >
             關閉
           </Button>
+          <label>
+            <input
+              id="EditNote_InputImg"
+              type="file"
+              accept="image/jpeg,image/png"
+              multiple
+              style={{
+                display: "none",
+              }}
+              onChange={() => {
+                previewFile("EditNote_ShowImage", "EditNote_InputImg");
+              }}
+            />
+            上傳圖片
+          </label>
         </div>
       </div>
       <div
@@ -705,7 +812,7 @@ const Note = ({}) => {
           id="CreateNote"
           label="寫下你欲新增分類"
           rows={1}
-          style={{ width: "400px", left: "13%" }}
+          style={{ width: "80%", left: "10%" }}
           placeholder="開始吧！"
           value={UserInputClassify}
           onChange={(e) => {
@@ -748,7 +855,7 @@ const Note = ({}) => {
           id="CreateNote"
           label="寫下你欲新增小分類"
           rows={1}
-          style={{ width: "400px", left: "13%" }}
+          style={{ width: "80%", left: "10%" }}
           placeholder="開始吧！"
           value={UserInputSubClassify}
           onChange={(e) => {
@@ -791,7 +898,7 @@ const Note = ({}) => {
           id="CreateNote"
           label="寫下新的修改分類"
           rows={1}
-          style={{ width: "400px", left: "13%" }}
+          style={{ width: "80%", left: "10%" }}
           placeholder="開始吧！"
           value={UserInputClassify}
           onChange={(e) => {
@@ -834,7 +941,7 @@ const Note = ({}) => {
           id="CreateNote"
           label="寫下新的小分類名稱"
           rows={1}
-          style={{ width: "400px", left: "13%" }}
+          style={{ width: "80%", left: "10%" }}
           placeholder="開始吧！"
           value={UserInputSubClassify}
           onChange={(e) => {
@@ -890,33 +997,35 @@ const Note = ({}) => {
                       >
                         {UserClassify[index]}
                       </Button>
-                      <div
-                        className="NoteEditClassify"
-                        onClick={() => {
-                          EditingClassify(index);
-                        }}
-                      >
-                        <EditIcon
-                          key={index}
-                          fontSize="small"
-                          style={{
-                            marginBottom: "0",
+                      <div className="NoteEditBtn">
+                        <div
+                          className="NoteEditClassify"
+                          onClick={() => {
+                            EditingClassify(index);
                           }}
-                        />
-                      </div>
-                      <div
-                        className="NoteDeleteClassify"
-                        onClick={() => {
-                          DeletingClassify(index);
-                        }}
-                      >
-                        <DeleteIcon
-                          key={index}
-                          fontSize="small"
-                          style={{
-                            marginBottom: "0",
+                        >
+                          <EditIcon
+                            key={index}
+                            fontSize="small"
+                            style={{
+                              marginBottom: "0",
+                            }}
+                          />
+                        </div>
+                        <div
+                          className="NoteDeleteClassify"
+                          onClick={() => {
+                            DeletingClassify(index);
                           }}
-                        />
+                        >
+                          <DeleteIcon
+                            key={index}
+                            fontSize="small"
+                            style={{
+                              marginBottom: "0",
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
                   );
@@ -951,6 +1060,8 @@ const Note = ({}) => {
                   return (
                     <div
                       style={{
+                        padding: "10px",
+                        border: "1px solid rgba(0, 0, 0, 0.2)",
                         display: "flex",
                         flexDirection: "column",
                         borderRadius: "20px",
@@ -964,8 +1075,11 @@ const Note = ({}) => {
                           justifyContent: "space-between",
                         }}
                       >
-                        <h2 style={{ marginLeft: "10px" }}>{column.name}</h2>
-                        <div style={{ display: "flex" }}>
+                        <h3 style={{ marginLeft: "10px" }}>{column.name}</h3>
+                        <div
+                          id={`NoteEditSubClassify_${index}`}
+                          style={{ display: "flex" }}
+                        >
                           <div
                             className="NoteEditClassify"
                             onClick={() => {
