@@ -667,9 +667,11 @@ const Note = ({}) => {
 
       //不知為何新增圖片渲染會自動加入img
       //這步是刪除多出的img
-      let TempUserContent = UserContent;
-      TempUserContent[NotePage][NoteSub].Note[NoteId].img.pop();
-      setUserContent(TempUserContent);
+      if (NoteImg.length > 1 && typeof NoteImg[0] === "string") {
+        let TempUserContent = UserContent;
+        TempUserContent[NotePage][NoteSub].Note[NoteId].img.pop();
+        setUserContent(TempUserContent);
+      }
 
       function readAndPreview(file) {
         // 支援的圖片型別（可自定義）
