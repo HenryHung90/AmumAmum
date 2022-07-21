@@ -1079,17 +1079,21 @@ svg {
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 10px;
-  z-index: 1000000;
+  z-index:101;
 }
 #NoteBlock {
-  visibility: hidden;
+  display: none;
   position: absolute;
-  z-index: 100;
+  z-index:100;
   width: 100%;
   height: 100%;
   overflow: hidden;
   background-color: #424141;
   opacity: 0.5;
+}
+
+#ImgToBig{
+  z-index:102;
 }
 .NoteEditBtn{
   display:flex;
@@ -1130,19 +1134,28 @@ svg {
 }
 .Note_CreateBtn {
   margin-top: 10px;
-  margin-left: 100px;
+  margin-left: 10%;
+}
+.NoteTotalCount{
+  line-height:250%;
+  width:10%;
+  font-size:8px;
+  text-align: center;
+  border-radius:10px;
+  border:0.3px solid rgba(0,0,0,0.3);
 }
 .AddNote {
   transition-duration: 0.4s;
   height: 50px;
+  margin-bottom: 8px;
   text-align: center;
   border: 0.5px solid black;
   border-radius: 20px;
-  background-color: #598eb1;
+  background-color: rgba(89, 142, 177,0.2);
 }
 .AddNote:hover {
   transition-duration: 0.4s;
-  background-color: #74b7e3;
+  background-color: rgba(89, 142, 177,0.8);
 }
 .NoteDroppable {
   transition-duration: 0.4s;
@@ -1182,9 +1195,10 @@ svg {
   color: white;
 }
 .Note_h2 {
-  font-size: 3em;
+  font-size: 2em;
   margin-left:5%;
   margin-top:10%;
+  margin-bottom: 5%;
 }
 .Note_ShowImage{
   border:1px solid rgba(51, 51, 51, 0.248);
@@ -1194,6 +1208,17 @@ svg {
   margin-left:10%;
   width:80%;
   height:120px;
+}
+.UploadImgBtn{
+  transition-duration:0.3s;
+  margin-top: 1px;
+  border: 1px solid black;
+  padding: 7px;
+  border-radius: 5px;
+}
+.UploadImgBtn:hover{
+  transition-duration:0.3s;
+  background-color:rgba(0, 0, 0, 0.1)
 }
 /****************************************************************/
 /*************************AboutUs*********************************/

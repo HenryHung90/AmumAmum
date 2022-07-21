@@ -6,6 +6,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import CancelIcon from "@mui/icons-material/Cancel";
 import { v4 as uuidv4 } from "uuid";
 import $ from "jquery";
 
@@ -32,7 +33,10 @@ const Note = ({}) => {
   const [UserClassify, setUserClassify] = useState([]);
   //內容儲存
   const [UserContent, setUserContent] = useState([]);
+  //驅動Render用 有時有用
   const [Test, setTest] = useState("");
+  //筆記總量計算
+  const [UserNoteTotal, setUserNoteTotal] = useState([]);
 
   //總資料匯入Draggable
   const [columns, setColumns] = useState({});
@@ -41,10 +45,12 @@ const Note = ({}) => {
     //初始化資料
     GetStudentIdAndReadNote();
   }, []);
+
   useEffect(() => {
     //排列樣式儲存 避免有回到上一動之BUG
     if (UserContent.length > 0) {
       RerenderUserContent();
+      CountClassifyNoteTotal();
     }
   }, [columns]);
   //取得學號載入筆記
@@ -70,32 +76,63 @@ const Note = ({}) => {
             data: { StudentId: response },
             withCredentials: true,
             url: process.env.REACT_APP_AXIOS_NOTEREAD,
-          }).then((response) => {
-            let TempUserClassify = response.data.UserClassify;
-            let TempUserContent = response.data.UserContent;
-            //State設定
-            setUserClassify(TempUserClassify);
-            setUserContent(TempUserContent);
-            //若第一次進入Note或未新增大分類就直接跳出
-            if (TempUserClassify === undefined) {
-              return;
-            }
+          })
+            .then((response) => {
+              let TempUserClassify = response.data.UserClassify;
+              let TempUserContent = response.data.UserContent;
+              //State設定
+              setUserClassify(TempUserClassify);
+              setUserContent(TempUserContent);
+              //若第一次進入Note或未新增大分類就直接跳出
+              if (TempUserClassify === undefined) {
+                return;
+              }
 
-            //set Columns
-            let TempColumns = {};
-            for (let i = 0; i < TempUserContent[NotePage].length; i++) {
-              const PushData = {
-                [i.toString()]: {
-                  name: TempUserContent[NotePage][i].Title,
-                  items: TempUserContent[NotePage][i].Note,
-                },
-              };
-              TempColumns = { ...TempColumns, ...PushData };
-            }
-            setColumns(TempColumns);
-          });
+              //set Columns
+              let TempColumns = {};
+              for (let i = 0; i < TempUserContent[NotePage].length; i++) {
+                const PushData = {
+                  [i.toString()]: {
+                    name: TempUserContent[NotePage][i].Title,
+                    items: TempUserContent[NotePage][i].Note,
+                  },
+                };
+                TempColumns = { ...TempColumns, ...PushData };
+              }
+              setColumns(TempColumns);
+            })
+            .then((response) => {
+              CountClassifyNoteTotal();
+            });
         });
     }
+  }
+
+  //計算各分類筆記總量
+  function CountClassifyNoteTotal() {
+    let TempNoteTotal = new Array(UserContent.length).fill(0);
+    for (let i = 0; i < UserContent.length; i++) {
+      for (let j = 0; j < UserContent[i].length; j++) {
+        TempNoteTotal[i] += UserContent[i][j].Note.length;
+      }
+    }
+    setUserNoteTotal(TempNoteTotal);
+  }
+
+  //獲得當前時間
+  function GetNowTime() {
+    const Timer = new Date();
+    const NowTime =
+      Timer.getFullYear() +
+      "/" +
+      Timer.getMonth() +
+      "/" +
+      Timer.getDate() +
+      " " +
+      Timer.getHours() +
+      ":" +
+      Timer.getMinutes();
+    return NowTime;
   }
 
   //重新設定排列樣式儲存到UserContentState function
@@ -114,79 +151,16 @@ const Note = ({}) => {
     }
   };
 
-  //新增筆記
-  const CreatingNote = (Name) => {
-    document.getElementById("CreateContent").style.display = "inline";
-    document.getElementById("NoteBlock").style.visibility = "visible";
-    document.body.style.overflow = "hidden";
-    //確認欲新增筆記之小分類為何
-    setNoteSub(Name);
+  const OpenEditPage = (Name) => {
+    $(`#${Name}`).fadeIn(200);
+    $(`#NoteBlock`).fadeIn(200);
   };
-  const CancelNote = (e) => {
-    document.getElementById("CreateContent").style.display = "none";
-    document.getElementById("NoteBlock").style.visibility = "hidden";
-    document.body.style.overflow = "auto";
-    setUserInputNote("");
-    setNoteImg([]);
+  const CloseEditPage = (Name) => {
+    $(`#${Name}`).fadeOut(200);
+    $(`#NoteBlock`).fadeOut(200);
   };
-  const SubmitNote = () => {
-    if (UserInputNote.length <= 0) {
-      window.alert("筆記欄位不得為空");
-      return;
-    }
-    //找出欲新增筆記內容的小分類
-    for (let i = 0; i < UserContent[NotePage].length; i++) {
-      if (UserContent[NotePage][i].Title === NoteSub) {
-        //建立圖片暫存檔
-        let files = NoteImg;
-        let formData = new FormData();
-        for (let i = 0; i < files.length; i++) {
-          formData.append("photos", files[i]);
-        }
-        axios({
-          method: "POST",
-          data: formData,
-          withCredentials: true,
-          url: process.env.REACT_APP_AXIOS_UPLOADPICTURE,
-        })
-          .then((response) => {
-            setNoteImg([]);
-            return response.data;
-          })
-          .then((photolocation) => {
-            //建立小分類樣式
-            const UploadNote = {
-              id: uuidv4(),
-              content: UserInputNote,
-              img: [...photolocation],
-            };
-            console.log(UploadNote);
-            let TempUserContent = UserContent;
-            //推入資料（上傳用）
-            TempUserContent[NotePage][i].Note.push(UploadNote);
-            setUserContent(TempUserContent);
-            setTest("");
 
-            //推入Draggable
-            let TempColumns = {};
-            for (let i = 0; i < TempUserContent[NotePage].length; i++) {
-              const PushData = {
-                [i.toString()]: {
-                  name: TempUserContent[NotePage][i].Title,
-                  items: TempUserContent[NotePage][i].Note,
-                },
-              };
-              TempColumns = { ...TempColumns, ...PushData };
-            }
-            setColumns(TempColumns);
-          });
-        break;
-      }
-    }
-    window.alert("新增完成!");
-    CancelNote();
-  };
-  //修改筆記
+  //點擊筆記進行修改 帶入照片及文字
   const UpdatingNotes = (Id, SubName) => {
     let TempUserContent = UserContent;
 
@@ -194,7 +168,6 @@ const Note = ({}) => {
       if (TempUserContent[NotePage][i].Title === SubName) {
         for (let j = 0; j < TempUserContent[NotePage][i].Note.length; j++) {
           if (TempUserContent[NotePage][i].Note[j].id === Id) {
-            //TempUserContent[NotePage][i].Note[j]
             setUserInputNote(TempUserContent[NotePage][i].Note[j].content);
             setNoteImg(TempUserContent[NotePage][i].Note[j].img);
             setNoteId(j);
@@ -205,62 +178,9 @@ const Note = ({}) => {
         break;
       }
     }
-    document.getElementById("UpdateContent").style.display = "inline";
-    document.getElementById("NoteBlock").style.visibility = "visible";
-    document.body.style.overflow = "hidden";
-  };
-  const CancelUpdatingNote = (e) => {
-    document.getElementById("UpdateContent").style.display = "none";
-    document.getElementById("NoteBlock").style.visibility = "hidden";
-    document.body.style.overflow = "auto";
-    setUserInputNote("");
-    setNoteImg([]);
-  };
-  const SubmitUpdatingNote = () => {
-    if (UserInputNote.length <= 0) {
-      window.alert("筆記欄位不得為空");
-      return;
-    }
-    if (window.confirm("確認修改？")) {
-      let TempUserContent = UserContent;
-
-      TempUserContent[NotePage][NoteSub].Note[NoteId].content = UserInputNote;
-
-      //不確定為何可以直接連動到columns
-      setUserContent(TempUserContent);
-      CancelUpdatingNote();
-    }
-  };
-  //刪除筆記
-  const DeletingNote = (Id, SubName) => {
-    if (window.confirm("確定刪除？")) {
-      let TempColumns = columns;
-      let NewItems = TempColumns[Id].items.filter((val, index) => {
-        if (TempColumns[Id].items[index] !== TempColumns[Id].items[SubName]) {
-          return TempColumns[Id].items[index];
-        }
-      });
-
-      TempColumns[Id].items = NewItems;
-
-      setColumns(TempColumns);
-      RerenderUserContent();
-      ChangePage(NotePage);
-    }
   };
 
-  //新增分類
-  const CreatingClassify = (e) => {
-    document.getElementById("CreateClassify").style.display = "inline";
-    document.getElementById("NoteBlock").style.visibility = "visible";
-    document.body.style.overflow = "hidden";
-  };
-  const CancelClassify = (e) => {
-    document.getElementById("CreateClassify").style.display = "none";
-    document.getElementById("NoteBlock").style.visibility = "hidden";
-    document.body.style.overflow = "auto";
-    setUserInputClassify("");
-  };
+  //確認新增分類
   const UploadClassify = () => {
     if (UserInputClassify.length <= 0) {
       window.alert("分類名稱不得為空");
@@ -294,24 +214,11 @@ const Note = ({}) => {
       setUserClassify(TempClassify);
       setTest("");
       window.alert(response.data);
-      CancelClassify();
+      setUserInputClassify("");
+      CloseEditPage("CreateClassify");
     });
   };
-  //修改分類
-  const EditingClassify = (index) => {
-    ChangePage(index);
-
-    setUserInputClassify(UserClassify[index]);
-    document.getElementById("EditClassify").style.display = "inline";
-    document.getElementById("NoteBlock").style.visibility = "visible";
-    document.body.style.overflow = "hidden";
-  };
-  const CancelEditingClassify = (e) => {
-    document.getElementById("EditClassify").style.display = "none";
-    document.getElementById("NoteBlock").style.visibility = "hidden";
-    document.body.style.overflow = "auto";
-    setUserInputClassify("");
-  };
+  //確認修改分類
   const SubmitEditClassify = () => {
     if (UserInputClassify.length <= 0) {
       window.alert("分類名稱不得為空");
@@ -347,11 +254,11 @@ const Note = ({}) => {
 
         setTest("");
         window.alert(response.data);
-        CancelEditingClassify();
+        CloseEditPage("EditClassify");
       });
     }
   };
-  //刪除分類
+  //確認刪除分類
   const DeletingClassify = (Index) => {
     ChangePage(Index);
 
@@ -389,18 +296,151 @@ const Note = ({}) => {
     }
   };
 
-  //新增小分類
-  const CreatingSubClassify = (e) => {
-    document.getElementById("CreateSubClassify").style.display = "inline";
-    document.getElementById("NoteBlock").style.visibility = "visible";
-    document.body.style.overflow = "hidden";
+  //確認新增筆記
+  const SubmitNote = () => {
+    if (UserInputNote.length <= 0) {
+      window.alert("筆記欄位不得為空");
+      return;
+    }
+
+    let files = NoteImg;
+    if (files.length > 3) {
+      window.alert("單個筆記不得超過三張圖片");
+      files.slice(0, 2);
+      setNoteImg(files);
+      return;
+    }
+    //找出欲新增筆記內容的小分類
+    for (let i = 0; i < UserContent[NotePage].length; i++) {
+      if (UserContent[NotePage][i].Title === NoteSub) {
+        //建立圖片暫存檔
+
+        let formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append("photos", files[i]);
+        }
+        axios({
+          method: "POST",
+          data: formData,
+          withCredentials: true,
+          url: process.env.REACT_APP_AXIOS_UPLOADPICTURE,
+        })
+          .then((response) => {
+            setNoteImg([]);
+            return response.data;
+          })
+          .then((photolocation) => {
+            //建立小分類樣式
+            const UploadNote = {
+              id: uuidv4(),
+              content: UserInputNote,
+              time: GetNowTime(),
+              img: [...photolocation],
+            };
+
+            let TempUserContent = UserContent;
+            //推入資料（上傳用）
+            TempUserContent[NotePage][i].Note.push(UploadNote);
+            setUserContent(TempUserContent);
+
+            //推入Draggable
+            let TempColumns = {};
+            for (let i = 0; i < TempUserContent[NotePage].length; i++) {
+              const PushData = {
+                [i.toString()]: {
+                  name: TempUserContent[NotePage][i].Title,
+                  items: TempUserContent[NotePage][i].Note,
+                },
+              };
+              TempColumns = { ...TempColumns, ...PushData };
+            }
+            setColumns(TempColumns);
+          });
+        break;
+      }
+    }
+    document.getElementById("AddNote_ShowImage").innerHTML = "";
+    setUserInputNote("");
+    CloseEditPage("CreateContent");
   };
-  const CancelSubClassify = (e) => {
-    document.getElementById("CreateSubClassify").style.display = "none";
-    document.getElementById("NoteBlock").style.visibility = "hidden";
-    document.body.style.overflow = "auto";
-    setUserInputSubClassify("");
+  //確認修改筆記
+  const SubmitUpdatingNote = () => {
+    if (UserInputNote.length <= 0) {
+      window.alert("筆記欄位不得為空");
+      return;
+    }
+    if (window.confirm("確認修改？")) {
+      let TempUserContent = UserContent;
+      //建立圖片暫存檔
+      let files = NoteImg;
+      if (files.length > 3) {
+        window.alert("單個筆記不得存放超過三張照片");
+        files.slice(0, 2);
+        setNoteImg(files);
+        return;
+      }
+      let uploadFiles = files.filter((val, index) => {
+        return typeof val !== "string";
+      });
+      let formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append("photos", uploadFiles[i]);
+      }
+
+      axios({
+        method: "POST",
+        data: formData,
+        withCredentials: true,
+        url: process.env.REACT_APP_AXIOS_UPLOADPICTURE,
+      })
+        .then((response) => {
+          return response.data;
+        })
+        .then((photolocation) => {
+          TempUserContent[NotePage][NoteSub].Note[NoteId].content =
+            UserInputNote;
+
+          TempUserContent[NotePage][NoteSub].Note[NoteId].time = GetNowTime();
+
+          let TempUserPhoto =
+            TempUserContent[NotePage][NoteSub].Note[NoteId].img;
+
+          TempUserContent[NotePage][NoteSub].Note[NoteId].img =
+            TempUserPhoto.filter((val, index) => {
+              return typeof val === "string";
+            });
+
+          TempUserContent[NotePage][NoteSub].Note[NoteId].img.push(
+            ...photolocation
+          );
+          //不確定為何可以直接連動到columns
+          setUserInputNote("");
+          setNoteImg([]);
+          document.getElementById("EditNote_ShowImage").innerHTML = "";
+          setUserContent(TempUserContent);
+          CloseEditPage("UpdateContent");
+        });
+    }
   };
+  //確認刪除筆記
+  const DeletingNote = (Id, SubName) => {
+    if (window.confirm("確定刪除？")) {
+      let TempColumns = columns;
+      let NewItems = TempColumns[Id].items.filter((val, index) => {
+        if (TempColumns[Id].items[index] !== TempColumns[Id].items[SubName]) {
+          return TempColumns[Id].items[index];
+        }
+      });
+
+      TempColumns[Id].items = NewItems;
+
+      setColumns(TempColumns);
+      RerenderUserContent();
+      ChangePage(NotePage);
+    }
+  };
+
+  //確認新增小分類
   const UploadSubClassify = () => {
     //確認欲新增小分類之大分類為何
     let TempUserContent = UserContent;
@@ -418,6 +458,7 @@ const Note = ({}) => {
           {
             id: uuidv4(),
             content: "新增項目",
+            time: GetNowTime(),
             img: [],
           },
         ],
@@ -453,8 +494,6 @@ const Note = ({}) => {
           },
         };
       } else {
-        console.log(TempUserContent[NotePage].length);
-        console.log(TempUserContent[NotePage]);
         UploadSubData = {
           id: TempUserContent[NotePage].length.toString(),
           Title: UserInputSubClassify,
@@ -480,25 +519,12 @@ const Note = ({}) => {
 
     setUserContent(TempUserContent);
     TempColumns = { ...TempColumns, ...UploadColumns };
-    console.log(TempColumns);
     setColumns(TempColumns);
     setTest("");
-    CancelSubClassify();
-  };
-  const EditingSubClassify = (index) => {
-    setNoteSub(index);
-    setUserInputSubClassify(UserContent[NotePage][index].Title);
-
-    document.getElementById("UpdateSubClassify").style.display = "inline";
-    document.getElementById("NoteBlock").style.visibility = "visible";
-    document.body.style.overflow = "hidden";
-  };
-  const CancelEditingSubClassify = (e) => {
-    document.getElementById("UpdateSubClassify").style.display = "none";
-    document.getElementById("NoteBlock").style.visibility = "hidden";
-    document.body.style.overflow = "auto";
     setUserInputSubClassify("");
+    CloseEditPage("CreateSubClassify");
   };
+  //確認修改小分類
   const SubmitEditSubClassify = () => {
     if (UserInputSubClassify.length <= 0) {
       window.alert("分類名稱不得為空");
@@ -516,9 +542,11 @@ const Note = ({}) => {
 
       setColumns(TempColumns);
       RerenderUserContent();
-      CancelEditingSubClassify();
+      setUserInputSubClassify("");
+      CloseEditPage("UpdateSubClassify");
     }
   };
+  //確認刪除小分類
   const DeletingSubClassify = (Index) => {
     if (
       window.confirm(
@@ -632,47 +660,112 @@ const Note = ({}) => {
     let preview = document.querySelector(`#${Id}`);
     let files = document.querySelector(`#${Input}`).files;
 
-    let TempImg = NoteImg;
-    TempImg.push(...files);
-    setNoteImg(TempImg);
+    if (NoteImg.length < 3) {
+      let Tempfile = NoteImg;
+      Tempfile.push(...files);
+      setNoteImg(Tempfile);
 
-    console.log(TempImg);
-
-    function readAndPreview(file) {
-      // 支援的圖片型別（可自定義）
-      if (/\.(jpe?g|png)$/i.test(file.name)) {
-        let reader = new FileReader();
-        reader.addEventListener(
-          "load",
-          function () {
-            var image = new Image();
-            image.height = 100;
-            image.title = file.name;
-            image.src = this.result;
-            preview.appendChild(image);
-          },
-          false
-        );
-        reader.readAsDataURL(file);
+      console.log(NoteImg);
+      function readAndPreview(file) {
+        // 支援的圖片型別（可自定義）
+        if (/\.(jpe?g|png)$/i.test(file.name)) {
+          let reader = new FileReader();
+          reader.addEventListener(
+            "load",
+            function () {
+              var image = new Image();
+              image.height = 100;
+              image.title = file.name;
+              image.src = this.result;
+              preview.appendChild(image);
+            },
+            false
+          );
+          reader.readAsDataURL(file);
+        }
       }
-    }
-    //files 就是input選中的檔案，你也可以對上傳圖片個數進行限制 （files.length）
-    if (files.length <= 3) {
-      [].forEach.call(files, readAndPreview);
+      //files 就是input選中的檔案，你也可以對上傳圖片個數進行限制 （files.length）
+      if (files.length <= 3) {
+        [].forEach.call(files, readAndPreview);
+      } else {
+        window.alert("不得一次性上傳三張以上照片");
+        return;
+      }
     } else {
-      window.alert("單個筆記不得上傳超過三張圖片");
-      return;
+      window.alert("單個筆記不得上傳超過三張照片");
     }
   }
 
+  //產生放大圖片
+  function BigImg(source) {
+    $("#ImgToBig").css({
+      position: "absolute",
+      width: $(window).width(),
+      height: $(window).height(),
+      backgroundColor: "rgba(0,0,0,0.5)",
+    });
+    $("#ImgToBig").fadeIn();
+    $("#ImgToBigSource").attr("src", source);
+    $("#ImgToBigSource").css({
+      marginLeft: "10%",
+      marginTop: "5%",
+      width: $(window).width() * 0.8,
+      height: $(window).height() * 0.5,
+      objectFit: "scale-down",
+    });
+  }
+
+  //放大照片取消
+  const CancelImgToBig = (e) => {
+    $("#ImgToBig").fadeOut();
+  };
+
   return (
     <>
+      <div
+        id="ImgToBig"
+        style={{ display: "none" }}
+        onClick={() => {
+          CancelImgToBig();
+        }}
+      >
+        <img id="ImgToBigSource" src="#"></img>
+      </div>
       <div
         className="Note_Create"
         id="CreateContent"
         style={{ display: "none" }}
       >
-        <h2 className="Note_h2">新增筆記</h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <h5 className="Note_h2">新增筆記</h5>
+          <Button
+            variant="outlined"
+            style={{
+              color: "red",
+              marginRight: "10%",
+              fontSize: "20px",
+              height: "50%",
+              marginTop: "10%",
+              border: 0,
+            }}
+            onClick={() => {
+              document.getElementById("AddNote_ShowImage").innerHTML = "";
+              setUserInputNote("");
+              setNoteImg([]);
+              CloseEditPage("CreateContent");
+            }}
+          >
+            <CancelIcon
+              fontSize="large"
+              style={{ color: "black", margin: 0 }}
+            />
+          </Button>
+        </div>
         <TextField
           id="CreateNote"
           label="寫下你的筆記"
@@ -686,17 +779,7 @@ const Note = ({}) => {
           }}
         />
 
-        <div className="Note_ShowImage" id="AddNote_ShowImage">
-          {NoteImg.map((val, index) => {
-            return (
-              <img
-                style={{ width: "80px", height: "80px" }}
-                src={`${process.env.REACT_APP_AXIOS_FINDPIC}/${val}`}
-                alt={`筆記圖片_${index}`}
-              ></img>
-            );
-          })}
-        </div>
+        <div className="Note_ShowImage" id="AddNote_ShowImage"></div>
         <div className="Note_CreateBtn">
           <Button
             variant="outlined"
@@ -704,24 +787,11 @@ const Note = ({}) => {
               marginRight: "5px",
               fontSize: "20px",
             }}
-            onClick={() => {
-              SubmitNote();
-            }}
+            onClick={SubmitNote}
           >
-            確認
+            新增
           </Button>
-          <Button
-            variant="outlined"
-            style={{
-              color: "red",
-              marginLeft: "5px",
-              fontSize: "20px",
-            }}
-            onClick={CancelNote}
-          >
-            關閉
-          </Button>
-          <label>
+          <label className="UploadImgBtn">
             <input
               id="AddNote_InputImg"
               type="file"
@@ -743,7 +813,36 @@ const Note = ({}) => {
         id="UpdateContent"
         style={{ display: "none" }}
       >
-        <h2 className="Note_h2">修改筆記</h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2 className="Note_h2">修改筆記</h2>
+          <Button
+            variant="outlined"
+            style={{
+              color: "red",
+              marginRight: "10%",
+              fontSize: "20px",
+              height: "50%",
+              marginTop: "10%",
+              border: 0,
+            }}
+            onClick={() => {
+              setUserInputNote("");
+              setNoteImg([]);
+              console.log(UserContent[NotePage]);
+              CloseEditPage("UpdateContent");
+            }}
+          >
+            <CancelIcon
+              fontSize="large"
+              style={{ color: "black", margin: 0 }}
+            />
+          </Button>
+        </div>
         <TextField
           id="CreateNote"
           label="寫下你的筆記"
@@ -757,8 +856,22 @@ const Note = ({}) => {
           }}
         />
         <div className="Note_ShowImage" id="EditNote_ShowImage">
-          {NoteImg.map((val, index) => {
-            return <img src={val} alt={`Note_${index}`}></img>;
+          {NoteImg.map(function (val, index) {
+            let ImgSource = `${process.env.REACT_APP_AXIOS_FINDPIC}/${val}`;
+            return (
+              <img
+                onClick={() => {
+                  BigImg(ImgSource);
+                }}
+                className="EditNote_ShowImageBig"
+                style={{
+                  width: "100px",
+                  height: "100px",
+                }}
+                src={ImgSource}
+                alt={`Note_${index}`}
+              ></img>
+            );
           })}
         </div>
         <div className="Note_CreateBtn">
@@ -768,24 +881,12 @@ const Note = ({}) => {
               marginRight: "5px",
               fontSize: "20px",
             }}
-            onClick={() => {
-              SubmitUpdatingNote();
-            }}
+            onClick={SubmitUpdatingNote}
           >
-            確認
+            修改
           </Button>
-          <Button
-            variant="outlined"
-            style={{
-              color: "red",
-              marginLeft: "5px",
-              fontSize: "20px",
-            }}
-            onClick={CancelUpdatingNote}
-          >
-            關閉
-          </Button>
-          <label>
+
+          <label className="UploadImgBtn">
             <input
               id="EditNote_InputImg"
               type="file"
@@ -807,7 +908,34 @@ const Note = ({}) => {
         id="CreateClassify"
         style={{ display: "none" }}
       >
-        <h2 className="Note_h2">新增分類</h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2 className="Note_h2">新增分類</h2>
+          <Button
+            variant="outlined"
+            style={{
+              color: "red",
+              marginRight: "10%",
+              fontSize: "20px",
+              height: "50%",
+              marginTop: "10%",
+              border: 0,
+            }}
+            onClick={() => {
+              CloseEditPage("CreateClassify");
+              setUserInputClassify("");
+            }}
+          >
+            <CancelIcon
+              fontSize="large"
+              style={{ color: "black", margin: 0 }}
+            />
+          </Button>
+        </div>
         <TextField
           id="CreateNote"
           label="寫下你欲新增分類"
@@ -832,17 +960,6 @@ const Note = ({}) => {
           >
             新增分類
           </Button>
-          <Button
-            variant="outlined"
-            style={{
-              color: "red",
-              marginLeft: "5px",
-              fontSize: "20px",
-            }}
-            onClick={CancelClassify}
-          >
-            關閉
-          </Button>
         </div>
       </div>
       <div
@@ -850,7 +967,34 @@ const Note = ({}) => {
         id="CreateSubClassify"
         style={{ display: "none" }}
       >
-        <h2 className="Note_h2">新增小分類</h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2 className="Note_h2">新增小分類</h2>
+          <Button
+            variant="outlined"
+            style={{
+              color: "red",
+              marginRight: "10%",
+              fontSize: "20px",
+              height: "50%",
+              marginTop: "10%",
+              border: 0,
+            }}
+            onClick={() => {
+              setUserInputSubClassify("");
+              CloseEditPage("CreateSubClassify");
+            }}
+          >
+            <CancelIcon
+              fontSize="large"
+              style={{ color: "black", margin: 0 }}
+            />
+          </Button>
+        </div>
         <TextField
           id="CreateNote"
           label="寫下你欲新增小分類"
@@ -875,17 +1019,6 @@ const Note = ({}) => {
           >
             新增小分類
           </Button>
-          <Button
-            variant="outlined"
-            style={{
-              color: "red",
-              marginLeft: "5px",
-              fontSize: "20px",
-            }}
-            onClick={CancelSubClassify}
-          >
-            關閉
-          </Button>
         </div>
       </div>
       <div
@@ -893,7 +1026,34 @@ const Note = ({}) => {
         id="EditClassify"
         style={{ display: "none" }}
       >
-        <h2 className="Note_h2">修改分類名稱</h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2 className="Note_h2">修改分類名稱</h2>
+          <Button
+            variant="outlined"
+            style={{
+              color: "red",
+              marginRight: "10%",
+              fontSize: "20px",
+              height: "50%",
+              marginTop: "10%",
+              border: 0,
+            }}
+            onClick={() => {
+              setUserInputClassify("");
+              CloseEditPage("EditClassify");
+            }}
+          >
+            <CancelIcon
+              fontSize="large"
+              style={{ color: "black", margin: 0 }}
+            />
+          </Button>
+        </div>
         <TextField
           id="CreateNote"
           label="寫下新的修改分類"
@@ -918,17 +1078,6 @@ const Note = ({}) => {
           >
             修改分類
           </Button>
-          <Button
-            variant="outlined"
-            style={{
-              color: "red",
-              marginLeft: "5px",
-              fontSize: "20px",
-            }}
-            onClick={CancelEditingClassify}
-          >
-            關閉
-          </Button>
         </div>
       </div>
       <div
@@ -936,7 +1085,34 @@ const Note = ({}) => {
         id="UpdateSubClassify"
         style={{ display: "none" }}
       >
-        <h2 className="Note_h2">修改小分類</h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2 className="Note_h2">修改小分類名稱</h2>
+          <Button
+            variant="outlined"
+            style={{
+              color: "red",
+              marginRight: "10%",
+              fontSize: "20px",
+              height: "50%",
+              marginTop: "10%",
+              border: 0,
+            }}
+            onClick={() => {
+              setUserInputSubClassify("");
+              CloseEditPage("UpdateSubClassify");
+            }}
+          >
+            <CancelIcon
+              fontSize="large"
+              style={{ color: "black", margin: 0 }}
+            />
+          </Button>
+        </div>
         <TextField
           id="CreateNote"
           label="寫下新的小分類名稱"
@@ -961,17 +1137,6 @@ const Note = ({}) => {
           >
             修改小分類
           </Button>
-          <Button
-            variant="outlined"
-            style={{
-              color: "red",
-              marginLeft: "5px",
-              fontSize: "20px",
-            }}
-            onClick={CancelEditingSubClassify}
-          >
-            關閉
-          </Button>
         </div>
       </div>
       <div id="NoteBlock"></div>
@@ -993,15 +1158,20 @@ const Note = ({}) => {
                         onClick={() => {
                           ChangePage(index);
                         }}
-                        style={{ width: "80%" }}
+                        style={{ width: "70%" }}
                       >
                         {UserClassify[index]}
                       </Button>
+                      <div className="NoteTotalCount">
+                        {UserNoteTotal[index]}
+                      </div>
                       <div className="NoteEditBtn">
                         <div
                           className="NoteEditClassify"
                           onClick={() => {
-                            EditingClassify(index);
+                            ChangePage(index);
+                            setUserInputClassify(UserClassify[index]);
+                            OpenEditPage("EditClassify");
                           }}
                         >
                           <EditIcon
@@ -1030,7 +1200,13 @@ const Note = ({}) => {
                     </div>
                   );
                 })}
-              <Button variant="contained" key="Add" onClick={CreatingClassify}>
+              <Button
+                variant="contained"
+                key="Add"
+                onClick={() => {
+                  OpenEditPage("CreateClassify");
+                }}
+              >
                 <AddIcon style={{ marginBottom: "0" }} />
               </Button>
               <Button
@@ -1075,7 +1251,17 @@ const Note = ({}) => {
                           justifyContent: "space-between",
                         }}
                       >
-                        <h3 style={{ marginLeft: "10px" }}>{column.name}</h3>
+                        <h3
+                          style={{
+                            marginLeft: "10px",
+                            width: "80%",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {column.name}
+                        </h3>
                         <div
                           id={`NoteEditSubClassify_${index}`}
                           style={{ display: "flex" }}
@@ -1083,7 +1269,11 @@ const Note = ({}) => {
                           <div
                             className="NoteEditClassify"
                             onClick={() => {
-                              EditingSubClassify(index);
+                              setNoteSub(index);
+                              setUserInputSubClassify(
+                                UserContent[NotePage][index].Title
+                              );
+                              OpenEditPage("UpdateSubClassify");
                             }}
                           >
                             <EditIcon
@@ -1109,7 +1299,13 @@ const Note = ({}) => {
                           </div>
                         </div>
                       </div>
-                      <div style={{ margin: 8 }}>
+                      <div
+                        style={{
+                          margin: 8,
+                          overflow: "scroll",
+                          borderRadius: "20px",
+                        }}
+                      >
                         <Droppable droppableId={columnId} key={columnId}>
                           {(provided, snapshot) => {
                             return (
@@ -1126,6 +1322,18 @@ const Note = ({}) => {
                                   minHeight: 500,
                                 }}
                               >
+                                <div
+                                  className="AddNote"
+                                  onClick={() => {
+                                    setNoteSub(column.name);
+                                    OpenEditPage("CreateContent");
+                                  }}
+                                >
+                                  <AddIcon
+                                    fontSize="large"
+                                    style={{ marginTop: "5px" }}
+                                  />
+                                </div>
                                 {column.items.map((item, index) => {
                                   return (
                                     <Draggable
@@ -1152,6 +1360,7 @@ const Note = ({}) => {
                                                   item.id,
                                                   column.name
                                                 );
+                                                OpenEditPage("UpdateContent");
                                               }}
                                               style={{
                                                 width: "100%",
@@ -1188,17 +1397,6 @@ const Note = ({}) => {
                                   );
                                 })}
                                 {provided.placeholder}
-                                <div
-                                  className="AddNote"
-                                  onClick={() => {
-                                    CreatingNote(column.name);
-                                  }}
-                                >
-                                  <AddIcon
-                                    fontSize="large"
-                                    style={{ marginTop: "5px" }}
-                                  />
-                                </div>
                               </div>
                             );
                           }}
@@ -1209,7 +1407,12 @@ const Note = ({}) => {
                 })}
               </DragDropContext>
               {UserClassify !== undefined && (
-                <div className="AddSubClassify" onClick={CreatingSubClassify}>
+                <div
+                  className="AddSubClassify"
+                  onClick={() => {
+                    OpenEditPage("CreateSubClassify");
+                  }}
+                >
                   <AddIcon fontSize="large" style={{ marginTop: "250px" }} />
                 </div>
               )}
@@ -1221,9 +1424,9 @@ const Note = ({}) => {
         <Button
           variant="contained"
           onClick={SaveNote}
-          style={{ fontSize: "large" }}
+          style={{ fontSize: "large", width: "80%" }}
         >
-          儲存變更
+          儲存變更（做完任何變更一定要記得點擊這裡！）
         </Button>
       </div>
     </>
