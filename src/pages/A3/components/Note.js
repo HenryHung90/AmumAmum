@@ -375,7 +375,7 @@ const Note = ({}) => {
       let files = NoteImg;
       if (files.length > 3) {
         window.alert("單個筆記不得存放超過三張照片");
-        files.slice(0, 2);
+        files.slice(0, 3);
         setNoteImg(files);
         return;
       }
@@ -665,7 +665,12 @@ const Note = ({}) => {
       Tempfile.push(...files);
       setNoteImg(Tempfile);
 
-      console.log(NoteImg);
+      //不知為何新增圖片渲染會自動加入img
+      //這步是刪除多出的img
+      let TempUserContent = UserContent;
+      TempUserContent[NotePage][NoteSub].Note[NoteId].img.pop();
+      setUserContent(TempUserContent);
+
       function readAndPreview(file) {
         // 支援的圖片型別（可自定義）
         if (/\.(jpe?g|png)$/i.test(file.name)) {
@@ -676,6 +681,7 @@ const Note = ({}) => {
               var image = new Image();
               image.height = 100;
               image.title = file.name;
+              image.className = "TempImg";
               image.src = this.result;
               preview.appendChild(image);
             },
@@ -831,9 +837,9 @@ const Note = ({}) => {
               border: 0,
             }}
             onClick={() => {
+              $("img").remove(".TempImg");
               setUserInputNote("");
               setNoteImg([]);
-              console.log(UserContent[NotePage]);
               CloseEditPage("UpdateContent");
             }}
           >
@@ -856,23 +862,24 @@ const Note = ({}) => {
           }}
         />
         <div className="Note_ShowImage" id="EditNote_ShowImage">
-          {NoteImg.map(function (val, index) {
-            let ImgSource = `${process.env.REACT_APP_AXIOS_FINDPIC}/${val}`;
-            return (
-              <img
-                onClick={() => {
-                  BigImg(ImgSource);
-                }}
-                className="EditNote_ShowImageBig"
-                style={{
-                  width: "100px",
-                  height: "100px",
-                }}
-                src={ImgSource}
-                alt={`Note_${index}`}
-              ></img>
-            );
-          })}
+          {NoteImg.length > 0 &&
+            NoteImg.map(function (val, index) {
+              let ImgSource = `${process.env.REACT_APP_AXIOS_FINDPIC}/${val}`;
+              return (
+                <img
+                  onClick={() => {
+                    BigImg(ImgSource);
+                  }}
+                  className="EditNote_ShowImageBig"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                  }}
+                  src={ImgSource}
+                  alt={`Note_${index}`}
+                ></img>
+              );
+            })}
         </div>
         <div className="Note_CreateBtn">
           <Button
