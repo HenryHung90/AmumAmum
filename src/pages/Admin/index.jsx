@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Signup from "./components/Signup";
 import MemberList from "./components/MemberList";
+import QuestionFromAdmin from "./components/QuestionFromAdmin";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -10,20 +11,28 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 
-const Admin = () => {
+const Admin = ({UserToken}) => {
   const Refresh = useNavigate();
-  const pages = ["手動新增成員", "成員清單", "回到個人資料"];
+  const pages = ["手動新增成員", "成員清單","問題區", "回到個人資料"];
 
   const [AdminPage, setAdminPage] = useState(<MemberList />);
   const [Test, setTest] = useState(1);
 
+  console.log(UserToken);
+
   const GoPage = (event) => {
-    if (event.target.id === "0") {
-      setAdminPage(<Signup />);
-    } else if (event.target.id === "1") {
-      setAdminPage(<MemberList />);
-    } else if (event.target.id === "2") {
-      Refresh("/Profile");
+    switch(event.target.id){
+      case "0":
+        setAdminPage(<Signup />)
+        break;
+      case "1":
+        setAdminPage(<MemberList />)
+        break;
+      case "2":
+        setAdminPage(<QuestionFromAdmin UserId={UserToken.StudentId}/>)
+        break;
+      case "3":
+        Refresh("/Profile");
     }
   };
 

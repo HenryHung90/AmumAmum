@@ -1,5 +1,5 @@
 import React from "react";
-import { BinarySearchTree, useBinarySearchTree } from "react-tree-vis";
+import { AVLTree, useAVLTree } from "react-tree-vis";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { MDBContainer } from "mdbreact";
@@ -83,7 +83,7 @@ class InReactBeautifulDndHorizontal extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="A2orderDND">
         <h3>Inorder</h3>
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
@@ -164,7 +164,7 @@ class PreReactBeautifulDndHorizontal extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="A2orderDND">
         <h3>Preorder</h3>
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
@@ -245,7 +245,7 @@ class PostReactBeautifulDndHorizontal extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="A2orderDND">
         <h3>Postorder</h3>
         <img className="correct" src="/Img/correct.png" />
         <img className="wrong" src="/Img/wrong.png" />
@@ -344,8 +344,8 @@ function MyVerticallyCenteredModal(props) {
     </Modal>
   );
 }
-function BSTInteractive() {
-  const { ref, getData, generateRandomTree } = useBinarySearchTree();
+function AVLorder() {
+  const { ref, getData, generateRandomTree } = useAVLTree();
   const [modalShow, setModalShow] = React.useState(false);
   const [record, setRecord] = useState([]);
   const scrollContainerStyle = { width: "100%", maxHeight: "500px" };
@@ -354,18 +354,20 @@ function BSTInteractive() {
   return (
     <div className="A3">
       <div className="BSTInteractive">
-        <div className="hintContainer">
-          <div className="loader"></div>
-          <img
-            className="hint"
-            src="/Img/hint.gif"
-            onClick={() => setModalShow(true)}
-          />
+        <div className="rowCss">
+          <h1>AVL Order</h1>
+          <div className="hintContainer">
+            <div className="loader"></div>
+            <img
+              className="hint"
+              src="/Img/hint.gif"
+              onClick={() => setModalShow(true)}
+            />
+          </div>
         </div>
-        <h1>BST Interactive</h1>
-        <div className="treeanddnd">
+        <div className="rowCssA2Input">
           <div className="bsttreecontainer">
-            <BinarySearchTree data={arr} ref={ref} />
+            <AVLTree data={arr} ref={ref} />
             <Button
               variant="outline-dark"
               style={{ marginTop: "20px" }}
@@ -533,4 +535,4 @@ function BSTInteractive() {
   );
 }
 
-export default BSTInteractive;
+export default AVLorder;

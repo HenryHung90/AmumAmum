@@ -173,7 +173,7 @@ const Container = () => {
               <Route path="/A1" element={<A1 UserToken={userData} />} />
               <Route path="/A2" element={<A2 UserToken={userData} />} />
               <Route path="/A3" element={<A3 UserToken={userData} />} />
-              <Route path="/Admin" element={<Admin />} />
+              <Route path="/Admin" element={<Admin UserToken={userData}/>} />
               <Route path="/AdminGrade" element={<AdminGrades />} />
             </>
           )}

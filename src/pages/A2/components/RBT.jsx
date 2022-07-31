@@ -35,7 +35,7 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <RBTdocument />
+        <RBTdocument modal={true} />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>
@@ -58,7 +58,7 @@ function InorderIntroduction(props) {
         <Modal.Title id="contained-modal-title-vcenter">Inorder</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="traversal">
+        <div className="row">
           <div>
             <h3>What is Inorder ?</h3>
             <p>
@@ -76,11 +76,10 @@ function InorderIntroduction(props) {
               以下圖為例
               <br />
             </p>
-            <img src="/Img/traversal.png" />
+            <img className="pdfImg" src="/Img/traversal.png" />
           </div>
-          <div>
+          <div className="columnCss">
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
-            <br />
             L(Node 4 有左子樹)
             <br />
             L(Node 5 有左子樹)
@@ -139,7 +138,7 @@ function PreorderIntroduction(props) {
         <Modal.Title id="contained-modal-title-vcenter">Preorder</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="traversal">
+        <div className="row">
           <div>
             <h3>What is Preorder ?</h3>
             <p>
@@ -157,9 +156,9 @@ function PreorderIntroduction(props) {
               以下圖為例
               <br />
             </p>
-            <img src="/Img/traversal.png" />
+            <img className="pdfImg" src="/Img/traversal.png" />
           </div>
-          <div>
+          <div className="columnCss">
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
             <br />
             D(Node 4 印出4)
@@ -220,7 +219,7 @@ function PostorderIntroduction(props) {
         <Modal.Title id="contained-modal-title-vcenter">Postorder</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="traversal">
+        <div className="row">
           <div>
             <h3>What is Inorder ?</h3>
             <p>
@@ -238,9 +237,9 @@ function PostorderIntroduction(props) {
               以下圖為例
               <br />
             </p>
-            <img src="/Img/traversal.png" />
+            <img className="pdfImg" src="/Img/traversal.png" />
           </div>
-          <div>
+          <div className="columnCss">
             <span style={{ color: "#4874b1" }}>走訪順序為：</span>
             <br />
             L(Node 4 有左子樹)
@@ -366,17 +365,19 @@ function RBT() {
   return (
     <div className="A2">
       <div className="rbt">
-        <div className="hintContainer">
-          <div className="loader"></div>
-          <img
-            className="hint"
-            src="/Img/hint.gif"
-            onClick={() => setModalShow(true)}
-          />
+        <div className="rowCss">
+          <h1>Red Black Tree</h1>
+          <div className="hintContainer">
+            <div className="loader"></div>
+            <img
+              className="hint"
+              src="/Img/hint.gif"
+              onClick={() => setModalShow(true)}
+            />
+          </div>
         </div>
-        <h1>Red Black Tree</h1>
-        <div className="Input">
-          <div className="InputGroup">
+        <div className="columnCss">
+          <div className="rowCssA2Input" style={{ marginTop: "10px" }}>
             <Button
               className="A2-Random"
               variant="outline-dark"
@@ -432,112 +433,118 @@ function RBT() {
               Clear
             </Button>
           </div>
-          <div className="InputGroup">
-            <input
-              type="number"
-              onChange={(elem) =>
-                setrbtsearchValue(parseInt(elem.currentTarget.value, 10))
-              }
-            />
-            <Button
-              className="A2-Search"
-              variant="outline-dark"
-              onClick={() => {
-                search(rbtsearchValue);
-                setRecord((prevArray) => [
-                  ...record,
-                  <div>
-                    <div className="recordP">
-                      {`Search ${rbtsearchValue} \n`}
-                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
-                        {new Date().toLocaleTimeString() +
-                          "/" +
-                          new Date().getFullYear() +
-                          "年" +
-                          (new Date().getMonth() + 1) +
-                          "月" +
-                          new Date().getDate() +
-                          "日"}
-                      </span>
-                    </div>
-                  </div>,
-                ]);
-              }}
-            >
-              Search
-            </Button>
-            <input
-              type="number"
-              onChange={(elem) =>
-                setrbtInsertValue(parseInt(elem.currentTarget.value, 10))
-              }
-            />
-            <Button
-              className="A2-Insert"
-              variant="outline-dark"
-              onClick={() => {
-                insert(rbtinsertValue);
-                search(rbtinsertValue);
-                setRecord((prevArray) => [
-                  ...record,
-                  <div>
-                    <div className="recordP">
-                      {`Insert ${rbtinsertValue} \n`}
-                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
-                        {new Date().toLocaleTimeString() +
-                          "/" +
-                          new Date().getFullYear() +
-                          "年" +
-                          (new Date().getMonth() + 1) +
-                          "月" +
-                          new Date().getDate() +
-                          "日"}
-                      </span>
-                    </div>
-                  </div>,
-                ]);
-              }}
-            >
-              Insert
-            </Button>
-            <input
-              type="number"
-              onChange={(elem) =>
-                setrbtRemoveValue(parseInt(elem.currentTarget.value, 10))
-              }
-            />
-            <Button
-              className="A2-Remove"
-              variant="outline-dark"
-              onClick={() => {
-                search(rbtremoveValue);
-                setTimeout(() => {
-                  remove(rbtremoveValue);
-                }, 1200);
-                setRecord((prevArray) => [
-                  ...record,
-                  <div>
-                    <div className="recordP">
-                      {`Remove ${rbtremoveValue} \n`}
-                      <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
-                        {new Date().toLocaleTimeString() +
-                          "/" +
-                          new Date().getFullYear() +
-                          "年" +
-                          (new Date().getMonth() + 1) +
-                          "月" +
-                          new Date().getDate() +
-                          "日"}
-                      </span>
-                    </div>
-                  </div>,
-                ]);
-              }}
-            >
-              Remove
-            </Button>
+          <div className="rowCssA2Input" style={{ marginTop: "10px" }}>
+            <div>
+              <input
+                type="number"
+                onChange={(elem) =>
+                  setrbtsearchValue(parseInt(elem.currentTarget.value, 10))
+                }
+              />
+              <Button
+                className="A2-Search"
+                variant="outline-dark"
+                onClick={() => {
+                  search(rbtsearchValue);
+                  setRecord((prevArray) => [
+                    ...record,
+                    <div>
+                      <div className="recordP">
+                        {`Search ${rbtsearchValue} \n`}
+                        <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
+                          {new Date().toLocaleTimeString() +
+                            "/" +
+                            new Date().getFullYear() +
+                            "年" +
+                            (new Date().getMonth() + 1) +
+                            "月" +
+                            new Date().getDate() +
+                            "日"}
+                        </span>
+                      </div>
+                    </div>,
+                  ]);
+                }}
+              >
+                Search
+              </Button>
+            </div>
+            <div>
+              <input
+                type="number"
+                onChange={(elem) =>
+                  setrbtInsertValue(parseInt(elem.currentTarget.value, 10))
+                }
+              />
+              <Button
+                className="A2-Insert"
+                variant="outline-dark"
+                onClick={() => {
+                  insert(rbtinsertValue);
+                  search(rbtinsertValue);
+                  setRecord((prevArray) => [
+                    ...record,
+                    <div>
+                      <div className="recordP">
+                        {`Insert ${rbtinsertValue} \n`}
+                        <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
+                          {new Date().toLocaleTimeString() +
+                            "/" +
+                            new Date().getFullYear() +
+                            "年" +
+                            (new Date().getMonth() + 1) +
+                            "月" +
+                            new Date().getDate() +
+                            "日"}
+                        </span>
+                      </div>
+                    </div>,
+                  ]);
+                }}
+              >
+                Insert
+              </Button>
+            </div>
+            <div>
+              <input
+                type="number"
+                onChange={(elem) =>
+                  setrbtRemoveValue(parseInt(elem.currentTarget.value, 10))
+                }
+              />
+              <Button
+                className="A2-Remove"
+                variant="outline-dark"
+                onClick={() => {
+                  search(rbtremoveValue);
+                  setTimeout(() => {
+                    remove(rbtremoveValue);
+                  }, 1200);
+                  setRecord((prevArray) => [
+                    ...record,
+                    <div>
+                      <div className="recordP">
+                        {`Remove ${rbtremoveValue} \n`}
+                        <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
+                          {new Date().toLocaleTimeString() +
+                            "/" +
+                            new Date().getFullYear() +
+                            "年" +
+                            (new Date().getMonth() + 1) +
+                            "月" +
+                            new Date().getDate() +
+                            "日"}
+                        </span>
+                      </div>
+                    </div>,
+                  ]);
+                }}
+              >
+                Remove
+              </Button>
+            </div>
           </div>
-          <div className="InputGroup">
+          <div className="rowCssA2Input" style={{ marginTop: "10px" }}>
             <input
               style={{ width: "300px" }}
               type="text"
@@ -585,7 +592,7 @@ function RBT() {
               Create
             </Button>
           </div>
-          <div className="InputGroup">
+          <div className="rowCss" style={{ marginTop: "10px" }}>
             <div className="Inorder">
               <img
                 className="hint"
@@ -654,7 +661,7 @@ function RBT() {
             </Button>
             <div className="showTraversal">{Traversal(InorderValue)}</div>
           </div>
-          <div className="InputGroup">
+          <div className="rowCss" style={{ marginTop: "10px" }}>
             <div className=" Preorder">
               <img
                 className="hint"
@@ -723,7 +730,7 @@ function RBT() {
             </Button>
             <div className="showTraversal">{Traversal(PreorderValue)}</div>
           </div>
-          <div className="InputGroup">
+          <div className="rowCss" style={{ marginTop: "10px" }}>
             <div className=" Postorder">
               <img
                 className="hint"

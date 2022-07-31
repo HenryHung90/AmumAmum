@@ -182,7 +182,6 @@ export default function Grade(props) {
       setUserData(response.data);
       sID = response.data.StudentId;
       if (props.StudentId !== undefined) {
-        console.log(props.StudentId);
         sID = props.StudentId;
         axios({
           method: "POST",
@@ -1772,53 +1771,32 @@ export default function Grade(props) {
     if (rendertype === 1) {
       return (
         <Tilt className="gametitle playtitle" options={options}>
-          <div className="gradetitle">
+          <div className="Usergradetitle">
             <div className="userCard">
-              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAADVklEQVRoge2ZTUgVURTHfz7Nj0I0JcSigr7ITAzMMqJaVUK7FgVFLapVRYWbaFe0DloVEZSbICLTdpUFpRhuhApDigrCrBDzI7LS1GlxzjRm+Zy59466eD94HN579/zv/8zMnTtzL6RIEQtpMWqvADYCq4B8YBToAVqBJmAkxr6tSQcOAe2Al+TzBtjqsmOXZ6QYqAM26fePQAvQBXTqb0uBauQs/QCuAzeApw59WJEPvEKO9mtgF5MfpARwgb/P0E1gbvw2p6YWMdQG5IVonwDWAKeAbs29E5u7kCxBBu4voNwgfxnQixRT7dBXZI6qiToLjbMEl9iMUa8mDltolKjGWyeODGlVE1UWGunAT2AMw0GfsOjcp1Bjv4XGKDCE3OkyTQRcFOLP0J6lTobGMZNkF4V0ayyy0ChALqlB4KuJgItCPmlcaKGxUuM7UwEXhbzQaDKH+GzR2GIq4KKQNo0bLDS2aWw2FXBRiK9RSTBgo5BJcEYGHPgx5jFyxzqN2dN0GnBGNR469BWZDjVhM0bKVeOlqYCLS6tdY4WFRqVG40JccBA5mu+BGoP8Gs31gAMOfUUmHbiNzMgDRDvLCc3xn57Tnbsz4BliqDRCTpnmdNh27mKM+DzRuD9Czr4JubOCCuTo9gILQrQvAL5ozuYYfRnRgBh7TPB4/z9ygfvatnEafEVmEfCZqV+0VmubfmC5i45djhGQNayuCP324Oj11nUhEO4Nz38Jy3LVaRyFZGv8lqTNoEZnhbimCCnAAxYnaZeHTKBDyLrYrKIMeI4UcS9E+1sEk+H6GH2FphS4DAwTrP0Wh8grJFi1HwGuAeti8jgpGcBu4BFyiXjIkk4tsqAdllzgqub6C9rNwB5gjkO//5ANHCd4WvWQgXsFWGuhWwJcIhhfHvABOAnkWOj+QxqygdM1rqN24AQw32E/ecAxgrHmIfssR3CwlzMPuDtOuJXpWTXfjmwA+f02qBcjspD9Pg+Zhfc6MBiVAwSXXBOGS6oXVaAT2S6bKcrUg4fsdkViJbJ5M4rszs40VYiXYWTHODTnkSPwIAZTpjQins5N/CPZs9YOjfVxODLE32fcOfGPZLe0PqJNbtNJH/KG+YfJCskBvsdux44cZJcrRYoUIfgNHq3EbO8epBkAAAAASUVORK5CYII=" />
-              <div
-                style={{
-                  display: "inline",
-                  color: "gray",
-                }}
-              >
-                {UserData.Name}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  marginLeft: "50px",
-                }}
-              >
+              <div>
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAADVklEQVRoge2ZTUgVURTHfz7Nj0I0JcSigr7ITAzMMqJaVUK7FgVFLapVRYWbaFe0DloVEZSbICLTdpUFpRhuhApDigrCrBDzI7LS1GlxzjRm+Zy59466eD94HN579/zv/8zMnTtzL6RIEQtpMWqvADYCq4B8YBToAVqBJmAkxr6tSQcOAe2Al+TzBtjqsmOXZ6QYqAM26fePQAvQBXTqb0uBauQs/QCuAzeApw59WJEPvEKO9mtgF5MfpARwgb/P0E1gbvw2p6YWMdQG5IVonwDWAKeAbs29E5u7kCxBBu4voNwgfxnQixRT7dBXZI6qiToLjbMEl9iMUa8mDltolKjGWyeODGlVE1UWGunAT2AMw0GfsOjcp1Bjv4XGKDCE3OkyTQRcFOLP0J6lTobGMZNkF4V0ayyy0ChALqlB4KuJgItCPmlcaKGxUuM7UwEXhbzQaDKH+GzR2GIq4KKQNo0bLDS2aWw2FXBRiK9RSTBgo5BJcEYGHPgx5jFyxzqN2dN0GnBGNR469BWZDjVhM0bKVeOlqYCLS6tdY4WFRqVG40JccBA5mu+BGoP8Gs31gAMOfUUmHbiNzMgDRDvLCc3xn57Tnbsz4BliqDRCTpnmdNh27mKM+DzRuD9Czr4JubOCCuTo9gILQrQvAL5ozuYYfRnRgBh7TPB4/z9ygfvatnEafEVmEfCZqV+0VmubfmC5i45djhGQNayuCP324Oj11nUhEO4Nz38Jy3LVaRyFZGv8lqTNoEZnhbimCCnAAxYnaZeHTKBDyLrYrKIMeI4UcS9E+1sEk+H6GH2FphS4DAwTrP0Wh8grJFi1HwGuAeti8jgpGcBu4BFyiXjIkk4tsqAdllzgqub6C9rNwB5gjkO//5ANHCd4WvWQgXsFWGuhWwJcIhhfHvABOAnkWOj+QxqygdM1rqN24AQw32E/ecAxgrHmIfssR3CwlzMPuDtOuJXpWTXfjmwA+f02qBcjspD9Pg+Zhfc6MBiVAwSXXBOGS6oXVaAT2S6bKcrUg4fsdkViJbJ5M4rszs40VYiXYWTHODTnkSPwIAZTpjQins5N/CPZs9YOjfVxODLE32fcOfGPZLe0PqJNbtNJH/KG+YfJCskBvsdux44cZJcrRYoUIfgNHq3EbO8epBkAAAAASUVORK5CYII=" />
                 <div
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    width: "180px",
+                    display: "inline",
+                    color: "gray",
                   }}
                 >
+                  {UserData.Name}
+                </div>
+              </div>
+
+              <div className="UserGraderow">
+                <div className="UserGradecolumn">
                   <h5>BST EASY {minebsteasyranking}名</h5>
                   <h5>BST MEDIUM {minebstmediumranking}名</h5>
                   <h5>BST HARD {minebsthardranking}名</h5>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    width: "180px",
-                  }}
-                >
+                <div className="UserGradecolumn">
                   <h5>AVL EASY {mineavleasyranking}名</h5>
                   <h5>AVL MEDIUM {mineavlmediumranking}名</h5>
                   <h5>AVL HARD {mineavlhardranking}名</h5>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    width: "180px",
-                  }}
-                >
+                <div className="UserGradecolumn">
                   <h5>RBT EASY {minerbteasyranking}名</h5>
                   <h5>RBT MEDIUM {minerbtmediumranking}名</h5>
                   <h5>RBT HARD {minerbthardranking}名</h5>
@@ -1826,7 +1804,7 @@ export default function Grade(props) {
               </div>
             </div>
             <div>
-              <div style={{ display: "flex", flexDirection: "row" }}>
+              <div className="rowCss" style={{ padding: "10px" }}>
                 <ToggleButton
                   variant="outline-dark"
                   type="checkbox"
@@ -1870,7 +1848,7 @@ export default function Grade(props) {
                     style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
                   >
                     <div className="title">EASY</div>
-                    <div style={{ display: "flex", flexDirection: "row" }}>
+                    <div className="rowCss">
                       <div style={{ fontSize: "20px", marginRight: "20px" }}>
                         名次
                       </div>
@@ -1890,7 +1868,7 @@ export default function Grade(props) {
                     style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
                   >
                     <div className="title">MEDIUM</div>
-                    <div style={{ display: "flex", flexDirection: "row" }}>
+                    <div className="rowCss">
                       <div style={{ fontSize: "20px", marginRight: "20px" }}>
                         名次
                       </div>
@@ -1910,7 +1888,7 @@ export default function Grade(props) {
                     style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
                   >
                     <div className="title">HARD</div>
-                    <div style={{ display: "flex", flexDirection: "row" }}>
+                    <div className="rowCss">
                       <div style={{ fontSize: "20px", marginRight: "20px" }}>
                         名次
                       </div>
@@ -1931,53 +1909,32 @@ export default function Grade(props) {
     if (rendertype === 2) {
       return (
         <Tilt className="gametitle playtitle" options={options}>
-          <div className="gradetitle">
+          <div className="Usergradetitle">
             <div className="userCard">
-              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAADVklEQVRoge2ZTUgVURTHfz7Nj0I0JcSigr7ITAzMMqJaVUK7FgVFLapVRYWbaFe0DloVEZSbICLTdpUFpRhuhApDigrCrBDzI7LS1GlxzjRm+Zy59466eD94HN579/zv/8zMnTtzL6RIEQtpMWqvADYCq4B8YBToAVqBJmAkxr6tSQcOAe2Al+TzBtjqsmOXZ6QYqAM26fePQAvQBXTqb0uBauQs/QCuAzeApw59WJEPvEKO9mtgF5MfpARwgb/P0E1gbvw2p6YWMdQG5IVonwDWAKeAbs29E5u7kCxBBu4voNwgfxnQixRT7dBXZI6qiToLjbMEl9iMUa8mDltolKjGWyeODGlVE1UWGunAT2AMw0GfsOjcp1Bjv4XGKDCE3OkyTQRcFOLP0J6lTobGMZNkF4V0ayyy0ChALqlB4KuJgItCPmlcaKGxUuM7UwEXhbzQaDKH+GzR2GIq4KKQNo0bLDS2aWw2FXBRiK9RSTBgo5BJcEYGHPgx5jFyxzqN2dN0GnBGNR469BWZDjVhM0bKVeOlqYCLS6tdY4WFRqVG40JccBA5mu+BGoP8Gs31gAMOfUUmHbiNzMgDRDvLCc3xn57Tnbsz4BliqDRCTpnmdNh27mKM+DzRuD9Czr4JubOCCuTo9gILQrQvAL5ozuYYfRnRgBh7TPB4/z9ygfvatnEafEVmEfCZqV+0VmubfmC5i45djhGQNayuCP324Oj11nUhEO4Nz38Jy3LVaRyFZGv8lqTNoEZnhbimCCnAAxYnaZeHTKBDyLrYrKIMeI4UcS9E+1sEk+H6GH2FphS4DAwTrP0Wh8grJFi1HwGuAeti8jgpGcBu4BFyiXjIkk4tsqAdllzgqub6C9rNwB5gjkO//5ANHCd4WvWQgXsFWGuhWwJcIhhfHvABOAnkWOj+QxqygdM1rqN24AQw32E/ecAxgrHmIfssR3CwlzMPuDtOuJXpWTXfjmwA+f02qBcjspD9Pg+Zhfc6MBiVAwSXXBOGS6oXVaAT2S6bKcrUg4fsdkViJbJ5M4rszs40VYiXYWTHODTnkSPwIAZTpjQins5N/CPZs9YOjfVxODLE32fcOfGPZLe0PqJNbtNJH/KG+YfJCskBvsdux44cZJcrRYoUIfgNHq3EbO8epBkAAAAASUVORK5CYII=" />
-              <div
-                style={{
-                  display: "inline",
-                  color: "gray",
-                }}
-              >
-                {UserData.Name}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  marginLeft: "50px",
-                }}
-              >
+              <div>
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAADVklEQVRoge2ZTUgVURTHfz7Nj0I0JcSigr7ITAzMMqJaVUK7FgVFLapVRYWbaFe0DloVEZSbICLTdpUFpRhuhApDigrCrBDzI7LS1GlxzjRm+Zy59466eD94HN579/zv/8zMnTtzL6RIEQtpMWqvADYCq4B8YBToAVqBJmAkxr6tSQcOAe2Al+TzBtjqsmOXZ6QYqAM26fePQAvQBXTqb0uBauQs/QCuAzeApw59WJEPvEKO9mtgF5MfpARwgb/P0E1gbvw2p6YWMdQG5IVonwDWAKeAbs29E5u7kCxBBu4voNwgfxnQixRT7dBXZI6qiToLjbMEl9iMUa8mDltolKjGWyeODGlVE1UWGunAT2AMw0GfsOjcp1Bjv4XGKDCE3OkyTQRcFOLP0J6lTobGMZNkF4V0ayyy0ChALqlB4KuJgItCPmlcaKGxUuM7UwEXhbzQaDKH+GzR2GIq4KKQNo0bLDS2aWw2FXBRiK9RSTBgo5BJcEYGHPgx5jFyxzqN2dN0GnBGNR469BWZDjVhM0bKVeOlqYCLS6tdY4WFRqVG40JccBA5mu+BGoP8Gs31gAMOfUUmHbiNzMgDRDvLCc3xn57Tnbsz4BliqDRCTpnmdNh27mKM+DzRuD9Czr4JubOCCuTo9gILQrQvAL5ozuYYfRnRgBh7TPB4/z9ygfvatnEafEVmEfCZqV+0VmubfmC5i45djhGQNayuCP324Oj11nUhEO4Nz38Jy3LVaRyFZGv8lqTNoEZnhbimCCnAAxYnaZeHTKBDyLrYrKIMeI4UcS9E+1sEk+H6GH2FphS4DAwTrP0Wh8grJFi1HwGuAeti8jgpGcBu4BFyiXjIkk4tsqAdllzgqub6C9rNwB5gjkO//5ANHCd4WvWQgXsFWGuhWwJcIhhfHvABOAnkWOj+QxqygdM1rqN24AQw32E/ecAxgrHmIfssR3CwlzMPuDtOuJXpWTXfjmwA+f02qBcjspD9Pg+Zhfc6MBiVAwSXXBOGS6oXVaAT2S6bKcrUg4fsdkViJbJ5M4rszs40VYiXYWTHODTnkSPwIAZTpjQins5N/CPZs9YOjfVxODLE32fcOfGPZLe0PqJNbtNJH/KG+YfJCskBvsdux44cZJcrRYoUIfgNHq3EbO8epBkAAAAASUVORK5CYII=" />
                 <div
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    width: "180px",
+                    display: "inline",
+                    color: "gray",
                   }}
                 >
+                  {UserData.Name}
+                </div>
+              </div>
+
+              <div className="UserGraderow">
+                <div className="UserGradecolumn">
                   <h5>BST EASY {minebsteasyranking}名</h5>
                   <h5>BST MEDIUM {minebstmediumranking}名</h5>
                   <h5>BST HARD {minebsthardranking}名</h5>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    width: "180px",
-                  }}
-                >
+                <div className="UserGradecolumn">
                   <h5>AVL EASY {mineavleasyranking}名</h5>
                   <h5>AVL MEDIUM {mineavlmediumranking}名</h5>
                   <h5>AVL HARD {mineavlhardranking}名</h5>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    width: "180px",
-                  }}
-                >
+                <div className="UserGradecolumn">
                   <h5>RBT EASY {minerbteasyranking}名</h5>
                   <h5>RBT MEDIUM {minerbtmediumranking}名</h5>
                   <h5>RBT HARD {minerbthardranking}名</h5>
@@ -1985,7 +1942,7 @@ export default function Grade(props) {
               </div>
             </div>
             <div>
-              <div style={{ display: "flex", flexDirection: "row" }}>
+              <div className="rowCss" style={{ padding: "10px" }}>
                 <ToggleButton
                   variant="outline-dark"
                   type="checkbox"
@@ -2090,53 +2047,32 @@ export default function Grade(props) {
     if (rendertype === 3) {
       return (
         <Tilt className="gametitle playtitle" options={options}>
-          <div className="gradetitle">
+          <div className="Usergradetitle">
             <div className="userCard">
-              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAADVklEQVRoge2ZTUgVURTHfz7Nj0I0JcSigr7ITAzMMqJaVUK7FgVFLapVRYWbaFe0DloVEZSbICLTdpUFpRhuhApDigrCrBDzI7LS1GlxzjRm+Zy59466eD94HN579/zv/8zMnTtzL6RIEQtpMWqvADYCq4B8YBToAVqBJmAkxr6tSQcOAe2Al+TzBtjqsmOXZ6QYqAM26fePQAvQBXTqb0uBauQs/QCuAzeApw59WJEPvEKO9mtgF5MfpARwgb/P0E1gbvw2p6YWMdQG5IVonwDWAKeAbs29E5u7kCxBBu4voNwgfxnQixRT7dBXZI6qiToLjbMEl9iMUa8mDltolKjGWyeODGlVE1UWGunAT2AMw0GfsOjcp1Bjv4XGKDCE3OkyTQRcFOLP0J6lTobGMZNkF4V0ayyy0ChALqlB4KuJgItCPmlcaKGxUuM7UwEXhbzQaDKH+GzR2GIq4KKQNo0bLDS2aWw2FXBRiK9RSTBgo5BJcEYGHPgx5jFyxzqN2dN0GnBGNR469BWZDjVhM0bKVeOlqYCLS6tdY4WFRqVG40JccBA5mu+BGoP8Gs31gAMOfUUmHbiNzMgDRDvLCc3xn57Tnbsz4BliqDRCTpnmdNh27mKM+DzRuD9Czr4JubOCCuTo9gILQrQvAL5ozuYYfRnRgBh7TPB4/z9ygfvatnEafEVmEfCZqV+0VmubfmC5i45djhGQNayuCP324Oj11nUhEO4Nz38Jy3LVaRyFZGv8lqTNoEZnhbimCCnAAxYnaZeHTKBDyLrYrKIMeI4UcS9E+1sEk+H6GH2FphS4DAwTrP0Wh8grJFi1HwGuAeti8jgpGcBu4BFyiXjIkk4tsqAdllzgqub6C9rNwB5gjkO//5ANHCd4WvWQgXsFWGuhWwJcIhhfHvABOAnkWOj+QxqygdM1rqN24AQw32E/ecAxgrHmIfssR3CwlzMPuDtOuJXpWTXfjmwA+f02qBcjspD9Pg+Zhfc6MBiVAwSXXBOGS6oXVaAT2S6bKcrUg4fsdkViJbJ5M4rszs40VYiXYWTHODTnkSPwIAZTpjQins5N/CPZs9YOjfVxODLE32fcOfGPZLe0PqJNbtNJH/KG+YfJCskBvsdux44cZJcrRYoUIfgNHq3EbO8epBkAAAAASUVORK5CYII=" />
-              <div
-                style={{
-                  display: "inline",
-                  color: "gray",
-                }}
-              >
-                {UserData.Name}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  marginLeft: "50px",
-                }}
-              >
+              <div>
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAADVklEQVRoge2ZTUgVURTHfz7Nj0I0JcSigr7ITAzMMqJaVUK7FgVFLapVRYWbaFe0DloVEZSbICLTdpUFpRhuhApDigrCrBDzI7LS1GlxzjRm+Zy59466eD94HN579/zv/8zMnTtzL6RIEQtpMWqvADYCq4B8YBToAVqBJmAkxr6tSQcOAe2Al+TzBtjqsmOXZ6QYqAM26fePQAvQBXTqb0uBauQs/QCuAzeApw59WJEPvEKO9mtgF5MfpARwgb/P0E1gbvw2p6YWMdQG5IVonwDWAKeAbs29E5u7kCxBBu4voNwgfxnQixRT7dBXZI6qiToLjbMEl9iMUa8mDltolKjGWyeODGlVE1UWGunAT2AMw0GfsOjcp1Bjv4XGKDCE3OkyTQRcFOLP0J6lTobGMZNkF4V0ayyy0ChALqlB4KuJgItCPmlcaKGxUuM7UwEXhbzQaDKH+GzR2GIq4KKQNo0bLDS2aWw2FXBRiK9RSTBgo5BJcEYGHPgx5jFyxzqN2dN0GnBGNR469BWZDjVhM0bKVeOlqYCLS6tdY4WFRqVG40JccBA5mu+BGoP8Gs31gAMOfUUmHbiNzMgDRDvLCc3xn57Tnbsz4BliqDRCTpnmdNh27mKM+DzRuD9Czr4JubOCCuTo9gILQrQvAL5ozuYYfRnRgBh7TPB4/z9ygfvatnEafEVmEfCZqV+0VmubfmC5i45djhGQNayuCP324Oj11nUhEO4Nz38Jy3LVaRyFZGv8lqTNoEZnhbimCCnAAxYnaZeHTKBDyLrYrKIMeI4UcS9E+1sEk+H6GH2FphS4DAwTrP0Wh8grJFi1HwGuAeti8jgpGcBu4BFyiXjIkk4tsqAdllzgqub6C9rNwB5gjkO//5ANHCd4WvWQgXsFWGuhWwJcIhhfHvABOAnkWOj+QxqygdM1rqN24AQw32E/ecAxgrHmIfssR3CwlzMPuDtOuJXpWTXfjmwA+f02qBcjspD9Pg+Zhfc6MBiVAwSXXBOGS6oXVaAT2S6bKcrUg4fsdkViJbJ5M4rszs40VYiXYWTHODTnkSPwIAZTpjQins5N/CPZs9YOjfVxODLE32fcOfGPZLe0PqJNbtNJH/KG+YfJCskBvsdux44cZJcrRYoUIfgNHq3EbO8epBkAAAAASUVORK5CYII=" />
                 <div
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    width: "180px",
+                    display: "inline",
+                    color: "gray",
                   }}
                 >
+                  {UserData.Name}
+                </div>
+              </div>
+
+              <div className="UserGraderow">
+                <div className="UserGradecolumn">
                   <h5>BST EASY {minebsteasyranking}名</h5>
                   <h5>BST MEDIUM {minebstmediumranking}名</h5>
                   <h5>BST HARD {minebsthardranking}名</h5>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    width: "180px",
-                  }}
-                >
+                <div className="UserGradecolumn">
                   <h5>AVL EASY {mineavleasyranking}名</h5>
                   <h5>AVL MEDIUM {mineavlmediumranking}名</h5>
                   <h5>AVL HARD {mineavlhardranking}名</h5>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    width: "180px",
-                  }}
-                >
+                <div className="UserGradecolumn">
                   <h5>RBT EASY {minerbteasyranking}名</h5>
                   <h5>RBT MEDIUM {minerbtmediumranking}名</h5>
                   <h5>RBT HARD {minerbthardranking}名</h5>
@@ -2144,7 +2080,7 @@ export default function Grade(props) {
               </div>
             </div>
             <div>
-              <div style={{ display: "flex", flexDirection: "row" }}>
+              <div className="rowCss" style={{ padding: "10px" }}>
                 <ToggleButton
                   variant="outline-dark"
                   type="checkbox"
@@ -2257,78 +2193,80 @@ export default function Grade(props) {
       if (rendertype === 1) {
         return (
           <Tilt className="gametitle playtitle" options={options}>
-            <div
-              className="gradetitle"
-              style={{ padding: "10px", flexDirection: "row" }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 1}
-                    onClick={() => {
-                      setDifficulty(1);
-                      setChecked(1);
-                    }}
-                  >
-                    EASY
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 2}
-                    onClick={() => {
-                      setDifficulty(2);
-                      setChecked(2);
-                    }}
-                  >
-                    MEDIUM
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 3}
-                    onClick={() => {
-                      setDifficulty(3);
-                      setChecked(3);
-                    }}
-                  >
-                    HARD
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 1}
-                    onClick={() => {
-                      setRendertype(1);
-                      setTypechecked(1);
-                    }}
-                  >
-                    BST
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 2}
-                    onClick={() => {
-                      setRendertype(2);
-                      setTypechecked(2);
-                    }}
-                  >
-                    AVL
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 3}
-                    onClick={() => {
-                      setRendertype(3);
-                      setTypechecked(3);
-                    }}
-                  >
-                    RBT
-                  </ToggleButton>
+            <div className="gradetitle">
+              <div className="columnCss">
+                <div className="GradeControlButtons">
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 1}
+                      onClick={() => {
+                        setDifficulty(1);
+                        setChecked(1);
+                      }}
+                    >
+                      EASY
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 2}
+                      onClick={() => {
+                        setDifficulty(2);
+                        setChecked(2);
+                      }}
+                    >
+                      MEDIUM
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 3}
+                      onClick={() => {
+                        setDifficulty(3);
+                        setChecked(3);
+                      }}
+                    >
+                      HARD
+                    </ToggleButton>
+                  </div>
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -2336,14 +2274,7 @@ export default function Grade(props) {
                     )}
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "600px",
-                    height: "500px",
-                  }}
-                >
+                <div className="lineChartblock rowCss">
                   <Line
                     options={Lineoptions}
                     data={datalinebsteasy}
@@ -2373,78 +2304,80 @@ export default function Grade(props) {
       if (rendertype === 2) {
         return (
           <Tilt className="gametitle playtitle" options={options}>
-            <div
-              className="gradetitle"
-              style={{ padding: "10px", flexDirection: "row" }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 1}
-                    onClick={() => {
-                      setDifficulty(1);
-                      setChecked(1);
-                    }}
-                  >
-                    EASY
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 2}
-                    onClick={() => {
-                      setDifficulty(2);
-                      setChecked(2);
-                    }}
-                  >
-                    MEDIUM
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 3}
-                    onClick={() => {
-                      setDifficulty(3);
-                      setChecked(3);
-                    }}
-                  >
-                    HARD
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 1}
-                    onClick={() => {
-                      setRendertype(1);
-                      setTypechecked(1);
-                    }}
-                  >
-                    BST
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 2}
-                    onClick={() => {
-                      setRendertype(2);
-                      setTypechecked(2);
-                    }}
-                  >
-                    AVL
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 3}
-                    onClick={() => {
-                      setRendertype(3);
-                      setTypechecked(3);
-                    }}
-                  >
-                    RBT
-                  </ToggleButton>
+            <div className="gradetitle">
+              <div className="columnCss">
+                <div className="GradeControlButtons">
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 1}
+                      onClick={() => {
+                        setDifficulty(1);
+                        setChecked(1);
+                      }}
+                    >
+                      EASY
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 2}
+                      onClick={() => {
+                        setDifficulty(2);
+                        setChecked(2);
+                      }}
+                    >
+                      MEDIUM
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 3}
+                      onClick={() => {
+                        setDifficulty(3);
+                        setChecked(3);
+                      }}
+                    >
+                      HARD
+                    </ToggleButton>
+                  </div>
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -2452,14 +2385,7 @@ export default function Grade(props) {
                     )}
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "600px",
-                    height: "500px",
-                  }}
-                >
+                <div className="lineChartblock rowCss">
                   <Line
                     options={Lineoptions}
                     data={datalineavleasy}
@@ -2489,78 +2415,80 @@ export default function Grade(props) {
       if (rendertype === 3) {
         return (
           <Tilt className="gametitle playtitle" options={options}>
-            <div
-              className="gradetitle"
-              style={{ padding: "10px", flexDirection: "row" }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 1}
-                    onClick={() => {
-                      setDifficulty(1);
-                      setChecked(1);
-                    }}
-                  >
-                    EASY
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 2}
-                    onClick={() => {
-                      setDifficulty(2);
-                      setChecked(2);
-                    }}
-                  >
-                    MEDIUM
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 3}
-                    onClick={() => {
-                      setDifficulty(3);
-                      setChecked(3);
-                    }}
-                  >
-                    HARD
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 1}
-                    onClick={() => {
-                      setRendertype(1);
-                      setTypechecked(1);
-                    }}
-                  >
-                    BST
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 2}
-                    onClick={() => {
-                      setRendertype(2);
-                      setTypechecked(2);
-                    }}
-                  >
-                    AVL
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 3}
-                    onClick={() => {
-                      setRendertype(3);
-                      setTypechecked(3);
-                    }}
-                  >
-                    RBT
-                  </ToggleButton>
+            <div className="gradetitle">
+              <div className="columnCss">
+                <div className="GradeControlButtons">
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 1}
+                      onClick={() => {
+                        setDifficulty(1);
+                        setChecked(1);
+                      }}
+                    >
+                      EASY
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 2}
+                      onClick={() => {
+                        setDifficulty(2);
+                        setChecked(2);
+                      }}
+                    >
+                      MEDIUM
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 3}
+                      onClick={() => {
+                        setDifficulty(3);
+                        setChecked(3);
+                      }}
+                    >
+                      HARD
+                    </ToggleButton>
+                  </div>
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -2568,14 +2496,7 @@ export default function Grade(props) {
                     )}
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "600px",
-                    height: "500px",
-                  }}
-                >
+                <div className="lineChartblock rowCss">
                   <Line
                     options={Lineoptions}
                     data={datalinerbteasy}
@@ -2607,78 +2528,80 @@ export default function Grade(props) {
       if (rendertype === 1) {
         return (
           <Tilt className="gametitle playtitle" options={options}>
-            <div
-              className="gradetitle"
-              style={{ padding: "10px", flexDirection: "row" }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 1}
-                    onClick={() => {
-                      setDifficulty(1);
-                      setChecked(1);
-                    }}
-                  >
-                    EASY
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 2}
-                    onClick={() => {
-                      setDifficulty(2);
-                      setChecked(2);
-                    }}
-                  >
-                    MEDIUM
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 3}
-                    onClick={() => {
-                      setDifficulty(3);
-                      setChecked(3);
-                    }}
-                  >
-                    HARD
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 1}
-                    onClick={() => {
-                      setRendertype(1);
-                      setTypechecked(1);
-                    }}
-                  >
-                    BST
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 2}
-                    onClick={() => {
-                      setRendertype(2);
-                      setTypechecked(2);
-                    }}
-                  >
-                    AVL
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 3}
-                    onClick={() => {
-                      setRendertype(3);
-                      setTypechecked(3);
-                    }}
-                  >
-                    RBT
-                  </ToggleButton>
+            <div className="gradetitle">
+              <div className="columnCss">
+                <div className="GradeControlButtons">
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 1}
+                      onClick={() => {
+                        setDifficulty(1);
+                        setChecked(1);
+                      }}
+                    >
+                      EASY
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 2}
+                      onClick={() => {
+                        setDifficulty(2);
+                        setChecked(2);
+                      }}
+                    >
+                      MEDIUM
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 3}
+                      onClick={() => {
+                        setDifficulty(3);
+                        setChecked(3);
+                      }}
+                    >
+                      HARD
+                    </ToggleButton>
+                  </div>
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -2686,14 +2609,7 @@ export default function Grade(props) {
                     )}
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "600px",
-                    height: "500px",
-                  }}
-                >
+                <div className="lineChartblock rowCss">
                   <Line
                     options={Lineoptions}
                     data={datalinebstmedium}
@@ -2723,78 +2639,80 @@ export default function Grade(props) {
       if (rendertype === 2) {
         return (
           <Tilt className="gametitle playtitle" options={options}>
-            <div
-              className="gradetitle"
-              style={{ padding: "10px", flexDirection: "row" }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 1}
-                    onClick={() => {
-                      setDifficulty(1);
-                      setChecked(1);
-                    }}
-                  >
-                    EASY
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 2}
-                    onClick={() => {
-                      setDifficulty(2);
-                      setChecked(2);
-                    }}
-                  >
-                    MEDIUM
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 3}
-                    onClick={() => {
-                      setDifficulty(3);
-                      setChecked(3);
-                    }}
-                  >
-                    HARD
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 1}
-                    onClick={() => {
-                      setRendertype(1);
-                      setTypechecked(1);
-                    }}
-                  >
-                    BST
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 2}
-                    onClick={() => {
-                      setRendertype(2);
-                      setTypechecked(2);
-                    }}
-                  >
-                    AVL
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 3}
-                    onClick={() => {
-                      setRendertype(3);
-                      setTypechecked(3);
-                    }}
-                  >
-                    RBT
-                  </ToggleButton>
+            <div className="gradetitle">
+              <div className="columnCss">
+                <div className="GradeControlButtons">
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 1}
+                      onClick={() => {
+                        setDifficulty(1);
+                        setChecked(1);
+                      }}
+                    >
+                      EASY
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 2}
+                      onClick={() => {
+                        setDifficulty(2);
+                        setChecked(2);
+                      }}
+                    >
+                      MEDIUM
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 3}
+                      onClick={() => {
+                        setDifficulty(3);
+                        setChecked(3);
+                      }}
+                    >
+                      HARD
+                    </ToggleButton>
+                  </div>
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -2802,14 +2720,7 @@ export default function Grade(props) {
                     )}
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "600px",
-                    height: "500px",
-                  }}
-                >
+                <div className="lineChartblock rowCss">
                   <Line
                     options={Lineoptions}
                     data={datalineavlmedium}
@@ -2842,78 +2753,80 @@ export default function Grade(props) {
       if (rendertype === 3) {
         return (
           <Tilt className="gametitle playtitle" options={options}>
-            <div
-              className="gradetitle"
-              style={{ padding: "10px", flexDirection: "row" }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 1}
-                    onClick={() => {
-                      setDifficulty(1);
-                      setChecked(1);
-                    }}
-                  >
-                    EASY
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 2}
-                    onClick={() => {
-                      setDifficulty(2);
-                      setChecked(2);
-                    }}
-                  >
-                    MEDIUM
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 3}
-                    onClick={() => {
-                      setDifficulty(3);
-                      setChecked(3);
-                    }}
-                  >
-                    HARD
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 1}
-                    onClick={() => {
-                      setRendertype(1);
-                      setTypechecked(1);
-                    }}
-                  >
-                    BST
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 2}
-                    onClick={() => {
-                      setRendertype(2);
-                      setTypechecked(2);
-                    }}
-                  >
-                    AVL
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 3}
-                    onClick={() => {
-                      setRendertype(3);
-                      setTypechecked(3);
-                    }}
-                  >
-                    RBT
-                  </ToggleButton>
+            <div className="gradetitle">
+              <div className="columnCss">
+                <div className="GradeControlButtons">
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 1}
+                      onClick={() => {
+                        setDifficulty(1);
+                        setChecked(1);
+                      }}
+                    >
+                      EASY
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 2}
+                      onClick={() => {
+                        setDifficulty(2);
+                        setChecked(2);
+                      }}
+                    >
+                      MEDIUM
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 3}
+                      onClick={() => {
+                        setDifficulty(3);
+                        setChecked(3);
+                      }}
+                    >
+                      HARD
+                    </ToggleButton>
+                  </div>
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -2921,14 +2834,7 @@ export default function Grade(props) {
                     )}
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "600px",
-                    height: "500px",
-                  }}
-                >
+                <div className="lineChartblock rowCss">
                   <Line
                     options={Lineoptions}
                     data={datalinerbtmedium}
@@ -2960,78 +2866,80 @@ export default function Grade(props) {
       if (rendertype === 1) {
         return (
           <Tilt className="gametitle playtitle" options={options}>
-            <div
-              className="gradetitle"
-              style={{ padding: "10px", flexDirection: "row" }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 1}
-                    onClick={() => {
-                      setDifficulty(1);
-                      setChecked(1);
-                    }}
-                  >
-                    EASY
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 2}
-                    onClick={() => {
-                      setDifficulty(2);
-                      setChecked(2);
-                    }}
-                  >
-                    MEDIUM
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 3}
-                    onClick={() => {
-                      setDifficulty(3);
-                      setChecked(3);
-                    }}
-                  >
-                    HARD
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 1}
-                    onClick={() => {
-                      setRendertype(1);
-                      setTypechecked(1);
-                    }}
-                  >
-                    BST
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 2}
-                    onClick={() => {
-                      setRendertype(2);
-                      setTypechecked(2);
-                    }}
-                  >
-                    AVL
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 3}
-                    onClick={() => {
-                      setRendertype(3);
-                      setTypechecked(3);
-                    }}
-                  >
-                    RBT
-                  </ToggleButton>
+            <div className="gradetitle">
+              <div className="columnCss">
+                <div className="GradeControlButtons">
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 1}
+                      onClick={() => {
+                        setDifficulty(1);
+                        setChecked(1);
+                      }}
+                    >
+                      EASY
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 2}
+                      onClick={() => {
+                        setDifficulty(2);
+                        setChecked(2);
+                      }}
+                    >
+                      MEDIUM
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 3}
+                      onClick={() => {
+                        setDifficulty(3);
+                        setChecked(3);
+                      }}
+                    >
+                      HARD
+                    </ToggleButton>
+                  </div>
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -3039,14 +2947,7 @@ export default function Grade(props) {
                     )}
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "600px",
-                    height: "500px",
-                  }}
-                >
+                <div className="lineChartblock rowCss">
                   <Line
                     options={Lineoptions}
                     data={datalinebsthard}
@@ -3076,78 +2977,80 @@ export default function Grade(props) {
       if (rendertype === 2) {
         return (
           <Tilt className="gametitle playtitle" options={options}>
-            <div
-              className="gradetitle"
-              style={{ padding: "10px", flexDirection: "row" }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 1}
-                    onClick={() => {
-                      setDifficulty(1);
-                      setChecked(1);
-                    }}
-                  >
-                    EASY
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 2}
-                    onClick={() => {
-                      setDifficulty(2);
-                      setChecked(2);
-                    }}
-                  >
-                    MEDIUM
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 3}
-                    onClick={() => {
-                      setDifficulty(3);
-                      setChecked(3);
-                    }}
-                  >
-                    HARD
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 1}
-                    onClick={() => {
-                      setRendertype(1);
-                      setTypechecked(1);
-                    }}
-                  >
-                    BST
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 2}
-                    onClick={() => {
-                      setRendertype(2);
-                      setTypechecked(2);
-                    }}
-                  >
-                    AVL
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 3}
-                    onClick={() => {
-                      setRendertype(3);
-                      setTypechecked(3);
-                    }}
-                  >
-                    RBT
-                  </ToggleButton>
+            <div className="gradetitle">
+              <div className="columnCss">
+                <div className="GradeControlButtons">
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 1}
+                      onClick={() => {
+                        setDifficulty(1);
+                        setChecked(1);
+                      }}
+                    >
+                      EASY
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 2}
+                      onClick={() => {
+                        setDifficulty(2);
+                        setChecked(2);
+                      }}
+                    >
+                      MEDIUM
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 3}
+                      onClick={() => {
+                        setDifficulty(3);
+                        setChecked(3);
+                      }}
+                    >
+                      HARD
+                    </ToggleButton>
+                  </div>
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
+
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -3155,14 +3058,7 @@ export default function Grade(props) {
                     )}
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "600px",
-                    height: "500px",
-                  }}
-                >
+                <div className="lineChartblock rowCss">
                   <Line
                     options={Lineoptions}
                     data={datalineavlhard}
@@ -3192,78 +3088,79 @@ export default function Grade(props) {
       if (rendertype === 3) {
         return (
           <Tilt className="gametitle playtitle" options={options}>
-            <div
-              className="gradetitle"
-              style={{ padding: "10px", flexDirection: "row" }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 1}
-                    onClick={() => {
-                      setDifficulty(1);
-                      setChecked(1);
-                    }}
-                  >
-                    EASY
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 2}
-                    onClick={() => {
-                      setDifficulty(2);
-                      setChecked(2);
-                    }}
-                  >
-                    MEDIUM
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={checked === 3}
-                    onClick={() => {
-                      setDifficulty(3);
-                      setChecked(3);
-                    }}
-                  >
-                    HARD
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 1}
-                    onClick={() => {
-                      setRendertype(1);
-                      setTypechecked(1);
-                    }}
-                  >
-                    BST
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 2}
-                    onClick={() => {
-                      setRendertype(2);
-                      setTypechecked(2);
-                    }}
-                  >
-                    AVL
-                  </ToggleButton>
-                  <ToggleButton
-                    variant="outline-dark"
-                    type="checkbox"
-                    checked={typechecked === 3}
-                    onClick={() => {
-                      setRendertype(3);
-                      setTypechecked(3);
-                    }}
-                  >
-                    RBT
-                  </ToggleButton>
+            <div className="gradetitle">
+              <div className="columnCss">
+                <div className="GradeControlButtons">
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 1}
+                      onClick={() => {
+                        setDifficulty(1);
+                        setChecked(1);
+                      }}
+                    >
+                      EASY
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 2}
+                      onClick={() => {
+                        setDifficulty(2);
+                        setChecked(2);
+                      }}
+                    >
+                      MEDIUM
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={checked === 3}
+                      onClick={() => {
+                        setDifficulty(3);
+                        setChecked(3);
+                      }}
+                    >
+                      HARD
+                    </ToggleButton>
+                  </div>
+                  <div className="lineRow">
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 1}
+                      onClick={() => {
+                        setRendertype(1);
+                        setTypechecked(1);
+                      }}
+                    >
+                      BST
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 2}
+                      onClick={() => {
+                        setRendertype(2);
+                        setTypechecked(2);
+                      }}
+                    >
+                      AVL
+                    </ToggleButton>
+                    <ToggleButton
+                      variant="outline-dark"
+                      type="checkbox"
+                      checked={typechecked === 3}
+                      onClick={() => {
+                        setRendertype(3);
+                        setTypechecked(3);
+                      }}
+                    >
+                      RBT
+                    </ToggleButton>
+                  </div>
                   <div style={{ marginLeft: "20px" }}>
                     Average: {}
                     {Math.floor(
@@ -3271,14 +3168,7 @@ export default function Grade(props) {
                     )}
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "600px",
-                    height: "500px",
-                  }}
-                >
+                <div className="lineChartblock rowCss">
                   <Line
                     options={Lineoptions}
                     data={datalinerbthard}
@@ -3313,12 +3203,9 @@ export default function Grade(props) {
     if (rendertype === 1) {
       return (
         <Tilt className="polar" options={options}>
-          <div
-            className="gradetitle polar"
-            style={{ padding: "10px", flexDirection: "row" }}
-          >
+          <div className="gradetitle polar rowCss">
             <Radar data={radarDataBST} width="400px" />
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div className="columnCss">
               <ToggleButton
                 variant="outline-dark"
                 type="checkbox"
@@ -3370,12 +3257,9 @@ export default function Grade(props) {
     } else if (rendertype === 2) {
       return (
         <Tilt className="polar" options={options}>
-          <div
-            className="gradetitle polar"
-            style={{ padding: "10px", flexDirection: "row" }}
-          >
+          <div className="gradetitle polar rowCss">
             <Radar data={radarDataAVL} width="400px" />
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div className="columnCss">
               <ToggleButton
                 variant="outline-dark"
                 type="checkbox"
@@ -3427,12 +3311,9 @@ export default function Grade(props) {
     } else if (rendertype === 3) {
       return (
         <Tilt className="polar" options={options}>
-          <div
-            className="gradetitle polar"
-            style={{ padding: "10px", flexDirection: "row" }}
-          >
+          <div className="gradetitle polar rowCss">
             <Radar data={radarDataRBT} width="400px" />
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div className="columnCss">
               <ToggleButton
                 variant="outline-dark"
                 type="checkbox"
@@ -3484,12 +3365,9 @@ export default function Grade(props) {
     } else if (rendertype === 4) {
       return (
         <Tilt className="polar" options={options}>
-          <div
-            className="gradetitle polar"
-            style={{ padding: "10px", flexDirection: "row" }}
-          >
+          <div className="gradetitle polar rowCss">
             <Radar data={radarDataMixed} width="400px" />
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div className="columnCss">
               <ToggleButton
                 variant="outline-dark"
                 type="checkbox"
@@ -3544,24 +3422,12 @@ export default function Grade(props) {
   return (
     <div className="A3">
       <div className="Gradecontainer">
-        <img
-          onClick={() => {
-            Refresh("/Profile");
-          }}
-          style={{
-            position: "absolute",
-            left: "100px",
-            top: "20px",
-            cursor: "pointer",
-          }}
-          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAEs0lEQVR4nO2ba4hVVRTHf86MzuiUlaM9dCqmPlhCWVKJpB/ELDCH/GC+SFPCID9kGSiFhUREUNEDKqihJ/gheqE9hDRSYghTrBhMG3wxPbFEZrJxbOz2Ye3D2nvunTv3nHvO3nPp/uBy556791r/ve8+e6+19xmoUqVKlTCMBJYDnwHtwONAQ1BFnmgE7geOArkBry+BmnDSsqUJeAw4jtvoX4DvrM/zQgnMikuB54Ae3Ib/CKwG6oEJ1vUHw8hMn6uBN4A+3IbvARbiDvV51vd3+JWZPtcDbwP9uA3/CmgFRhSo86opcxo414/M9JkJbMVt9FlzbXqRejXAr6b81ow1pk4N8qvuxm14HzIKrirBxkyr3j3ZyEyfemAFcAC34T3AC0BzDFtPo6Pl4nRlZsNq4Dfchv8OPAKcn8Bep7GxKy2BWbIet+GHgDXA6IT2JuOuDqXcMsG4ADiFiP0JWArUlWmzGTc+OAO8CIwr024m3IYKbU3RbgvwDjIHRPb/BJal6CMVbkEFLsjA/jXkL6NvMozigkagGxG2I0M/d+LmC51I5wwLoiUrB8zI0M+FwIeWr25gbob+SmYSGtu/78HfWnRuOA0s8uBzSNrQwMXHsrUE6DU++5FEKiiT0V+lzZPPWcBfxmev+RyU99CYf5Inn7eit98JYIonvwW5EZ2gnvHodwGaZncC53j0ncd2dIb2GbltRDv/JY9+85hrCdno0W8NEofkgH+B+R5957EXzQbHePTbDPxhfB9F0vNE1JYp5CQSuTUiKfLuMu2VSrd5zUdS8BPA1558O9Qiu7s54AjFs8OlQBey/9eSgu86YL/xfRw4LwWbibgXnQvuGqRMHdJ4O+1tAy4p03erZXNDmbYSUw/8bER8T+Fd30XknwLlkOBmE+UdiXUYWwcH8e2FDWijbi/w/U50qN4EfIzbEfuBGxL6fsCyEyxCHItMiIX29qaiAp+yrs9G7+Ec8A8yGuLuMjWhucJrcYWnyZNoY262rkfJUz9w+YA6o5AYwj492gGMj+k7GlGHYqtOkYvQX2KLudYE/G2ufVCk7jTgB7QTDgPXxvBtb9b6yk0K8jIaoS0GXkGFzR6i7hhgs1X+JKVvusyw6i2JrTpFWtBRYL/aKW2GHgE8inRglGeUMrGNRJbWHPBEbNUpsxh3q7sDuCKmjVXonkMPcF0JdY6Z8q/H9JUJ45Bd5FkkD7dXop1wDNknLEa7Kbstob9hyTp0JO2ieGd+Ycrt9KDLK2+hnbC2SLnPTZntPkT5pAEJc6NJcbCT5z2mzKeedHllDjoKBpvkuob4vuKJNmJ7yY8Ux6JLZ6yssJKeyXvevDeQ/yTJVDTOOOhNUQC+RX7lvQOub0IPayb4FuWT6GyyH/dplGhv8pu4BivpFgBtYC3yHCLIyfE08/cncQ1WWgfY93e0HK4x72eRBzNjUWkdYOsdhaS+d5vPHyEhc2KDlYC9W9SHZH6jkfv/2SCKPLMCDYgeQtf+zSFF+SR6pjiHPqt4CrgspChf1FH4nyzuCynKJ8vIb/y7QRV5Zh9u4zuQHOB/wXTcxh8GJgZV5Bn7kfou4MqwcsKwEngYOWuoUqVKlVT4D0pjfHbbAVIsAAAAAElFTkSuQmCC"
-        />
         <h1
           style={{ display: props.StudentId === undefined ? "flex" : "none" }}
         >
           Grade
         </h1>
-        <div>
+        <div className="GradeControlButtons">
           <Button
             variant="outline-dark"
             onClick={() => {

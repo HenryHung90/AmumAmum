@@ -22,14 +22,32 @@ while (arr.length < 7) {
     }
   }
   arr.push(tmp);
-  tmpArr = arr.sort((a, b) => {
-    return a - b;
-  });
+  tmpArr = arr;
 }
 //dnd的array
 for (let i = 0; i < tmpArr.length; i++) {
   dndArr[i] = { id: (i + 1).toString(), Task: tmpArr[i] };
 }
+
+function RandomTree() {
+  let arr = [];
+  let tmpArr = [];
+  while (arr.length < 7) {
+    let tmp = getRandom(5, 70);
+    for (let j = 0; j < arr.length; j++) {
+      if (arr[j] === tmp) {
+        arr.splice(j, 1);
+      }
+    }
+    arr.push(tmp);
+    tmpArr = arr;
+  }
+  //dnd的array
+  for (let i = 0; i < tmpArr.length; i++) {
+    dndArr[i] = { id: (i + 1).toString(), Task: tmpArr[i] };
+  }
+}
+
 //每個item就是存放的位址
 const columnsFromBackend = {
   [uuidv4()]: {
@@ -112,7 +130,7 @@ function MyVerticallyCenteredModal(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Adelson Velsky Landis Tree Interactive
+          Adelson Velsky Landis Tree Create
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -154,7 +172,12 @@ const Kanban = () => {
   const onDragEnd = (result, columns, setColumns) => {
     if (!result.destination) return;
     const { source, destination } = result;
-    if (source.droppableId !== destination.droppableId) {
+    if (
+      (source.droppableId !== destination.droppableId &&
+        columns[destination.droppableId].items.length === 0) ||
+      (columns[destination.droppableId].title === "table" &&
+        source.droppableId !== destination.droppableId)
+    ) {
       const sourceColumn = columns[source.droppableId];
       const destColumn = columns[destination.droppableId];
       const sourceItems = [...sourceColumn.items];
@@ -226,7 +249,7 @@ const Kanban = () => {
     </DragDropContext>
   );
 };
-function AVLinteractive() {
+function AVLcreate() {
   const [modalShow, setModalShow] = React.useState(false);
   const [record, setRecord] = useState([]);
   const scrollContainerStyle = { width: "100%", maxHeight: "500px" };
@@ -236,132 +259,160 @@ function AVLinteractive() {
   return (
     <div className="A3">
       <div className="AVlInteractive">
-        <div className="hintContainer">
-          <div className="loader"></div>
-          <img
-            className="hint"
-            src="/Img/hint.gif"
-            onClick={() => setModalShow(true)}
-          />
+        <div className="rowCss">
+          <h1>AVL Create</h1>
+          <div className="hintContainer">
+            <div className="loader"></div>
+            <img
+              className="hint"
+              src="/Img/hint.gif"
+              onClick={() => setModalShow(true)}
+            />
+          </div>
         </div>
-        <h1>AVL Interactive</h1>
         <div className="treeanddnd">
           <div className="avltreecontainer">
             <Kanban />
             <div className="avlinteractiveButtons">
-              <Button
-                variant="outline-dark"
-                style={{
-                  marginLeft: "50px",
-                  marginTop: "220px",
-                  position: "static",
-                }}
-                onClick={() => {
-                  let ans = [];
-                  let flag = 0;
-                  let correctS = document.querySelector(".correct");
-                  let wrongS = document.querySelector(".wrong");
-                  async function check() {
-                    function catchItems() {
-                      for (let i = 0; i < dndArr.length; i++) {
-                        let b = document
-                          .getElementById(i.toString())
-                          .getElementsByClassName("theItem");
-                        if (b.length > 1 || b.length === 0) {
-                          correctS.style.visibility = "hidden";
-                          wrongS.style.visibility = "visible";
-                          break;
-                        } else {
-                          ans.push(b[0].innerText);
+              <div className="rowCss" style={{ alignItems: "baseline" }}>
+                <Button
+                  variant="outline-dark"
+                  style={{ marginTop: "20px" }}
+                  onClick={() => {
+                    async function newTree(params) {
+                      RandomTree();
+                    }
+                    newTree();
+                    let correctS = document.querySelectorAll(".correct");
+                    let wrongS = document.querySelectorAll(".wrong");
+                    correctS[0].style.visibility = "hidden";
+                    wrongS[0].style.visibility = "hidden";
+                    setRecord((prevArray) => [
+                      ...record,
+                      <div>
+                        <div className="recordP">
+                          {"Random \n"}
+                          <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
+                            {new Date().toLocaleTimeString() +
+                              "/" +
+                              new Date().getFullYear() +
+                              "年" +
+                              (new Date().getMonth() + 1) +
+                              "月" +
+                              new Date().getDate() +
+                              "日"}
+                          </span>
+                        </div>
+                      </div>,
+                    ]);
+                  }}
+                >
+                  Random
+                </Button>
+                <Button
+                  variant="outline-dark"
+                  style={{
+                    marginLeft: "50px",
+                    marginTop: "220px",
+                    position: "static",
+                  }}
+                  onClick={() => {
+                    let ans = [];
+                    let flag = 0;
+                    let correctS = document.querySelector(".correct");
+                    let wrongS = document.querySelector(".wrong");
+                    async function check() {
+                      function catchItems() {
+                        for (let i = 0; i < dndArr.length; i++) {
+                          let b = document
+                            .getElementById(i.toString())
+                            .getElementsByClassName("theItem");
+                          if (b.length > 1 || b.length === 0) {
+                            correctS.style.visibility = "hidden";
+                            wrongS.style.visibility = "visible";
+                            break;
+                          } else {
+                            ans.push(b[0].innerText);
+                          }
                         }
                       }
+                      catchItems();
                     }
-                    catchItems();
-                  }
-                  check();
-                  if (ans.length === 7) {
-                    for (let i = 0; i < 6; i++) {
-                      if (ans[i] > ans[i + 1]) {
-                        correctS.style.visibility = "hidden";
-                        wrongS.style.visibility = "visible";
-                        break;
-                      } else {
-                        flag++;
+                    check();
+                    if (ans.length === 7) {
+                      for (let i = 0; i < 6; i++) {
+                        if (ans[i] > ans[i + 1]) {
+                          correctS.style.visibility = "hidden";
+                          wrongS.style.visibility = "visible";
+                          flag = 0;
+                          break;
+                        }
+                        flag = 1;
                       }
+                    } else {
+                      correctS.style.visibility = "hidden";
+                      wrongS.style.visibility = "visible";
                     }
-                  } else {
-                    correctS.style.visibility = "hidden";
-                    wrongS.style.visibility = "visible";
-                  }
-                  if (flag === 6) {
-                    correctS.style.visibility = "visible";
-                    wrongS.style.visibility = "hidden";
-                    setRecord((prevArray) => [
-                      ...record,
-                      <div>
-                        <div className="recordP">
-                          {"Correct \n"}
-                          <span
-                            style={{
-                              fontSize: "10px",
-                              color: "rgb(155, 155, 155)",
-                            }}
-                          >
-                            {new Date().toLocaleTimeString() +
-                              "/" +
-                              new Date().getFullYear() +
-                              "年" +
-                              (new Date().getMonth() + 1) +
-                              "月" +
-                              new Date().getDate() +
-                              "日"}
-                          </span>
-                        </div>
-                      </div>,
-                    ]);
-                  } else {
-                    setRecord((prevArray) => [
-                      ...record,
-                      <div>
-                        <div className="recordP">
-                          {"Wrong \n"}
-                          <span
-                            style={{
-                              fontSize: "10px",
-                              color: "rgb(155, 155, 155)",
-                            }}
-                          >
-                            {new Date().toLocaleTimeString() +
-                              "/" +
-                              new Date().getFullYear() +
-                              "年" +
-                              (new Date().getMonth() + 1) +
-                              "月" +
-                              new Date().getDate() +
-                              "日"}
-                          </span>
-                        </div>
-                      </div>,
-                    ]);
-                  }
-                }}
-              >
-                Submit
-              </Button>
-              <img
-                className="correct"
-                src="/Img/correct.png"
-                style={{
-                  marginTop: "110px",
-                }}
-              />
-              <img
-                className="wrong"
-                src="/Img/wrong.png"
-                style={{
-                  marginTop: "110px",
-                }}
-              />
+                    if (flag === 1) {
+                      correctS.style.visibility = "visible";
+                      wrongS.style.visibility = "hidden";
+                      setRecord((prevArray) => [
+                        ...record,
+                        <div>
+                          <div className="recordP">
+                            {"Correct \n"}
+                            <span
+                              style={{
+                                fontSize: "10px",
+                                color: "rgb(155, 155, 155)",
+                              }}
+                            >
+                              {new Date().toLocaleTimeString() +
+                                "/" +
+                                new Date().getFullYear() +
+                                "年" +
+                                (new Date().getMonth() + 1) +
+                                "月" +
+                                new Date().getDate() +
+                                "日"}
+                            </span>
+                          </div>
+                        </div>,
+                      ]);
+                    } else {
+                      setRecord((prevArray) => [
+                        ...record,
+                        <div>
+                          <div className="recordP">
+                            {"Wrong \n"}
+                            <span
+                              style={{
+                                fontSize: "10px",
+                                color: "rgb(155, 155, 155)",
+                              }}
+                            >
+                              {new Date().toLocaleTimeString() +
+                                "/" +
+                                new Date().getFullYear() +
+                                "年" +
+                                (new Date().getMonth() + 1) +
+                                "月" +
+                                new Date().getDate() +
+                                "日"}
+                            </span>
+                          </div>
+                        </div>,
+                      ]);
+                    }
+                  }}
+                >
+                  Submit
+                </Button>
+              </div>
+              <div className="rowCss">
+                <img className="correct" src="/Img/correct.png" />
+                <img className="wrong" src="/Img/wrong.png" />
+              </div>
             </div>
           </div>
         </div>
@@ -393,4 +444,4 @@ function AVLinteractive() {
   );
 }
 
-export default AVLinteractive;
+export default AVLcreate;

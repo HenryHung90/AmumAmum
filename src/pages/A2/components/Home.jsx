@@ -2,11 +2,7 @@ import React from "react";
 function Home() {
   return (
     <div className="home">
-      <h1>
-        <span>Data </span>
-        <span>Structure </span>
-        <span>Visualization </span>
-      </h1>
+      <h1>Data Structure Visualization</h1>
     </div>
   );
 }

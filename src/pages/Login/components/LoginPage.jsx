@@ -37,7 +37,10 @@ const Login = ({ User }) => {
       }
     });
   }
-
+  const Refresh = useNavigate();
+  const goAboutUs = () => {
+    Refresh("/Aboutus");
+  };
   return (
     <div className="LoginMain">
       <h1 className="Login_h1" style={{ userSelect: "none" }}>

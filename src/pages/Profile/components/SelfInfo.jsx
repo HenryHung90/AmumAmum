@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "@mui/material/Button";
+import { Button, Modal } from "react-bootstrap";
 import TextField from "@mui/material/TextField";
 import bcryptjs from "bcryptjs";
 import axios from "axios";
@@ -123,14 +123,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
     document.getElementById("BlockDiv").style.visibility = "hidden";
     document.getElementById("EmailChangeDiv").style.visibility = "hidden";
   };
-  //////////////////Btn goStudy////////////////
-  const goStudy = () => {
-    document.getElementById("BlockDiv").style.visibility = "visible";
-    document.getElementById("ChooseClassDiv").style.visibility = "visible";
-    document.getElementById("Class_A1").style.visibility = "visible";
-    document.getElementById("Class_A2").style.visibility = "visible";
-    document.getElementById("Class_A3").style.visibility = "visible";
-  };
+
   const GoStudy_A1 = () => {
     Refresh("/A1");
   };
@@ -143,13 +136,6 @@ const SelfInfo = ({ Logout, UserToken }) => {
   const GoStudy_Admin = () => {
     Refresh("/Admin");
   };
-  const cancelStudy = () => {
-    document.getElementById("BlockDiv").style.visibility = "hidden";
-    document.getElementById("ChooseClassDiv").style.visibility = "hidden";
-    document.getElementById("Class_A1").style.visibility = "hidden";
-    document.getElementById("Class_A2").style.visibility = "hidden";
-    document.getElementById("Class_A3").style.visibility = "hidden";
-  };
 
   const goCheck = () => {
     Refresh("/AdminGrade");
@@ -157,79 +143,29 @@ const SelfInfo = ({ Logout, UserToken }) => {
   const goAboutUs = () => {
     Refresh("/Aboutus");
   };
-  return (
-    <>
-      <div className="PasswordChange" id="PasswordChangeDiv">
-        <h3 className="PasswordChange_Title">修改密碼</h3>
-        <div className="PasswordLine">
-          <h5 className="PasswordLine_Title">輸入舊密碼</h5>
-          <TextField id="OldPassword" label="舊密碼" variant="standard" />
-        </div>
-        <div className="PasswordLine">
-          <h5 className="PasswordLine_Title">輸入新密碼</h5>
-          <TextField id="NewPassword_First" label="新密碼" variant="standard" />
-        </div>
-        <div className="PasswordLine">
-          <h5 className="PasswordLine_Title">確認新密碼</h5>
-          <TextField
-            id="NewPassword_Check"
-            label="再次輸入"
-            variant="standard"
-          />
-        </div>
-        <div className="PasswordBtn">
-          <Button
-            id="submitPassword"
-            variant="contained"
-            color="success"
-            onClick={submitPassword}
-          >
-            確認修改
-          </Button>
-          <Button
-            id="cancel"
-            variant="outlined"
-            color="error"
-            onClick={cancelPassword}
-          >
-            取消
-          </Button>
-        </div>
-      </div>
 
-      <div className="EmailChange" id="EmailChangeDiv">
-        <h3 className="EmailChange_Title">修改電子郵件</h3>
-        <div className="EmailLine">
-          <h5 className="EmailLine_Title">輸入新Email</h5>
-          <TextField id="NewEmail" label="新Email" variant="standard" />
-        </div>
-        <div className="EmailBtn">
-          <Button
-            id="submitEmail"
-            variant="contained"
-            color="success"
-            onClick={submitEmail}
-          >
-            確認修改
-          </Button>
-          <Button
-            id="cancelEmail"
-            variant="outlined"
-            color="error"
-            onClick={cancelEmail}
-          >
-            取消
-          </Button>
-        </div>
-      </div>
-
-      <div className="ChooseClass" id="ChooseClassDiv">
-        <h3 className="ChooseClass_Title">選擇進入課程</h3>
-        <div className="ChooseClassLine">
-          <div className="ChooseClassBox">
+  const [classmodalShow, setClassModalShow] = React.useState(false);
+  const [passwordmodalShow, setPasswordModalShow] = React.useState(false);
+  const [emailmodalShow, setEmailModalShow] = React.useState(false);
+  function ClassModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            選擇進入課程
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="ClassModalContainer">
             {UserData.Access === "1" && (
               <>
                 <div className="ChooseClassBox_DIV" id="Class_A2">
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   尚未開放
                 </div>
                 <div
@@ -237,9 +173,11 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A1"
                   onClick={GoStudy_A1}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   傳統式學習
                 </div>
                 <div className="ChooseClassBox_DIV" id="Class_A3">
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   尚未開放
                 </div>
               </>
@@ -247,6 +185,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
             {UserData.Access === "2" && (
               <>
                 <div className="ChooseClassBox_DIV" id="Class_A1">
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   尚未開放
                 </div>
                 <div
@@ -254,9 +193,11 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A2"
                   onClick={GoStudy_A2}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   互動式學習
                 </div>
                 <div className="ChooseClassBox_DIV" id="Class_A3">
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   尚未開放
                 </div>
               </>
@@ -264,6 +205,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
             {UserData.Access === "3" && (
               <>
                 <div className="ChooseClassBox_DIV" id="Class_A1">
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   尚未開放
                 </div>
                 <div
@@ -271,9 +213,11 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A3"
                   onClick={GoStudy_A3}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   引導式學習
                 </div>
                 <div className="ChooseClassBox_DIV" id="Class_A2">
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   尚未開放
                 </div>
               </>
@@ -285,6 +229,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A1"
                   onClick={GoStudy_A1}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   傳統式學習
                 </div>
                 <div
@@ -292,6 +237,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A2"
                   onClick={GoStudy_A2}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   互動式學習
                 </div>
               </>
@@ -303,6 +249,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A1"
                   onClick={GoStudy_A1}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   傳統式學習
                 </div>
                 <div
@@ -310,6 +257,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A3"
                   onClick={GoStudy_A3}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   引導式學習
                 </div>
               </>
@@ -321,6 +269,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A2"
                   onClick={GoStudy_A2}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   互動式學習
                 </div>
                 <div
@@ -328,6 +277,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A3"
                   onClick={GoStudy_A3}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   引導式學習
                 </div>
               </>
@@ -339,6 +289,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A1"
                   onClick={GoStudy_A1}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   傳統式學習
                 </div>
                 <div
@@ -346,6 +297,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A2"
                   onClick={GoStudy_A2}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   互動式學習
                 </div>
                 <div
@@ -353,6 +305,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A3"
                   onClick={GoStudy_A3}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   引導式學習
                 </div>
               </>
@@ -364,6 +317,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A1"
                   onClick={GoStudy_A1}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   傳統式學習
                 </div>
                 <div
@@ -371,6 +325,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A2"
                   onClick={GoStudy_A2}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   互動式學習
                 </div>
                 <div
@@ -378,6 +333,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A3"
                   onClick={GoStudy_A3}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   引導式學習
                 </div>
                 <div
@@ -385,23 +341,120 @@ const SelfInfo = ({ Logout, UserToken }) => {
                   id="Class_A3"
                   onClick={GoStudy_Admin}
                 >
+                  <img src="./Img/amumamum.PNG" style={{ width: "100px" }} />
                   管理員介面
                 </div>
               </>
             )}
           </div>
-          <Button
-            id="cancelStudy"
-            variant="outlined"
-            color="error"
-            onClick={cancelStudy}
-          >
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-dark" onClick={props.onHide} color="error">
             取消
           </Button>
-        </div>
-      </div>
-
-      <div className="Block" id="BlockDiv"></div>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+  function EmailModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="s"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            修改電子郵件
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="emailContainer">
+            <div className="EmailLine">
+              <h5 className="EmailLine_Title">輸入新Email</h5>
+              <TextField id="NewEmail" label="新Email" variant="standard" />
+            </div>
+            <div className="EmailBtn">
+              <Button
+                id="submitEmail"
+                variant="contained"
+                color="success"
+                onClick={submitEmail}
+              >
+                確認修改
+              </Button>
+              <Button
+                variant="outline-dark"
+                onClick={props.onHide}
+                color="error"
+              >
+                取消
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+  function PasswordModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="s"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">修改密碼</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="emailContainer">
+            <div className="PasswordLine">
+              <h5 className="PasswordLine_Title">輸入舊密碼</h5>
+              <TextField id="OldPassword" label="舊密碼" variant="standard" />
+            </div>
+            <div className="PasswordLine">
+              <h5 className="PasswordLine_Title">輸入新密碼</h5>
+              <TextField
+                id="NewPassword_First"
+                label="新密碼"
+                variant="standard"
+              />
+            </div>
+            <div className="PasswordLine">
+              <h5 className="PasswordLine_Title">確認新密碼</h5>
+              <TextField
+                id="NewPassword_Check"
+                label="再次輸入"
+                variant="standard"
+              />
+            </div>
+            <div className="PasswordBtn">
+              <Button
+                id="submitPassword"
+                variant="contained"
+                color="success"
+                onClick={submitPassword}
+              >
+                確認修改
+              </Button>
+              <Button
+                id="cancel"
+                variant="outlined"
+                color="error"
+                onClick={cancelPassword}
+              >
+                取消
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+  return (
+    <>
       <h1 className="ProfileTitle" style={{ userSelect: "none" }}>
         Data Structure Visualization
       </h1>
@@ -417,7 +470,7 @@ const SelfInfo = ({ Logout, UserToken }) => {
           </h3>
         </div>
         <div className="Classroom" style={{ userSelect: "none" }}>
-          <div className="GoStudy" onClick={goStudy}>
+          <div className="GoStudy" onClick={() => setClassModalShow(true)}>
             進入課程
           </div>
           <div
@@ -433,37 +486,24 @@ const SelfInfo = ({ Logout, UserToken }) => {
         </div>
         <div className="SelfProfile_Self">
           <Button
-            variant="contained"
-            style={{
-              marginLeft: "1em",
-              marginTop: "1em",
-              height: "1.5em",
-              fontSize: "1em",
-            }}
-            onClick={ChangePassword}
+            variant="primary"
+            className="profilebtn"
+            onClick={() => setPasswordModalShow(true)}
           >
             修改密碼
           </Button>
           <Button
-            variant="contained"
-            style={{
-              marginLeft: "1em",
-              marginTop: "1em",
-              height: "1.5em",
-              fontSize: "1em",
-            }}
-            onClick={ChangeEmail}
+            variant="primary"
+            className="profilebtn"
+            onClick={() => setEmailModalShow(true)}
           >
             修改電子郵件
           </Button>
           <Button
-            variant="contained"
+            variant="primary"
             type="submit"
+            className="profilebtn"
             style={{
-              marginLeft: "1em",
-              marginTop: "1em",
-              height: "1.5em",
-              fontSize: "1em",
               width: "10em",
               backgroundColor: "black",
             }}
@@ -476,6 +516,18 @@ const SelfInfo = ({ Logout, UserToken }) => {
           </Button>
         </div>
       </div>
+      <ClassModal
+        show={classmodalShow}
+        onHide={() => setClassModalShow(false)}
+      />
+      <EmailModal
+        show={emailmodalShow}
+        onHide={() => setEmailModalShow(false)}
+      />
+      <PasswordModal
+        show={passwordmodalShow}
+        onHide={() => setPasswordModalShow(false)}
+      />
     </>
   );
 };

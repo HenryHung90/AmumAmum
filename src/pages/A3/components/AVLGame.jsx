@@ -7,6 +7,7 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import axios from "axios";
 import AVLdocument from "../../A1/components/AVLdocument";
 import Confetti from "react-confetti";
+import { MDBContainer } from "mdbreact";
 
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -39,7 +40,7 @@ function PDFDocument(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <AVLdocument />
+        <AVLdocument modal={true} />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-dark" onClick={props.onHide}>
@@ -129,6 +130,10 @@ function AVLGame() {
   const [restart, setRestart] = useState(1);
   let GetSid = sessionStorage.getItem("Sid");
   let DifficultyWord = "Easy";
+  const [record, setRecord] = useState([]);
+  const scrollContainerStyle = { width: "100%", maxHeight: "500px" };
+  //把紀錄反過來
+  let tmp = [...record];
   useEffect(() => {
     axios({
       method: "POST",
@@ -149,7 +154,6 @@ function AVLGame() {
 
   let roundStyle = {
     boxShadow: "-5px -5px 20px #004777, 5px 5px 20px #004777",
-    marginRight: "500px",
   };
   let fontcolor = {
     color: "#004777",
@@ -161,7 +165,6 @@ function AVLGame() {
     DifficultyWord = "Easy";
     roundStyle = {
       boxShadow: "-5px -5px 20px #004777, 5px 5px 20px #004777",
-      marginRight: "500px",
     };
     fontcolor = {
       color: "#004777",
@@ -172,7 +175,6 @@ function AVLGame() {
     DifficultyWord = "Medium";
     roundStyle = {
       boxShadow: "-5px -5px 20px #7b7f3d, 5px 5px 20px #7b7f3d",
-      marginRight: "500px",
     };
     fontcolor = {
       color: "#7b7f3d",
@@ -183,7 +185,6 @@ function AVLGame() {
     DifficultyWord = "Hard";
     roundStyle = {
       boxShadow: "-5px -5px 20px #f7b801, 5px 5px 20px #f7b801",
-      marginRight: "500px",
     };
     fontcolor = {
       color: "#f7b801",
@@ -438,6 +439,55 @@ function AVLGame() {
   let aicontainer = document.querySelector(".aititle");
   //回合結束
   if (round > type) {
+    if (playergrade > aigrade) {
+      setRecord((prevArray) => [
+        ...record,
+        <div>
+          <div className="recordP">
+            You win
+            <br />
+            Your grade:{playergrade}
+            <br />
+            AI grade:{aigrade}
+            <br />
+            <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
+              {new Date().toLocaleTimeString() +
+                "/" +
+                new Date().getFullYear() +
+                "年" +
+                (new Date().getMonth() + 1) +
+                "月" +
+                new Date().getDate() +
+                "日"}
+            </span>
+          </div>
+        </div>,
+      ]);
+    } else {
+      setRecord((prevArray) => [
+        ...record,
+        <div>
+          <div className="recordP">
+            You lose
+            <br />
+            Your grade:{playergrade}
+            <br />
+            AI grade:{aigrade}
+            <br />
+            <span style={{ fontSize: "10px", color: "#9b9b9b" }}>
+              {new Date().toLocaleTimeString() +
+                "/" +
+                new Date().getFullYear() +
+                "年" +
+                (new Date().getMonth() + 1) +
+                "月" +
+                new Date().getDate() +
+                "日"}
+            </span>
+          </div>
+        </div>,
+      ]);
+    }
     writegrade();
     gradefunction = 1;
     setPlaybtn1(1);
@@ -698,285 +748,310 @@ function AVLGame() {
   return (
     <div className="A3">
       <div className="AVLgame">
-        <div className="gamehintContainer" style={{ marginLeft: "250px" }}>
-          <div className="loader"></div>
-          <img
-            id="A3_AVL_Gamerule"
-            className="gamerule"
-            onClick={() => setgameModalShow(true)}
-            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAACUElEQVRoge2av04bQRDGfzoJYUVujBSUBJyGUFJZ4g3SJqGJ6IBXoCKv4LT0KYIipaBKlwKSUCXQ0URI/CmQsS0jKJyEAskpdiyfImNm9tbni3yftNrV+fb7Zry3s6udhR6eAltAC+ikXK6Bb8AqEJEA80BjBA70K1+BKR8nIuBASHaBGR8So96+6O2IXgk3GjV5fgAUrMRL0vkcKAYy1lfvCXAkv1etxB+l40ZCA0PpVYBb4A/w0EJ8KsSVJNYF1tuWd9YtxDfSqeRtmg0avWV555OWNJIOaUKj913qBS1pBFxIe85qkSc0eg2p1XMkAn5I+7mHUT7Q6P2W+oGF+BXphl+tXneBVCO+IH4BZj0NtOh1F8RBemZHAJ4Bde7fPgyrBHMEoAy8ZzSbxqCO3IXghMPQTbRlzhJyR7KG3JGsYewdKQJn9ELk3h3PtWWPhAg1IknXmVTWqXxBTBO5I1lDHrX+QR61QumO/RzJHMbekTxqDam/WiSPWp6YjLX7fYot3NFV2UI6ihGZQDe36rjDRRWy+GnN4vKdHdxxr+rL6keYRtS67w8s4g7CO8DL/zlqtYFNaS9rOvwSIVOuIgDaCt2KvHOsGZFLqacTGmZFU6F7IvVjjSOHUi96m+SHnxZdjSM7Ur/2MscfnxW63TxkTUM4jUve35JeLh7gES6XOEj3DW6OfNCSVqXDEe6aRVp4O0A3Hn5faAkL9PKMNWANzxs8RhTo5RvjuvEFcR/jVmsKdwXJutgNs1xg2KLEEQEruEtiVyN0oAm8I5YR/guUqaZe1GPGYQAAAABJRU5ErkJggg=="
-          />
-        </div>
-        <div className="gamehintContainer" style={{ marginRight: "250px" }}>
-          <div className="loader"></div>
-          <img
-            id="A3_AVL_Hint"
-            className="hint"
-            src="/Img/hint.gif"
-            onClick={() => setdocumentModalShow(true)}
-          />
-        </div>
-        <div className="roundContainer" style={roundStyle}>
-          <h2 style={fontcolor}>{DifficultyWord}</h2>
-          <h2>Round {round}</h2>
-        </div>
-        <div className="controlContainer">
-          <div className="timer-wrapper">
-            <CountdownCircleTimer
-              key={reset}
-              isPlaying={timerPlay}
-              duration={second}
-              colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-              colorsTime={[10, 6, 3, 0]}
-              onComplete={() => ({ shouldRepeat: true, delay: 3 })}
-            >
-              {renderTime}
-            </CountdownCircleTimer>
+        <div className="A3Input">
+          <div className="rowCss">
+            <div className="hintContainer" style={{ marginRight: "20px" }}>
+              <div className="loader"></div>
+              <img
+                id="A3_BST_Gamerule"
+                className="gamerule"
+                onClick={() => setgameModalShow(true)}
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAACUElEQVRoge2av04bQRDGfzoJYUVujBSUBJyGUFJZ4g3SJqGJ6IBXoCKv4LT0KYIipaBKlwKSUCXQ0URI/CmQsS0jKJyEAskpdiyfImNm9tbni3yftNrV+fb7Zry3s6udhR6eAltAC+ikXK6Bb8AqEJEA80BjBA70K1+BKR8nIuBASHaBGR8So96+6O2IXgk3GjV5fgAUrMRL0vkcKAYy1lfvCXAkv1etxB+l40ZCA0PpVYBb4A/w0EJ8KsSVJNYF1tuWd9YtxDfSqeRtmg0avWV555OWNJIOaUKj913qBS1pBFxIe85qkSc0eg2p1XMkAn5I+7mHUT7Q6P2W+oGF+BXphl+tXneBVCO+IH4BZj0NtOh1F8RBemZHAJ4Bde7fPgyrBHMEoAy8ZzSbxqCO3IXghMPQTbRlzhJyR7KG3JGsYewdKQJn9ELk3h3PtWWPhAg1IknXmVTWqXxBTBO5I1lDHrX+QR61QumO/RzJHMbekTxqDam/WiSPWp6YjLX7fYot3NFV2UI6ihGZQDe36rjDRRWy+GnN4vKdHdxxr+rL6keYRtS67w8s4g7CO8DL/zlqtYFNaS9rOvwSIVOuIgDaCt2KvHOsGZFLqacTGmZFU6F7IvVjjSOHUi96m+SHnxZdjSM7Ur/2MscfnxW63TxkTUM4jUve35JeLh7gES6XOEj3DW6OfNCSVqXDEe6aRVp4O0A3Hn5faAkL9PKMNWANzxs8RhTo5RvjuvEFcR/jVmsKdwXJutgNs1xg2KLEEQEruEtiVyN0oAm8I5YR/guUqaZe1GPGYQAAAABJRU5ErkJggg=="
+              />
+            </div>
+            <h1>AVL</h1>
+            <div className="hintContainer">
+              <div className="loader"></div>
+              <img
+                id="A3_BST_Hint"
+                className="hint"
+                src="/Img/hint.gif"
+                onClick={() => setdocumentModalShow(true)}
+              />
+            </div>
           </div>
-          <div>
-            <Button
-              id="A3_AVL_Game_Start"
-              className="startbtn"
-              variant="danger"
-              style={{ marginTop: "20px" }}
-              onClick={() => {
-                setTimerPlay(true);
-                let btn = document.querySelector(".startbtn");
-                btn.disabled = 1;
-                setPlaybtn1(0);
-                setPlaybtn2(0);
-                setPlaybtn3(0);
-                let playercontainer = document.querySelector(".playtitle");
-                playercontainer.classList.add("myturn");
-              }}
-            >
-              Start
-            </Button>
-            <Button
-              id="A3_AVL_Game_Restart"
-              variant="outline-dark"
-              style={{ marginTop: "20px" }}
-              disabled={restart}
-              onClick={() => {
-                setAigrade(0);
-                setPlayergrade(0);
-                setTimerPlay(false);
-                let btn = document.querySelector(".startbtn");
-                btn.disabled = 0;
-                setPlaybtn1(1);
-                setPlaybtn2(1);
-                setPlaybtn3(1);
-                let playercontainer = document.querySelector(".playtitle");
-                playercontainer.classList.remove("myturn");
-                setdiffcultyModalShow(true);
-                setReset(!reset);
-                setRestart(1);
-              }}
-            >
-              Restart
-            </Button>
-          </div>
-        </div>
-        <h1>AVL</h1>
-
-        <div className="interactiveInterface">
-          <Tilt className="gametitle playtitle" options={options}>
-            <div className="playercontainer">
-              <div className="namegrade">
-                <div className="thegrade">{playergrade}</div>
-                <h3>{UserData.Name}</h3>
+          <div className="rowCssA3Input">
+            <div className="roundContainer" style={roundStyle}>
+              <h2 style={fontcolor}>{DifficultyWord}</h2>
+              <h2>Round {round}</h2>
+            </div>
+            <div className="controlContainer">
+              <div className="timer-wrapper">
+                <CountdownCircleTimer
+                  key={reset}
+                  isPlaying={timerPlay}
+                  duration={second}
+                  colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+                  colorsTime={[10, 6, 3, 0]}
+                  onComplete={() => ({ shouldRepeat: true, delay: 3 })}
+                >
+                  {renderTime}
+                </CountdownCircleTimer>
               </div>
-              <div className="options">
+              <div>
                 <Button
-                  id={`AVL_Game_Option_${playerOP[opArr[round - 1]].IR} ${
-                    playerOP[opArr[round - 1]].number
-                  }`}
-                  className="playerbtn1"
-                  variant="outline-dark"
-                  disabled={playerbtn1}
+                  id="A3_AVL_Game_Start"
+                  className="startbtn"
+                  variant="danger"
+                  style={{ marginTop: "20px" }}
                   onClick={() => {
-                    let timer = document.querySelector(".timer-wrapper");
-                    playercontainer.classList.remove("myturn");
-                    aicontainer.classList.add("myturn");
+                    setTimerPlay(true);
+                    let btn = document.querySelector(".startbtn");
+                    btn.disabled = 1;
+                    setPlaybtn1(0);
+                    setPlaybtn2(0);
+                    setPlaybtn3(0);
+                    let playercontainer = document.querySelector(".playtitle");
+                    playercontainer.classList.add("myturn");
+                  }}
+                >
+                  Start
+                </Button>
+                <Button
+                  id="A3_AVL_Game_Restart"
+                  variant="outline-dark"
+                  style={{ marginTop: "20px" }}
+                  disabled={restart}
+                  onClick={() => {
+                    setAigrade(0);
+                    setPlayergrade(0);
+                    setTimerPlay(false);
+                    let btn = document.querySelector(".startbtn");
+                    btn.disabled = 0;
                     setPlaybtn1(1);
                     setPlaybtn2(1);
                     setPlaybtn3(1);
-                    if (playerOP[opArr[round - 1]].IR === "Insert") {
-                      insert(playerOP[opArr[round - 1]].number);
-                      search(playerOP[opArr[round - 1]].number);
-                      setPlayergrade(
-                        playergrade +
-                          Math.floor(100 * (playtime + makeSecond(1, 100)))
-                      );
-                      timer.classList.remove("toolate");
-                    } else {
-                      let orderValue = getData("inorder");
-                      let tmp = 0;
-                      orderValue.forEach((e) => {
-                        if (e === playerOP[opArr[round - 1]].number) {
-                          tmp = 1;
-                        }
-                      });
-                      if (tmp) {
+                    let playercontainer = document.querySelector(".playtitle");
+                    playercontainer.classList.remove("myturn");
+                    setdiffcultyModalShow(true);
+                    setReset(!reset);
+                    setRestart(1);
+                  }}
+                >
+                  Restart
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div className="rowCssA3Input">
+            <Tilt className="gametitle playtitle" options={options}>
+              <div className="playercontainer">
+                <div className="namegrade">
+                  <div className="thegrade">{playergrade}</div>
+                  <h3>{UserData.Name}</h3>
+                </div>
+                <div className="options">
+                  <Button
+                    id={`AVL_Game_Option_${playerOP[opArr[round - 1]].IR} ${
+                      playerOP[opArr[round - 1]].number
+                    }`}
+                    className="playerbtn1"
+                    variant="outline-dark"
+                    disabled={playerbtn1}
+                    onClick={() => {
+                      let timer = document.querySelector(".timer-wrapper");
+                      playercontainer.classList.remove("myturn");
+                      aicontainer.classList.add("myturn");
+                      setPlaybtn1(1);
+                      setPlaybtn2(1);
+                      setPlaybtn3(1);
+                      if (playerOP[opArr[round - 1]].IR === "Insert") {
+                        insert(playerOP[opArr[round - 1]].number);
                         search(playerOP[opArr[round - 1]].number);
-                        remove(playerOP[opArr[round - 1]].number);
                         setPlayergrade(
                           playergrade +
                             Math.floor(100 * (playtime + makeSecond(1, 100)))
                         );
                         timer.classList.remove("toolate");
                       } else {
-                        // setPlayergrade(playergrade - 3);
-                        timer.classList.remove("toolate");
-                      }
-                    }
-                    setReset(!reset);
-                    AIplay();
-                  }}
-                >
-                  {playerOP[opArr[round - 1]].IR}
-                  {playerOP[opArr[round - 1]].number}
-                </Button>
-                <Button
-                  id={`AVL_Game_Option_${playerOP[opArr[round - 1] + 1].IR} ${
-                    playerOP[opArr[round - 1] + 1].number
-                  }`}
-                  className="playerbtn2"
-                  variant="outline-dark"
-                  disabled={playerbtn2}
-                  onClick={() => {
-                    let timer = document.querySelector(".timer-wrapper");
-                    playercontainer.classList.remove("myturn");
-                    aicontainer.classList.add("myturn");
-                    setPlaybtn1(1);
-                    setPlaybtn2(1);
-                    setPlaybtn3(1);
-                    if (playerOP[opArr[round - 1] + 1].IR === "Insert") {
-                      insert(playerOP[opArr[round - 1] + 1].number);
-                      search(playerOP[opArr[round - 1] + 1].number);
-                      setPlayergrade(
-                        playergrade +
-                          Math.floor(100 * (playtime + makeSecond(1, 100)))
-                      );
-                      timer.classList.remove("toolate");
-                    } else {
-                      let orderValue = getData("inorder");
-                      let tmp = 0;
-                      orderValue.forEach((e) => {
-                        if (e === playerOP[opArr[round - 1] + 1].number) {
-                          tmp = 1;
+                        let orderValue = getData("inorder");
+                        let tmp = 0;
+                        orderValue.forEach((e) => {
+                          if (e === playerOP[opArr[round - 1]].number) {
+                            tmp = 1;
+                          }
+                        });
+                        if (tmp) {
+                          search(playerOP[opArr[round - 1]].number);
+                          remove(playerOP[opArr[round - 1]].number);
+                          setPlayergrade(
+                            playergrade +
+                              Math.floor(100 * (playtime + makeSecond(1, 100)))
+                          );
+                          timer.classList.remove("toolate");
+                        } else {
+                          // setPlayergrade(playergrade - 3);
+                          timer.classList.remove("toolate");
                         }
-                      });
-                      if (tmp) {
+                      }
+                      setReset(!reset);
+                      AIplay();
+                    }}
+                  >
+                    {playerOP[opArr[round - 1]].IR}
+                    {playerOP[opArr[round - 1]].number}
+                  </Button>
+                  <Button
+                    id={`AVL_Game_Option_${playerOP[opArr[round - 1] + 1].IR} ${
+                      playerOP[opArr[round - 1] + 1].number
+                    }`}
+                    className="playerbtn2"
+                    variant="outline-dark"
+                    disabled={playerbtn2}
+                    onClick={() => {
+                      let timer = document.querySelector(".timer-wrapper");
+                      playercontainer.classList.remove("myturn");
+                      aicontainer.classList.add("myturn");
+                      setPlaybtn1(1);
+                      setPlaybtn2(1);
+                      setPlaybtn3(1);
+                      if (playerOP[opArr[round - 1] + 1].IR === "Insert") {
+                        insert(playerOP[opArr[round - 1] + 1].number);
                         search(playerOP[opArr[round - 1] + 1].number);
-                        remove(playerOP[opArr[round - 1] + 1].number);
                         setPlayergrade(
                           playergrade +
                             Math.floor(100 * (playtime + makeSecond(1, 100)))
                         );
                         timer.classList.remove("toolate");
                       } else {
-                        // setPlayergrade(playergrade - 3);
-                        timer.classList.remove("toolate");
-                      }
-                    }
-                    setReset(!reset);
-                    AIplay();
-                  }}
-                >
-                  {playerOP[opArr[round - 1] + 1].IR}
-                  {playerOP[opArr[round - 1] + 1].number}
-                </Button>
-                <Button
-                  id={`AVL_Game_Option_${playerOP[opArr[round - 1] + 2].IR} ${
-                    playerOP[opArr[round - 1] + 2].number
-                  }`}
-                  className="playerbtn3"
-                  variant="outline-dark"
-                  disabled={playerbtn3}
-                  onClick={() => {
-                    let timer = document.querySelector(".timer-wrapper");
-                    playercontainer.classList.remove("myturn");
-                    aicontainer.classList.add("myturn");
-                    setPlaybtn1(1);
-                    setPlaybtn2(1);
-                    setPlaybtn3(1);
-                    if (playerOP[opArr[round - 1] + 2].IR === "Insert") {
-                      insert(playerOP[opArr[round - 1] + 2].number);
-                      search(playerOP[opArr[round - 1] + 2].number);
-                      setPlayergrade(
-                        playergrade +
-                          Math.floor(100 * (playtime + makeSecond(1, 100)))
-                      );
-                      timer.classList.remove("toolate");
-                    } else {
-                      let orderValue = getData("inorder");
-                      let tmp = 0;
-                      orderValue.forEach((e) => {
-                        if (e === playerOP[opArr[round - 1] + 2].number) {
-                          tmp = 1;
+                        let orderValue = getData("inorder");
+                        let tmp = 0;
+                        orderValue.forEach((e) => {
+                          if (e === playerOP[opArr[round - 1] + 1].number) {
+                            tmp = 1;
+                          }
+                        });
+                        if (tmp) {
+                          search(playerOP[opArr[round - 1] + 1].number);
+                          remove(playerOP[opArr[round - 1] + 1].number);
+                          setPlayergrade(
+                            playergrade +
+                              Math.floor(100 * (playtime + makeSecond(1, 100)))
+                          );
+                          timer.classList.remove("toolate");
+                        } else {
+                          // setPlayergrade(playergrade - 3);
+                          timer.classList.remove("toolate");
                         }
-                      });
-                      if (tmp) {
+                      }
+                      setReset(!reset);
+                      AIplay();
+                    }}
+                  >
+                    {playerOP[opArr[round - 1] + 1].IR}
+                    {playerOP[opArr[round - 1] + 1].number}
+                  </Button>
+                  <Button
+                    id={`AVL_Game_Option_${playerOP[opArr[round - 1] + 2].IR} ${
+                      playerOP[opArr[round - 1] + 2].number
+                    }`}
+                    className="playerbtn3"
+                    variant="outline-dark"
+                    disabled={playerbtn3}
+                    onClick={() => {
+                      let timer = document.querySelector(".timer-wrapper");
+                      playercontainer.classList.remove("myturn");
+                      aicontainer.classList.add("myturn");
+                      setPlaybtn1(1);
+                      setPlaybtn2(1);
+                      setPlaybtn3(1);
+                      if (playerOP[opArr[round - 1] + 2].IR === "Insert") {
+                        insert(playerOP[opArr[round - 1] + 2].number);
                         search(playerOP[opArr[round - 1] + 2].number);
-                        remove(playerOP[opArr[round - 1] + 2].number);
                         setPlayergrade(
                           playergrade +
                             Math.floor(100 * (playtime + makeSecond(1, 100)))
                         );
                         timer.classList.remove("toolate");
                       } else {
-                        // setPlayergrade(playergrade - 3);
-                        timer.classList.remove("toolate");
+                        let orderValue = getData("inorder");
+                        let tmp = 0;
+                        orderValue.forEach((e) => {
+                          if (e === playerOP[opArr[round - 1] + 2].number) {
+                            tmp = 1;
+                          }
+                        });
+                        if (tmp) {
+                          search(playerOP[opArr[round - 1] + 2].number);
+                          remove(playerOP[opArr[round - 1] + 2].number);
+                          setPlayergrade(
+                            playergrade +
+                              Math.floor(100 * (playtime + makeSecond(1, 100)))
+                          );
+                          timer.classList.remove("toolate");
+                        } else {
+                          // setPlayergrade(playergrade - 3);
+                          timer.classList.remove("toolate");
+                        }
                       }
-                    }
-                    setReset(!reset);
-                    AIplay();
-                  }}
-                >
-                  {playerOP[opArr[round - 1] + 2].IR}
-                  {playerOP[opArr[round - 1] + 2].number}
-                </Button>
+                      setReset(!reset);
+                      AIplay();
+                    }}
+                  >
+                    {playerOP[opArr[round - 1] + 2].IR}
+                    {playerOP[opArr[round - 1] + 2].number}
+                  </Button>
+                </div>
               </div>
-            </div>
-          </Tilt>
-          <div style={{ margin: "20px" }}></div>
-          <Tilt className="gametitle aititle" options={options}>
-            <div className="AIcontainer">
-              <div className="namegrade">
-                <div className="thegrade">{aigrade}</div>
-                <h3>AI</h3>
+            </Tilt>
+            <div style={{ margin: "20px" }}></div>
+            <Tilt className="gametitle aititle" options={options}>
+              <div className="AIcontainer">
+                <div className="namegrade">
+                  <div className="thegrade">{aigrade}</div>
+                  <h3>AI</h3>
+                </div>
+                <div className="options">
+                  <Button
+                    className="aibtn1"
+                    variant="outline-dark"
+                    disabled={true}
+                  >
+                    {AIOP[opArr[round - 1]].IR} {AIOP[opArr[round - 1]].number}
+                  </Button>{" "}
+                  <Button
+                    className="aibtn2"
+                    variant="outline-dark"
+                    disabled={true}
+                  >
+                    {AIOP[opArr[round - 1] + 1].IR}
+                    {AIOP[opArr[round - 1] + 1].number}
+                  </Button>
+                  <Button
+                    className="aibtn3"
+                    variant="outline-dark"
+                    disabled={true}
+                  >
+                    {AIOP[opArr[round - 1] + 2].IR}
+                    {AIOP[opArr[round - 1] + 2].number}
+                  </Button>
+                </div>
               </div>
-              <div className="options">
-                <Button
-                  className="aibtn1"
-                  variant="outline-dark"
-                  disabled={true}
-                >
-                  {AIOP[opArr[round - 1]].IR} {AIOP[opArr[round - 1]].number}
-                </Button>{" "}
-                <Button
-                  className="aibtn2"
-                  variant="outline-dark"
-                  disabled={true}
-                >
-                  {AIOP[opArr[round - 1] + 1].IR}
-                  {AIOP[opArr[round - 1] + 1].number}
-                </Button>
-                <Button
-                  className="aibtn3"
-                  variant="outline-dark"
-                  disabled={true}
-                >
-                  {AIOP[opArr[round - 1] + 2].IR}
-                  {AIOP[opArr[round - 1] + 2].number}
-                </Button>
-              </div>
-            </div>
-          </Tilt>
+            </Tilt>
+          </div>
         </div>
-        <AVLTree data={arr} ref={ref} />
 
+        <AVLTree data={arr} ref={ref} />
+        <label>
+          <input type="checkbox" className="recordinput" />
+          <div className="toggle">
+            <div className="top-line common"></div>
+            <div className="middle-line common"></div>
+            <div className="bottom-line common"></div>
+          </div>
+          <div className="slide">
+            <h2>Record</h2>
+            <MDBContainer>
+              <div
+                className="scrollbar body mx-auto"
+                style={(scrollContainerStyle, { whiteSpace: "pre-wrap" })}
+              >
+                {tmp.reverse()}
+              </div>
+            </MDBContainer>
+          </div>
+        </label>
         <PDFDocument
           show={documentmodalShow}
           onHide={() => setdocumentModalShow(false)}

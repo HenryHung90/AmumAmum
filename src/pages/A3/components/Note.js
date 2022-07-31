@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef } from "react";
+import Question from "./Questions";
+
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -7,6 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
+import Compressor from "compressorjs";
 import { v4 as uuidv4 } from "uuid";
 import $ from "jquery";
 
@@ -21,6 +24,8 @@ const Note = ({}) => {
   //學生ID記錄儲存位置
   const [StateStudentId, setStateStudentId] = useState("");
   //筆記內容
+  //辨識筆記or提問
+  const [IsNoteMode, setNoteMode] = useState(true);
   //辨識分類
   const [NotePage, setNotePage] = useState(0);
   //辨識小分類
@@ -80,11 +85,16 @@ const Note = ({}) => {
             .then((response) => {
               let TempUserClassify = response.data.UserClassify;
               let TempUserContent = response.data.UserContent;
+
               //State設定
               setUserClassify(TempUserClassify);
               setUserContent(TempUserContent);
               //若第一次進入Note或未新增大分類就直接跳出
-              if (TempUserClassify === undefined) {
+              if (
+                TempUserClassify === undefined ||
+                TempUserClassify.length === 0
+              ) {
+                setUserClassify(undefined);
                 return;
               }
 
@@ -134,7 +144,6 @@ const Note = ({}) => {
       Timer.getMinutes();
     return NowTime;
   }
-
   //重新設定排列樣式儲存到UserContentState function
   const RerenderUserContent = () => {
     let TempUserContent = UserContent;
@@ -153,6 +162,8 @@ const Note = ({}) => {
 
   const OpenEditPage = (Name) => {
     $(`#${Name}`).fadeIn(200);
+    $("#NoteBlock").css("height", $("body").height() + 100);
+    $("#NoteBlock").css("width", $("body").width());
     $(`#NoteBlock`).fadeIn(200);
   };
   const CloseEditPage = (Name) => {
@@ -480,6 +491,7 @@ const Note = ({}) => {
             {
               id: uuidv4(),
               content: "新增項目",
+              time: GetNowTime(),
               img: [],
             },
           ],
@@ -494,6 +506,7 @@ const Note = ({}) => {
           },
         };
       } else {
+        //正常
         UploadSubData = {
           id: TempUserContent[NotePage].length.toString(),
           Title: UserInputSubClassify,
@@ -501,6 +514,7 @@ const Note = ({}) => {
             {
               id: uuidv4(),
               content: "新增項目",
+              time: GetNowTime(),
               img: [],
             },
           ],
@@ -579,6 +593,7 @@ const Note = ({}) => {
 
   //變更分類頁面
   const ChangePage = (Page) => {
+    setNoteMode(true);
     setNotePage(Page);
 
     let TempColumns = {};
@@ -597,7 +612,9 @@ const Note = ({}) => {
     setColumns(TempColumns);
   };
   //問問題頁面
-  const CreatingQuestion = () => {};
+  const CreatingQuestion = () => {
+    setNoteMode(false);
+  };
   //儲存所有變更
   const SaveNote = () => {
     if (window.confirm("確認修改？")) {
@@ -660,6 +677,10 @@ const Note = ({}) => {
     let preview = document.querySelector(`#${Id}`);
     let files = document.querySelector(`#${Input}`).files;
 
+    if (files.size > 1024 * 1024 * 6) {
+      window.alert("禁止上傳大於 6MB 之圖片");
+      return;
+    }
     if (NoteImg.length < 3) {
       let Tempfile = NoteImg;
       Tempfile.push(...files);
@@ -752,6 +773,7 @@ const Note = ({}) => {
         >
           <h5 className="Note_h2">新增筆記</h5>
           <Button
+            id="A3_Note_Noting_CancelCreate"
             variant="outlined"
             style={{
               color: "red",
@@ -769,6 +791,7 @@ const Note = ({}) => {
             }}
           >
             <CancelIcon
+              id="A3_Note_Noting_CancelCreate"
               fontSize="large"
               style={{ color: "black", margin: 0 }}
             />
@@ -790,6 +813,7 @@ const Note = ({}) => {
         <div className="Note_ShowImage" id="AddNote_ShowImage"></div>
         <div className="Note_CreateBtn">
           <Button
+            id={`A3_Note_Noting_Create_${UserInputNote}`}
             variant="outlined"
             style={{
               marginRight: "5px",
@@ -829,6 +853,7 @@ const Note = ({}) => {
         >
           <h2 className="Note_h2">修改筆記</h2>
           <Button
+            id="A3_Note_Noting_CancelEdit"
             variant="outlined"
             style={{
               color: "red",
@@ -846,42 +871,45 @@ const Note = ({}) => {
             }}
           >
             <CancelIcon
+              id="A3_Note_Noting_CancelEdit"
               fontSize="large"
               style={{ color: "black", margin: 0 }}
             />
           </Button>
         </div>
-        <TextField
-          id="CreateNote"
-          label="寫下你的筆記"
-          multiline
-          rows={10}
-          style={{ width: "80%", left: "10%" }}
-          placeholder="開始吧！"
-          value={UserInputNote}
-          onChange={(e) => {
-            setUserInputNote(e.target.value);
-          }}
-        />
-        <div className="Note_ShowImage" id="EditNote_ShowImage">
-          {NoteImg.length > 0 &&
-            NoteImg.map(function (val, index) {
-              let ImgSource = `${process.env.REACT_APP_AXIOS_FINDPIC}/${val}`;
-              return (
-                <img
-                  onClick={() => {
-                    BigImg(ImgSource);
-                  }}
-                  className="EditNote_ShowImageBig"
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                  }}
-                  src={ImgSource}
-                  alt={`Note_${index}`}
-                ></img>
-              );
-            })}
+        <div className="Note_Image_Content">
+          <TextField
+            id="CreateNote"
+            label="寫下你的筆記"
+            multiline
+            rows={16}
+            style={{ width: "70%", left: "5%" }}
+            placeholder="開始吧！"
+            value={UserInputNote}
+            onChange={(e) => {
+              setUserInputNote(e.target.value);
+            }}
+          />
+          <div className="Note_ShowImage" id="EditNote_ShowImage">
+            {NoteImg.length > 0 &&
+              NoteImg.map(function (val, index) {
+                let ImgSource = `${process.env.REACT_APP_AXIOS_FINDPIC}/${val}`;
+                return (
+                  <img
+                    onClick={() => {
+                      BigImg(ImgSource);
+                    }}
+                    className="EditNote_ShowImageBig"
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                    }}
+                    src={ImgSource}
+                    alt={`Note_${index}`}
+                  ></img>
+                );
+              })}
+          </div>
         </div>
         <div className="Note_CreateBtn">
           <Button
@@ -925,6 +953,7 @@ const Note = ({}) => {
         >
           <h2 className="Note_h2">新增分類</h2>
           <Button
+            id="A3_Note_Classify_CancelCreate"
             variant="outlined"
             style={{
               color: "red",
@@ -940,6 +969,7 @@ const Note = ({}) => {
             }}
           >
             <CancelIcon
+              id="A3_Note_Classify_CancelCreate"
               fontSize="large"
               style={{ color: "black", margin: 0 }}
             />
@@ -958,6 +988,7 @@ const Note = ({}) => {
         />
         <div className="Note_CreateBtn">
           <Button
+            id={`A3_Note_Classify_Create_${UserInputClassify}`}
             variant="outlined"
             style={{
               marginRight: "5px",
@@ -984,6 +1015,7 @@ const Note = ({}) => {
         >
           <h2 className="Note_h2">新增小分類</h2>
           <Button
+            id="A3_Note_SubClassify_CancelCreate"
             variant="outlined"
             style={{
               color: "red",
@@ -999,6 +1031,7 @@ const Note = ({}) => {
             }}
           >
             <CancelIcon
+              id="A3_Note_SubClassify_CancelCreate"
               fontSize="large"
               style={{ color: "black", margin: 0 }}
             />
@@ -1017,6 +1050,7 @@ const Note = ({}) => {
         />
         <div className="Note_CreateBtn">
           <Button
+            id={`A3_Note_SubClassify_Create_${UserInputSubClassify}`}
             variant="outlined"
             style={{
               marginRight: "5px",
@@ -1043,6 +1077,7 @@ const Note = ({}) => {
         >
           <h2 className="Note_h2">修改分類名稱</h2>
           <Button
+            id="A3_Note_Classify_CancelEdit"
             variant="outlined"
             style={{
               color: "red",
@@ -1058,6 +1093,7 @@ const Note = ({}) => {
             }}
           >
             <CancelIcon
+              id="A3_Note_Classify_CancelEdit"
               fontSize="large"
               style={{ color: "black", margin: 0 }}
             />
@@ -1076,6 +1112,7 @@ const Note = ({}) => {
         />
         <div className="Note_CreateBtn">
           <Button
+            id={`A3_Note_Classify_Edited_${UserInputClassify}`}
             variant="outlined"
             style={{
               marginRight: "5px",
@@ -1163,6 +1200,7 @@ const Note = ({}) => {
                   return (
                     <div style={{ display: "flex" }}>
                       <Button
+                        id={`A3_Note_Classify_Click_${UserClassify[index]}`}
                         key={index}
                         onClick={() => {
                           ChangePage(index);
@@ -1176,6 +1214,7 @@ const Note = ({}) => {
                       </div>
                       <div className="NoteEditBtn">
                         <div
+                          id={`A3_Note_Classify_Edit_${UserClassify[index]}`}
                           className="NoteEditClassify"
                           onClick={() => {
                             ChangePage(index);
@@ -1184,6 +1223,7 @@ const Note = ({}) => {
                           }}
                         >
                           <EditIcon
+                            id={`A3_Note_Classify_Edit_${UserClassify[index]}`}
                             key={index}
                             fontSize="small"
                             style={{
@@ -1192,12 +1232,14 @@ const Note = ({}) => {
                           />
                         </div>
                         <div
+                          id={`A3_Note_Classify_Delete_${UserClassify[index]}`}
                           className="NoteDeleteClassify"
                           onClick={() => {
                             DeletingClassify(index);
                           }}
                         >
                           <DeleteIcon
+                            id={`A3_Note_Classify_Delete_${UserClassify[index]}`}
                             key={index}
                             fontSize="small"
                             style={{
@@ -1210,6 +1252,7 @@ const Note = ({}) => {
                   );
                 })}
               <Button
+                id="A3_Note_Classify_Create"
                 variant="contained"
                 key="Add"
                 onClick={() => {
@@ -1219,6 +1262,7 @@ const Note = ({}) => {
                 <AddIcon style={{ marginBottom: "0" }} />
               </Button>
               <Button
+                id="A3_Note_Classify_Question"
                 variant="contained"
                 key="Question"
                 style={{ marginTop: "20px", backgroundColor: "red" }}
@@ -1228,216 +1272,228 @@ const Note = ({}) => {
               </Button>
             </ButtonGroup>
           </div>
-          <div className="Note_Box_Content">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "left",
-                height: "100%",
-              }}
-            >
-              <DragDropContext
-                onDragEnd={(result) => {
-                  onDragEnd(result, columns, setColumns);
-                }}
-              >
-                {Object.entries(columns).map(([columnId, column], index) => {
-                  return (
-                    <div
-                      style={{
-                        padding: "10px",
-                        border: "1px solid rgba(0, 0, 0, 0.2)",
-                        display: "flex",
-                        flexDirection: "column",
-                        borderRadius: "20px",
-                        marginLeft: "10px",
-                      }}
-                      key={columnId}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <h3
-                          style={{
-                            marginLeft: "10px",
-                            width: "80%",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                          }}
-                        >
-                          {column.name}
-                        </h3>
-                        <div
-                          id={`NoteEditSubClassify_${index}`}
-                          style={{ display: "flex" }}
-                        >
-                          <div
-                            className="NoteEditClassify"
-                            onClick={() => {
-                              setNoteSub(index);
-                              setUserInputSubClassify(
-                                UserContent[NotePage][index].Title
-                              );
-                              OpenEditPage("UpdateSubClassify");
-                            }}
-                          >
-                            <EditIcon
-                              fontSize="small"
-                              style={{
-                                marginBottom: "0",
-                              }}
-                            />
-                          </div>
-                          <div
-                            className="NoteDeleteClassify"
-                            onClick={() => {
-                              DeletingSubClassify(index);
-                            }}
-                          >
-                            <DeleteIcon
-                              fontSize="small"
-                              style={{
-                                marginBottom: "0",
-                                marginLeft: "2px",
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        style={{
-                          margin: 8,
-                          overflow: "scroll",
-                          borderRadius: "20px",
-                        }}
-                      >
-                        <Droppable droppableId={columnId} key={columnId}>
-                          {(provided, snapshot) => {
-                            return (
-                              <div
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                                style={{
-                                  borderRadius: "20px",
-                                  background: snapshot.isDraggingOver
-                                    ? "lightblue"
-                                    : "lightgrey",
-                                  padding: 4,
-                                  width: 250,
-                                  minHeight: 500,
-                                }}
-                              >
-                                <div
-                                  className="AddNote"
-                                  onClick={() => {
-                                    setNoteSub(column.name);
-                                    OpenEditPage("CreateContent");
-                                  }}
-                                >
-                                  <AddIcon
-                                    fontSize="large"
-                                    style={{ marginTop: "5px" }}
-                                  />
-                                </div>
-                                {column.items.map((item, index) => {
-                                  return (
-                                    <Draggable
-                                      key={item.id}
-                                      draggableId={item.id}
-                                      index={index}
-                                    >
-                                      {(provided, snapshot) => {
-                                        return (
-                                          <div
-                                            className="NoteDroppable"
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                            style={{
-                                              color: "white",
-                                              ...provided.draggableProps.style,
-                                            }}
-                                          >
-                                            <div
-                                              className="NoteContentTxt"
-                                              onClick={() => {
-                                                UpdatingNotes(
-                                                  item.id,
-                                                  column.name
-                                                );
-                                                OpenEditPage("UpdateContent");
-                                              }}
-                                              style={{
-                                                width: "100%",
-                                                borderRadius: "20px 0 0 20px",
-                                                padding: "10px 10px 0 10px",
-                                                minHeight: "40px",
-                                                backgroundColor:
-                                                  snapshot.isDragging
-                                                    ? "#263B4A"
-                                                    : "#456C86",
-                                                color: "white",
-                                              }}
-                                            >
-                                              {item.content}
-                                            </div>
-                                            <div
-                                              className="NoteDeleteIcon"
-                                              style={{
-                                                backgroundColor:
-                                                  snapshot.isDragging
-                                                    ? "#263B4A"
-                                                    : "#456C86",
-                                              }}
-                                              onClick={() => {
-                                                DeletingNote(columnId, index);
-                                              }}
-                                            >
-                                              <DeleteIcon />
-                                            </div>
-                                          </div>
-                                        );
-                                      }}
-                                    </Draggable>
-                                  );
-                                })}
-                                {provided.placeholder}
-                              </div>
-                            );
-                          }}
-                        </Droppable>
-                      </div>
-                    </div>
-                  );
-                })}
-              </DragDropContext>
-              {UserClassify !== undefined && (
-                <div
-                  className="AddSubClassify"
-                  onClick={() => {
-                    OpenEditPage("CreateSubClassify");
+          {IsNoteMode && (
+            <div className="Note_Box_Content">
+              <div className="Note_Box_Content_Noting">
+                <DragDropContext
+                  onDragEnd={(result) => {
+                    onDragEnd(result, columns, setColumns);
                   }}
                 >
-                  <AddIcon fontSize="large" style={{ marginTop: "250px" }} />
-                </div>
-              )}
+                  {Object.entries(columns).map(([columnId, column], index) => {
+                    return (
+                      <div
+                        style={{
+                          padding: "10px",
+                          border: "1px solid rgba(0, 0, 0, 0.2)",
+                          display: "flex",
+                          flexDirection: "column",
+                          borderRadius: "20px",
+                          marginLeft: "10px",
+                        }}
+                        key={columnId}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <h3
+                            style={{
+                              marginLeft: "10px",
+                              width: "80%",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {column.name}
+                          </h3>
+                          <div
+                            id={`NoteEditSubClassify_${index}`}
+                            style={{ display: "flex" }}
+                          >
+                            <div
+                              id={`A3_Note_SubClassify_Edit_${column.name}`}
+                              className="NoteEditClassify"
+                              onClick={() => {
+                                setNoteSub(index);
+                                setUserInputSubClassify(
+                                  UserContent[NotePage][index].Title
+                                );
+                                OpenEditPage("UpdateSubClassify");
+                              }}
+                            >
+                              <EditIcon
+                                id={`A3_Note_SubClassify_Edit_${column.name}`}
+                                fontSize="small"
+                                style={{
+                                  marginBottom: "0",
+                                }}
+                              />
+                            </div>
+                            <div
+                              id={`A3_Note_SubClassify_Delete_${column.name}`}
+                              className="NoteDeleteClassify"
+                              onClick={() => {
+                                DeletingSubClassify(index);
+                              }}
+                            >
+                              <DeleteIcon
+                                id={`A3_Note_SubClassify_Delete_${column.name}`}
+                                fontSize="small"
+                                style={{
+                                  marginBottom: "0",
+                                  marginLeft: "2px",
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            margin: 8,
+                            overflow: "scroll",
+                            borderRadius: "20px",
+                          }}
+                        >
+                          <Droppable droppableId={columnId} key={columnId}>
+                            {(provided, snapshot) => {
+                              return (
+                                <div
+                                  {...provided.droppableProps}
+                                  ref={provided.innerRef}
+                                  style={{
+                                    borderRadius: "20px",
+                                    background: snapshot.isDraggingOver
+                                      ? "lightblue"
+                                      : "lightgrey",
+                                    padding: 4,
+                                    width: 250,
+                                    minHeight: 500,
+                                  }}
+                                >
+                                  <div
+                                    id="A3_Note_Noting_Create"
+                                    className="AddNote"
+                                    onClick={() => {
+                                      setNoteSub(column.name);
+                                      OpenEditPage("CreateContent");
+                                    }}
+                                  >
+                                    <AddIcon
+                                      fontSize="large"
+                                      style={{ marginTop: "5px" }}
+                                    />
+                                  </div>
+                                  {column.items.map((item, index) => {
+                                    return (
+                                      <Draggable
+                                        key={item.id}
+                                        draggableId={item.id}
+                                        index={index}
+                                      >
+                                        {(provided, snapshot) => {
+                                          return (
+                                            <div
+                                              className="NoteDroppable"
+                                              ref={provided.innerRef}
+                                              {...provided.draggableProps}
+                                              {...provided.dragHandleProps}
+                                              style={{
+                                                color: "white",
+                                                ...provided.draggableProps
+                                                  .style,
+                                              }}
+                                            >
+                                              <div
+                                                id={`A3_Note_Noting_Edit_${item.id}`}
+                                                className="NoteContentTxt"
+                                                onClick={() => {
+                                                  UpdatingNotes(
+                                                    item.id,
+                                                    column.name
+                                                  );
+                                                  OpenEditPage("UpdateContent");
+                                                }}
+                                                style={{
+                                                  width: "100%",
+                                                  borderRadius: "20px 0 0 20px",
+                                                  padding: "10px 10px 0 10px",
+                                                  minHeight: "40px",
+                                                  backgroundColor:
+                                                    snapshot.isDragging
+                                                      ? "#263B4A"
+                                                      : "#456C86",
+                                                  color: "white",
+                                                }}
+                                              >
+                                                {item.content}
+                                                <h5 className="NoteContentTime">
+                                                  {item.time}
+                                                </h5>
+                                              </div>
+                                              <div
+                                                id={`A3_Note_Noting_Delete_${item.id}`}
+                                                className="NoteDeleteIcon"
+                                                style={{
+                                                  backgroundColor:
+                                                    snapshot.isDragging
+                                                      ? "#263B4A"
+                                                      : "#456C86",
+                                                }}
+                                                onClick={() => {
+                                                  DeletingNote(columnId, index);
+                                                }}
+                                              >
+                                                <DeleteIcon />
+                                              </div>
+                                            </div>
+                                          );
+                                        }}
+                                      </Draggable>
+                                    );
+                                  })}
+                                  {provided.placeholder}
+                                </div>
+                              );
+                            }}
+                          </Droppable>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </DragDropContext>
+                {UserClassify !== undefined && (
+                  <div
+                    id="A3_Note_SubClassify_Create"
+                    className="AddSubClassify"
+                    onClick={() => {
+                      OpenEditPage("CreateSubClassify");
+                    }}
+                  >
+                    <AddIcon fontSize="large" />
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
+          {!IsNoteMode && <Question StudentId={StateStudentId} />}
         </div>
       </div>
-      <div style={{ textAlign: "center" }}>
-        <Button
-          variant="contained"
-          onClick={SaveNote}
-          style={{ fontSize: "large", width: "80%" }}
-        >
-          儲存變更（做完任何變更一定要記得點擊這裡！）
-        </Button>
-      </div>
+      {IsNoteMode && (
+        <div style={{ textAlign: "center" }}>
+          <Button
+            id="A3_Note_Save_All"
+            variant="contained"
+            onClick={SaveNote}
+            style={{ fontSize: "large", width: "80%" }}
+          >
+            儲存變更（做完任何變更一定要記得點擊這裡！）
+          </Button>
+        </div>
+      )}
     </>
   );
 };

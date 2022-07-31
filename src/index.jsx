@@ -4,9 +4,7 @@ import Container from "./Container";
 import "./index.css";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Container />
-  </React.StrictMode>,
+    <Container />,
   document.getElementById("root")
 );
 

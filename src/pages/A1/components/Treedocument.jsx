@@ -4,7 +4,7 @@ import { Button, ToggleButton } from "react-bootstrap";
 
 //總共有幾頁
 let pageArr = [0, 1];
-function Treedocument() {
+function Treedocument(props) {
   const [page, setPage] = useState(0);
   const [checked, setChecked] = useState(0);
   //用按鈕來控制switch
@@ -39,7 +39,10 @@ function Treedocument() {
               五．樹的高度（height): 最大深度到第幾層。(下圖高度為3)．
             </p>
             <div className="center">
-              <img src="./Img/treeintroduction/introduction.png" alt="" />
+              <img
+                className="pdfImg"
+                src="./Img/treeintroduction/introduction.png"
+              />
             </div>
             <label className="subtitle">功能：</label>
             <p>
@@ -58,7 +61,6 @@ function Treedocument() {
             <label className="subtitle">如何運用樹：</label>
             <p>
               樹狀結構是資訊領域常用的資料結構之一，例如目前流行的檔案系統就是樹狀結構的一種，
-              <br />
               樹在資料的管理,儲存,搜尋,排序都扮演一個非常重要的角色。
             </p>
             <label className="subtitle">補充</label>
@@ -69,7 +71,11 @@ function Treedocument() {
             <p>解釋：除了 Leaf 以外，每個節點都有兩個 child</p>
             <p>圖示</p>
             <div className="center">
-              <img src="./Img/treeintroduction/full.png" alt="" />
+              <img
+                className="pdfImg"
+                src="./Img/treeintroduction/full.png"
+                alt=""
+              />
             </div>
             <br />
             <label className="secSubtitle">
@@ -78,7 +84,11 @@ function Treedocument() {
             <p>解釋：也就是各層節點全滿，除了最後一層，最後一層節點全部靠左</p>
             <p>圖示</p>
             <div className="center">
-              <img src="./Img/treeintroduction/complete.png" alt="" />
+              <img
+                className="pdfImg"
+                src="./Img/treeintroduction/complete.png"
+                alt=""
+              />
             </div>
             <br />
             <label className="secSubtitle">
@@ -87,7 +97,11 @@ function Treedocument() {
             <p>解釋：同時滿足完滿二元樹和完整二元樹的條件</p>
             <p>圖示</p>
             <div className="center">
-              <img src="./Img/treeintroduction/perfect.png" alt="" />
+              <img
+                className="pdfImg"
+                src="./Img/treeintroduction/perfect.png"
+                alt=""
+              />
             </div>
           </div>
         );
@@ -95,11 +109,15 @@ function Treedocument() {
         break;
     }
   }
+  let showPDFname = "showPDF MT";
+  if (props.modal) {
+    showPDFname = "showPDF";
+  }
   return (
     <div className="A1">
-      <div className="showPDF">
+      <div className={showPDFname}>
         <Showdocument />
-        <div style={{ display: "flex", flexDuraction: "row" }}>
+        <div className="rowCss" style={{ marginBottom: "20px" }}>
           <Button
             variant="outline-dark"
             onClick={() => {
@@ -111,24 +129,27 @@ function Treedocument() {
           >
             Prev
           </Button>
-          {pageArr.map((val, key) => {
-            return (
-              <div key={pageArr[key]}>
-                <ToggleButton
-                  className="pageButton"
-                  variant="outline-dark"
-                  type="checkbox"
-                  checked={checked === key}
-                  onClick={() => {
-                    setChecked(key);
-                    setPage(pageArr[key]);
-                  }}
-                >
-                  {pageArr[key] + 1}
-                </ToggleButton>
-              </div>
-            );
-          })}
+          <div className="pageNumber rowCss">
+            {pageArr.map((val, key) => {
+              return (
+                <div key={pageArr[key]}>
+                  <ToggleButton
+                    className="pageButton"
+                    variant="outline-dark"
+                    type="checkbox"
+                    checked={checked === key}
+                    onClick={() => {
+                      setChecked(key);
+                      setPage(pageArr[key]);
+                    }}
+                  >
+                    {pageArr[key] + 1}
+                  </ToggleButton>
+                </div>
+              );
+            })}
+          </div>
+
           <Button
             variant="outline-dark"
             onClick={() => {
