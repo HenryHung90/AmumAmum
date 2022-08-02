@@ -332,7 +332,6 @@ class A3 extends React.Component {
     //console.log(e.target.id);
     let ContainerKey = e.target.id;
     //let ContainerClassName = e.target.className;
-    console.log(e);
     //提取使用者輸入內容
     let UserInput = JSON.parse(sessionStorage.getItem("UserInput"));
     //儲存時間
@@ -596,7 +595,7 @@ class A3 extends React.Component {
         }
       }
       //儲存完畢 上傳session
-      console.table(UserInput.Mark.Description);
+      //console.table(UserInput.Mark.Description);
       sessionStorage.setItem("UserInput", JSON.stringify(UserInput));
     }
 

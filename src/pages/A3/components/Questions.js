@@ -25,7 +25,7 @@ import $ from "jquery";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
-const Question = ({ StudentId }) => {
+const Question = ({ StudentId, SetLoading }) => {
   //問題輸入框
   const [UserInputTitle, setUserInputTitle] = useState("");
   const [UserInputQuestion, setUserInputQuestion] = useState("");
@@ -55,6 +55,7 @@ const Question = ({ StudentId }) => {
   function GetAllQuestion() {
     axios(process.env.REACT_APP_AXIOS_QUESTION_READ).then((response) => {
       setQuestion(response.data);
+      SetLoading(false);
     });
   }
 
@@ -90,8 +91,7 @@ const Question = ({ StudentId }) => {
     }).then((response) => {
       let TempQuestion = AllQuestion;
       TempQuestion.unshift(data);
-
-      window.alert(response.data);
+      SetLoading(false);
       CloseEditPage("CreateQuestion");
       setUserInputQuestion("");
       setUserInputTitle("");
@@ -111,9 +111,11 @@ const Question = ({ StudentId }) => {
         let F_Question = TempAllQuestion.filter((val, index) => {
           return val.QuestionId !== QuestionId;
         });
+        SetLoading(false);
         setQuestion(F_Question);
-        window.alert(response.data);
       });
+    } else {
+      SetLoading(false);
     }
   };
   //完成問題
@@ -129,16 +131,17 @@ const Question = ({ StudentId }) => {
         withCredentials: true,
       })
         .then((response) => {
-          window.alert(response.data);
+          SetLoading(false);
         })
         .then(() => {
           let TempAllQuestion = [...AllQuestion];
-          console.log(TempAllQuestion);
           TempAllQuestion[Index].IsCompleted = true;
 
           setTest("");
           setQuestion(TempAllQuestion);
         });
+    } else {
+      SetLoading(false);
     }
   };
 
@@ -174,8 +177,7 @@ const Question = ({ StudentId }) => {
     }).then((response) => {
       let TempContent = QuestionContent;
       TempContent.Response.push(ResponseData);
-
-      window.alert(response.data);
+      SetLoading(false);
       setUserInputResponse("");
       setQuestionContent(TempContent);
     });
@@ -218,10 +220,13 @@ const Question = ({ StudentId }) => {
         url: process.env.REACT_APP_AXIOS_QUESTION_UPDATE,
         withCredentials: true,
       }).then((response) => {
+        SetLoading(false);
         setQuestion(TempQuestion);
         setQuestionContent(TempQuestion[OpenQuestion]);
         CancelQuestionReplyEdit(ResIndex);
       });
+    } else {
+      SetLoading(false);
     }
   };
 
@@ -249,9 +254,12 @@ const Question = ({ StudentId }) => {
         withCredentials: true,
       }).then((response) => {
         setQuestion(TempQuestion);
+        SetLoading(false);
         setQuestionContent(TempQuestion[OpenQuestion]);
         CancelQuestionReplyEdit(ResIndex);
       });
+    } else {
+      SetLoading(false);
     }
   };
   //獲得當前時間
@@ -420,6 +428,7 @@ const Question = ({ StudentId }) => {
               fontSize: "20px",
             }}
             onClick={() => {
+              SetLoading(true);
               SubmitQuestion();
             }}
           >
@@ -457,10 +466,10 @@ const Question = ({ StudentId }) => {
                 id={`A3_Question_Question_Close_${QuestionContent.Question.title}`}
                 variant="outlined"
                 style={{
-                  position: "absolute",
+                  position: "fixed",
                   fontSize: "20px",
-                  right: "10px",
-                  top: "1px",
+                  right: "25%",
+                  top: "10%",
                   border: 0,
                 }}
                 onClick={() => {
@@ -470,6 +479,12 @@ const Question = ({ StudentId }) => {
                   $(".Reply_Edit").css("display", "inline");
                   $(".Reply_Cancel").css("display", "none");
                   $(".Card_Cancel").css("display", "none");
+                  setQuestionContent({
+                    StudentId: "",
+                    QuestionId: "",
+                    Question: { question: "", time: "", img: [] },
+                    Response: [],
+                  });
                 }}
               >
                 <CancelIcon
@@ -519,6 +534,7 @@ const Question = ({ StudentId }) => {
                     id={`A3_Question_Reply_Reply_${UserInputResponse}`}
                     variant="text"
                     onClick={() => {
+                      SetLoading(true);
                       SubmitResponse(
                         QuestionContent.QuestionId,
                         QuestionContent.StudentId
@@ -549,14 +565,16 @@ const Question = ({ StudentId }) => {
 
             {QuestionContent.Response.map((val, index) => {
               return (
-                <div className="QuestionResponse_Card" id={val.identify}>
+                <div className="QuestionResponse_Card">
                   <div className="Card_Account">
                     <h6 className="Card_Floor">B{index}</h6>
                     <AccountCircleIcon
                       style={{ marginBottom: 0, marginTop: 7 }}
                     />
                     <p className="Card_Id">{val.replyid}</p>
-                    <div className="Card_Identify">{val.identify}</div>
+                    <div className="Card_Identify" id={val.identify}>
+                      {val.identify}
+                    </div>
                     {val.replyid == StudentId && (
                       <>
                         <div className="Reply_Edit" id={`Reply_Edit_${index}`}>
@@ -578,6 +596,7 @@ const Question = ({ StudentId }) => {
                             id={`A3_Question_Reply_Delete_${val.content}`}
                             variant="text"
                             onClick={() => {
+                              SetLoading(true);
                               DeleteQuestionReply(index);
                             }}
                             size="small"
@@ -598,6 +617,7 @@ const Question = ({ StudentId }) => {
                             id={`A3_Question_Reply_Edited_${UserEditResponse}`}
                             variant="text"
                             onClick={() => {
+                              SetLoading(true);
                               SumbitQuestionReplyEdit(index);
                             }}
                             size="small"
@@ -660,7 +680,6 @@ const Question = ({ StudentId }) => {
           </div>
         </div>
       )}
-      <div id="NoteBlock"></div>
       <div style={{ textAlign: "center" }}>
         <Button
           id="A3_Question_Create"
@@ -705,6 +724,12 @@ const Question = ({ StudentId }) => {
                         : `${process.env.REACT_APP_AXIOS_FINDPIC}/${val.Question.img[0]}`
                     }
                     alt={`問題${index}`}
+                    onClick={async () => {
+                      setQuestionContent(val);
+                      $(document).css({ overflow: "hidden" });
+                      OpenEditPage("ShowQuestion");
+                      setOpenQuestion(index);
+                    }}
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
@@ -759,6 +784,7 @@ const Question = ({ StudentId }) => {
                           id={`A3_Question_Question_Delete_${val.Question.title}`}
                           size="small"
                           onClick={() => {
+                            SetLoading(true);
                             DeleteQuestion(val.QuestionId);
                           }}
                         >
@@ -772,6 +798,7 @@ const Question = ({ StudentId }) => {
                             id={`A3_Question_Question_Complete_${val.Question.title}`}
                             size="small"
                             onClick={() => {
+                              SetLoading(true);
                               CompleteQuestion(val.QuestionId, index);
                             }}
                           >

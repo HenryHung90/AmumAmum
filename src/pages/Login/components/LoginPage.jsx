@@ -4,8 +4,7 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Login = ({ User }) => {
-  const Navigate = useNavigate();
+const Login = ({ User,SetLoading }) => {
   //const Admin = [process.env.REACT_APP_ADMIN_ONE];
   //////////////////帳號紀錄/////////////////////////
   const [Account, setAccount] = useState("");
@@ -33,8 +32,9 @@ const Login = ({ User }) => {
         sessionStorage.setItem("Sid", response.data._id);
         User();
       } else {
-        alert("Login Failed");
+        alert("帳號或密碼錯誤，請再試一次");
       }
+      SetLoading(false);
     });
   }
   const Refresh = useNavigate();
@@ -84,6 +84,7 @@ const Login = ({ User }) => {
             backgroundColor: "black",
           }}
           onClick={() => {
+            SetLoading(true);
             CheckLogin();
           }}
         >

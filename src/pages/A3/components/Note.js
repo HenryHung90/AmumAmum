@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import Question from "./Questions";
+import Loading from "../../Loading";
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -17,6 +18,7 @@ import axios from "axios";
 
 const Note = ({}) => {
   const GetSid = sessionStorage.getItem("Sid");
+  const [IsLoading, setLoading] = useState(true);
   //新增筆記內容State
   const [UserInputNote, setUserInputNote] = useState("");
   const [UserInputClassify, setUserInputClassify] = useState("");
@@ -113,6 +115,7 @@ const Note = ({}) => {
             })
             .then((response) => {
               CountClassifyNoteTotal();
+              setLoading(false);
             });
         });
     }
@@ -224,6 +227,7 @@ const Note = ({}) => {
       }
       setUserClassify(TempClassify);
       setTest("");
+      setLoading(false);
       window.alert(response.data);
       setUserInputClassify("");
       CloseEditPage("CreateClassify");
@@ -301,10 +305,10 @@ const Note = ({}) => {
         setUserClassify(TempUserClassify);
         setUserContent(TempUserContent);
         ChangePage(Index - 1);
-
         window.alert(response.data);
       });
     }
+    setLoading(false);
   };
 
   //確認新增筆記
@@ -351,7 +355,7 @@ const Note = ({}) => {
 
             let TempUserContent = UserContent;
             //推入資料（上傳用）
-            TempUserContent[NotePage][i].Note.push(UploadNote);
+            TempUserContent[NotePage][i].Note.unshift(UploadNote);
             setUserContent(TempUserContent);
 
             //推入Draggable
@@ -630,6 +634,7 @@ const Note = ({}) => {
         withCredentials: true,
         url: process.env.REACT_APP_AXIOS_NOTEUPDATE,
       }).then((response) => {
+        setLoading(false);
         window.alert(response.data);
       });
     }
@@ -731,15 +736,16 @@ const Note = ({}) => {
       position: "absolute",
       width: $(window).width(),
       height: $(window).height(),
+      top: 0,
+      left: 0,
       backgroundColor: "rgba(0,0,0,0.5)",
     });
     $("#ImgToBig").fadeIn();
     $("#ImgToBigSource").attr("src", source);
     $("#ImgToBigSource").css({
-      marginLeft: "10%",
-      marginTop: "5%",
-      width: $(window).width() * 0.8,
-      height: $(window).height() * 0.5,
+      marginTop: "3%",
+      width: $(window).width(),
+      height: $(window).height(),
       objectFit: "scale-down",
     });
   }
@@ -751,6 +757,11 @@ const Note = ({}) => {
 
   return (
     <>
+      {IsLoading && (
+        <div className="LoadingBorderPass">
+          <Loading />
+        </div>
+      )}
       <div
         id="ImgToBig"
         style={{ display: "none" }}
@@ -995,6 +1006,7 @@ const Note = ({}) => {
               fontSize: "20px",
             }}
             onClick={() => {
+              setLoading(true);
               UploadClassify();
             }}
           >
@@ -1235,6 +1247,7 @@ const Note = ({}) => {
                           id={`A3_Note_Classify_Delete_${UserClassify[index]}`}
                           className="NoteDeleteClassify"
                           onClick={() => {
+                            setLoading(true);
                             DeletingClassify(index);
                           }}
                         >
@@ -1266,7 +1279,10 @@ const Note = ({}) => {
                 variant="contained"
                 key="Question"
                 style={{ marginTop: "20px", backgroundColor: "red" }}
-                onClick={CreatingQuestion}
+                onClick={() => {
+                  setLoading(true);
+                  CreatingQuestion();
+                }}
               >
                 問題提問
               </Button>
@@ -1479,7 +1495,9 @@ const Note = ({}) => {
               </div>
             </div>
           )}
-          {!IsNoteMode && <Question StudentId={StateStudentId} />}
+          {!IsNoteMode && (
+            <Question StudentId={StateStudentId} SetLoading={setLoading} />
+          )}
         </div>
       </div>
       {IsNoteMode && (
@@ -1487,7 +1505,10 @@ const Note = ({}) => {
           <Button
             id="A3_Note_Save_All"
             variant="contained"
-            onClick={SaveNote}
+            onClick={() => {
+              setLoading(true);
+              SaveNote();
+            }}
             style={{ fontSize: "large", width: "80%" }}
           >
             儲存變更（做完任何變更一定要記得點擊這裡！）
